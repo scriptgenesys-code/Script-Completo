@@ -5,8 +5,7 @@
     'use strict';
     console.log('[Bookmarklet Loader V4.5] Carregador principal iniciado.');
 
-    // --- ATENÇÃO ---
-    // Este URL base APONTA para o seu "GitHub Pages" (veja o Passo 2).
+    // URL base do seu GitHub Pages (O que acabámos de ativar)
     const basePath = 'https://scriptgenesys-code.github.io/Script-Completo/';
 
     // Lista dos 4 scripts que você quer carregar
@@ -48,6 +47,7 @@
     try {
         scriptsToLoad.forEach(scriptName => {
             var scriptElement = document.createElement('script');
+            // encodeURIComponent trata nomes com espaços como "Pausas Automaticas (1).js"
             scriptElement.src = basePath + encodeURIComponent(scriptName) + '?v=' + Date.now();
             document.body.appendChild(scriptElement);
             console.log(`[Bookmarklet Loader V4.5] Carregando: ${scriptName}`);
