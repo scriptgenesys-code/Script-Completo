@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Protocolos Rápidos (v1.5.18 - Isolado)
+// @name         PureCloud - Protocolos Rápidos (v1.5.19 - Movimentação Corrigida)
 // @namespace    http://tampermonkey.net/protocolos-rapidos
-// @version      1.5.18
-// @description  Popup de protocolos (Isolado para evitar colisão)
+// @version      1.5.19
+// @description  Popup de protocolos com lógica de movimentação (drag) corrigida.
 // @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
 // @grant        GM_addStyle
@@ -10,18 +10,16 @@
 // ==/UserScript==
 
 // --- INÍCIO DO ISOLAMENTO (V5) ---
-// Esta "caixa" impede que este script colida com os outros (ex: Cronometros.js)
 (function() {
     'use strict';
 
-    const SCRIPT_VERSION = '1.5.18_Isolado';
+    const SCRIPT_VERSION = '1.5.19_DragFix'; // Versão atualizada
     const DEBUG_MODE = true;
 
     // --- Log Helper ---
     const log = (...args) => { if (DEBUG_MODE) console.log(`[Protocolos Script v${SCRIPT_VERSION}]`, ...args); };
     
-    // --- CORREÇÃO IMPORTANTE (V1.5.18) ---
-    // Atualizado para o seu GitHub Pages (o link que funciona)
+    // --- URL do GitHub Pages (Correto) ---
     const PROTOCOLOS_JSON_URL = 'https://scriptgenesys-code.github.io/Script-Completo/protocolos_brisanet_v1_9.json';
 
     // --- Lista Padrão Vazia ---
@@ -41,7 +39,8 @@
     const formatReplyText = (text, name = 'cliente', id = 'protocolo') => { return text; };
     const makeDraggable = (popup, header, popupName) => { let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0; const enforceBounds = (top, left) => { const vh = window.innerHeight, vw = window.innerWidth; const ph = popup.offsetHeight, pw = popup.offsetWidth; const m = 5; let st = Math.max(m, Math.min(vh - ph - m, top)); let sl = Math.max(m, Math.min(vw - pw - m, left)); if (pw > vw - 2 * m) sl = m; if (ph > vh - 2 * m) st = m; return { top: st, left: sl }; }; try { CONFIG.POPUP_POSITIONS = JSON.parse(sessionStorage.getItem('pr_popupPositions') || '{}'); } catch(e) { log("Erro pos:", e); CONFIG.POPUP_POSITIONS = {}; } if (CONFIG.POPUP_POSITIONS[popupName]?.top && CONFIG.POPUP_POSITIONS[popupName]?.left) { try { let ct = parseFloat(CONFIG.POPUP_POSITIONS[popupName].top); let cl = parseFloat(CONFIG.POPUP_POSITIONS[popupName].left); const ir = popup.getBoundingClientRect(); const th = parseFloat(CONFIG.POPUP_POSITIONS[popupName].height) || ir.height || 500; const tw = parseFloat(CONFIG.POPUP_POSITIONS[popupName].width) || ir.width || 850; let st = Math.max(5, Math.min(window.innerHeight - th - 5, ct)); let sl = Math.max(5, Math.min(window.innerWidth - tw - 5, cl)); popup.style.top = st + 'px'; popup.style.left = sl + 'px'; popup.style.width = CONFIG.POPUP_POSITIONS[popupName].width || '850px'; popup.style.height = CONFIG.POPUP_POSITIONS[popupName].height || '75vh'; popup.style.transform = 'none'; popup.style.margin = '0'; } catch(e) { popup.style.top = '10%'; popup.style.left = '10%'; popup.style.width = '850px'; popup.style.height = '75vh'; popup.style.transform = 'none';} } else { popup.style.top = '10%'; popup.style.left = '10%'; popup.style.width = '850px'; popup.style.height = '75vh'; popup.style.margin = '0'; } const saveCurrentPositionAndSize = () => { clearTimeout(popup._savePosTimeout); popup._savePosTimeout = setTimeout(() => { let cut = popup.style.top, cul = popup.style.left; if (popup.style.transform && popup.style.transform !== 'none') { const rect = popup.getBoundingClientRect(); cut = rect.top + 'px'; cul = rect.left + 'px'; popup.style.transform = 'none'; } const sp = enforceBounds(parseFloat(cut), parseFloat(cul)); CONFIG.POPUP_POSITIONS[popupName] = { top: sp.top + 'px', left: sp.left + 'px', width: popup.style.width, height: popup.style.height }; try { sessionStorage.setItem('pr_popupPositions', JSON.stringify(CONFIG.POPUP_POSITIONS)); } catch (e) { log("Erro save pos:", e); } }, 300); }; if (header) { header.onmousedown = e => { if (e.target.closest('button') || e.button !== 0) return; e.preventDefault(); const rect = popup.getBoundingClientRect(); popup.style.top = rect.top + 'px'; popup.style.left = rect.left + 'px'; popup.style.transform = 'none'; pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; saveCurrentPositionAndSize(); }; document.onmousemove = ev => { ev.preventDefault(); pos1 = pos3 - ev.clientX; pos2 = pos4 - ev.clientY; pos3 = ev.clientX; pos4 = ev.clientY; const nt = popup.offsetTop - pos2, nl = popup.offsetLeft - pos1; const sp = enforceBounds(nt, nl); popup.style.top = sp.top + "px"; popup.style.left = sp.left + "px"; }; }; } const ro = new ResizeObserver(saveCurrentPositionAndSize); ro.observe(popup); };
 
-    // --- Lógica de Dados (MODIFICADA V1.5.18) ---
+    // --- Lógica de Dados (loadData) ---
+    // (A sua versão V1.5.18, que está correta e funcionando)
     const loadData = async () => {
         let protocolsLoaded = false;
         
@@ -129,7 +128,6 @@
             requiredTagsMap[reply.title] = reply.requiredData;
         });
      };
-    // --- FIM DA MODIFICAÇÃO ---
      
     const saveData = () => {
         try { localStorage.setItem('pr_protocolos', JSON.stringify(CONFIG.PROTOCOLOS)); localStorage.setItem('pr_lastCopiedProtocol', CONFIG.LAST_COPIED_PROTOCOLO); localStorage.setItem('pr_recentProtocols_v1', JSON.stringify(CONFIG.RECENT_PROTOCOLOS)); localStorage.setItem('pr_darkMode', CONFIG.PR_DARK_MODE); log("Dados salvos."); } catch (e) { log("Erro save:", e); UI.createNotification("Erro config.", 'error'); }
@@ -362,7 +360,7 @@
         },
 
         createSettingsPanel() {
-             document.querySelector('.pr-script-popup')?.remove(); document.querySelector('.pr-script-settings-panel')?.remove(); const panel = document.createElement('div'); panel.className = 'pr-script-settings-panel pr-script-base-popup'; panel.innerHTML = ` <div class="panel-header"><h2>Gerenciar Protocolos Rápidos</h2><div class="panel-header-buttons"><button class="panel-header-btn pr-script-popup-close-btn" title="Fechar (Esc)">X</button></div></div> <div class="panel-content"> <div class="pr-reply-controls"> <button id="pr-add-reply-btn" class="pr-script-button">Add Protocolo</button> <button id="pr-restore-replies-btn" class="pr-script-button button-danger">Restaurar Padrão</button> <button id="pr-export-json-btn" class="pr-script-button" style="background-color: #4d8aff;">Exportar JSON</button> <button id="pr-import-json-btn" class="pr-script-button" style="background-color: #3bafda;">Importar JSON</button> <div class="pr-settings-group-inline"> <label for="pr-dark-mode-toggle">Modo Escuro (Interno):</label> <label class="pr-switch"><input type="checkbox" id="pr-dark-mode-toggle" ${CONFIG.PR_DARK_MODE ? 'checked' : ''}><span class="pr-slider round"></span></label> </div> </div> <div id="pr-settings-replies-list" class="pr-settings-reply-list"></div> </div> <div class="panel-footer"> <button id="pr-save-settings-btn" class="pr-script-button">Salvar e Fechar</button> </div> `; document.body.appendChild(panel); makeDraggable(panel, panel.querySelector('.panel-header'), 'settingsPanel'); panel.querySelector('.pr-script-popup-close-btn').onclick = () => panel.remove(); const renderSettings = () => { const list = panel.querySelector('#pr-settings-replies-list'); list.innerHTML = ''; const sorted = [...CONFIG.PROTOCOLOS].sort((a,b)=>a.title.localeCompare(b.title)); sorted.forEach(r => { const idx = CONFIG.PROTOCOLOS.findIndex(p => p.title === r.title && p.text === r.text); const item = document.createElement('div'); item.className = 'pr-reply-item'; item.dataset.originalIndex = idx; const tags = r.requiredData || []; const tagsHTML = tags.map(t => `<span class="pr-data-tag pr-tag-${t.replace(/[^a-zA-Z0-9]/g, '_')}">${t.replace(/_/g, ' ')}</span>`).join(' '); item.innerHTML = `<input type="checkbox" class="pr-favorite-toggle" title="Favorito" ${r.isFavorite ? 'checked' : ''}><input type="text" value="${r.title}" class="pr-reply-title" placeholder="CATEGORIA - Título"><div class="pr-data-tags">${tagsHTML}</div><textarea class="pr-reply-text" rows="3" placeholder="Texto Protocolo">${r.text}</textarea><button class="pr-remove-reply-btn" title="Remover">🗑️</button>`; list.appendChild(item); }); list.querySelectorAll('.pr-remove-reply-btn').forEach(btn => btn.onclick = (e) => { if (confirm('Remover protocolo?')) e.target.closest('.pr-reply-item').remove(); }); }; panel.querySelector('#pr-add-reply-btn').onclick = () => { const list = panel.querySelector('#pr-settings-replies-list'); const item = document.createElement('div'); item.className = 'pr-reply-item'; item.dataset.originalIndex = '-1'; item.innerHTML = `<input type="checkbox" class="pr-favorite-toggle" title="Favorito"><input type="text" value="CATEGORIA - Título" class="pr-reply-title" placeholder="CATEGORIA - Título"><div class="pr-data-tags"></div><textarea class="pr-reply-text" rows="3" placeholder="Texto Protocolo"></textarea><button class="pr-remove-reply-btn" title="Remover">🗑️</button>`; list.prepend(item); item.querySelector('.pr-remove-reply-btn').onclick = (e) => { if (confirm('Remover protocolo?')) e.target.closest('.pr-reply-item').remove(); }; const titleInput = item.querySelector('.pr-reply-title'); titleInput.focus(); titleInput.select(); }; panel.querySelector('#pr-restore-replies-btn').onclick = () => { if (confirm("ATENÇÃO! Restaurar padrão? Isto limpará todos os protocolos atuais.")) { CONFIG.PROTOCOLOS = initialProtocolos.map(r=>({...r})); Object.keys(requiredTagsMap).forEach(key => delete requiredTagsMap[key]); renderSettings(); UI.createNotification("Protocolos limpos. Salve para confirmar.", "warn", 5000); } }; panel.querySelector('#pr-export-json-btn').onclick = () => { try { log("A exportar protocolos para JSON..."); const dataStr = JSON.stringify(CONFIG.PROTOCOLOS, null, 2); const blob = new Blob([dataStr], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'protocolos_backup.json'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); UI.createNotification("Protocolos exportados com sucesso!", "success"); } catch (e) { log("Erro ao exportar JSON:", e); UI.createNotification("Erro ao exportar protocolos.", "error"); } };
+             document.querySelector('.pr-script-popup')?.remove(); document.querySelector('.pr-script-settings-panel')?.remove(); const panel = document.createElement('div'); panel.className = 'pr-script-settings-panel pr-script-base-popup'; panel.innerHTML = ` <div class="panel-header"><h2>Gerenciar Protocolos Rápidos</h2><div class="panel-header-buttons"><button class="panel-header-btn pr-script-popup-close-btn" title="Fechar (Esc)">X</button></div></div> <div class="panel-content"> <div class="pr-reply-controls"> <button id="pr-add-reply-btn" class="pr-script-button">Add Protocolo</button> <button id="pr-restore-replies-btn" class="pr-script-button button-danger">Restaurar Padrão</button> <button id="pr-export-json-btn" class="pr-script-button" style="background-color: #4d8aff;">Exportar JSON</button> <button id="pr-import-json-btn" class="pr-script-button" style="background-color: #3bafda;">Importar JSON</button> <div class="pr-settings-group-inline"> <label for="pr-dark-mode-toggle">Modo Escuro (Interno):</label> <label class="pr-switch"><input type="checkbox" id="pr-dark-mode-toggle" ${CONFIG.PR_DARK_MODE ? 'checked' : ''}><span class="pr-slider round"></span></label> </div> </div> <div id="pr-settings-replies-list" class="pr-settings-reply-list"></div> </div> <div class="panel-footer"> <button id="pr-save-settings-btn" class="pr-script-button">Salvar e Fechar</button> </div> `; document.body.appendChild(panel); makeDraggable(panel, panel.querySelector('.panel-header'), 'settingsPanel'); panel.querySelector('.pr-script-popup-close-btn').onclick = () => panel.remove(); const renderSettings = () => { const list = panel.querySelector('#pr-settings-replies-list'); list.innerHTML = ''; const sorted = [...CONFIG.PROTOCOLOS].sort((a,b)=>a.title.localeCompare(b.title)); sorted.forEach(r => { const idx = CONFIG.PROTOCOLOS.findIndex(p => p.title === r.title && p.text === r.text); const item = document.createElement('div'); item.className = 'pr-reply-item'; item.dataset.originalIndex = idx; const tags = r.requiredData || []; const tagsHTML = tags.map(t => `<span class="pr-data-tag pr-tag-${t.replace(/[^a-zA-Z0-9]/g, '_')}">${t.replace(/_/g, ' ')}</span>`).join(' '); item.innerHTML = `<input type="checkbox" class="pr-favorite-toggle" title="Favorito" ${r.isFavorite ? 'checked' : ''}><input type="text" value="${r.title}" class="pr-reply-title" placeholder="CATEGORIA - Título"><div class="pr-data-tags">${tagsHTML}</div><textarea class="pr-reply-text" rows="3" placeholder="Texto Protocolo">${r.text}</textarea><button class="pr-remove-reply-btn" title="Remover">🗑️</button>`; list.appendChild(item); }); list.querySelectorAll('.pr-remove-reply-btn').forEach(btn => btn.onclick = (e) => { if (confirm('Remover protocolo?')) e.target.closest('.pr-reply-item').remove(); }); }; panel.querySelector('#pr-add-reply-btn').onclick = () => { const list = panel.querySelector('#pr-settings-replies-list'); const item = document.createElement('div'); item.className = 'pr-reply-item'; item.dataset.originalIndex = '-1'; item.innerHTML = `<input type="checkbox" class="favorite-toggle" title="Favorito"><input type="text" value="CATEGORIA - Título" class="pr-reply-title" placeholder="CATEGORIA - Título"><div class="pr-data-tags"></div><textarea class="pr-reply-text" rows="3" placeholder="Texto Protocolo"></textarea><button class="pr-remove-reply-btn" title="Remover">🗑️</button>`; list.prepend(item); item.querySelector('.pr-remove-reply-btn').onclick = (e) => { if (confirm('Remover protocolo?')) e.target.closest('.pr-reply-item').remove(); }; const titleInput = item.querySelector('.pr-reply-title'); titleInput.focus(); titleInput.select(); }; panel.querySelector('#pr-restore-replies-btn').onclick = () => { if (confirm("ATENÇÃO! Restaurar padrão? Isto limpará todos os protocolos atuais.")) { CONFIG.PROTOCOLOS = initialProtocolos.map(r=>({...r})); Object.keys(requiredTagsMap).forEach(key => delete requiredTagsMap[key]); renderSettings(); UI.createNotification("Protocolos limpos. Salve para confirmar.", "warn", 5000); } }; panel.querySelector('#pr-export-json-btn').onclick = () => { try { log("A exportar protocolos para JSON..."); const dataStr = JSON.stringify(CONFIG.PROTOCOLOS, null, 2); const blob = new Blob([dataStr], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'protocolos_backup.json'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); UI.createNotification("Protocolos exportados com sucesso!", "success"); } catch (e) { log("Erro ao exportar JSON:", e); UI.createNotification("Erro ao exportar protocolos.", "error"); } };
             panel.querySelector('#pr-import-json-btn').onclick = () => {
                 try {
                     let fileInput = document.createElement('input');
@@ -432,9 +430,96 @@
              panel.querySelector('#pr-save-settings-btn').onclick = () => { const newPs = []; let err = false; const seen = new Set(); panel.querySelectorAll('#pr-settings-replies-list .pr-reply-item').forEach(item => { const ti = item.querySelector('.pr-reply-title'); const te = item.querySelector('.pr-reply-text'); const t = ti.value.trim(); const txt = te.value.trim(); const fav = item.querySelector('.pr-favorite-toggle').checked; const idx = item.dataset.originalIndex; ti.classList.remove('invalid-input'); te.classList.remove('invalid-input'); let tErr = ''; if (!t || !t.includes(' - ')) { tErr = 'Inválido. Use "CAT - Título".'; err = true; } else if (seen.has(t.toLowerCase())) { tErr = 'Título duplicado.'; err = true; } if (tErr) { ti.classList.add('invalid-input'); ti.title = tErr; } else { seen.add(t.toLowerCase()); ti.title = ''; } if (!txt) { te.classList.add('invalid-input'); te.title = 'Texto vazio.'; err = true; } else { te.title = ''; } if (!err) { let reqData = requiredTagsMap[t] || []; reqData = (Array.isArray(reqData) ? reqData : []).map(tag => typeof tag === 'string' ? tag.replace(/[{}]/g, '').replace(/ /g, '_').toUpperCase().replace(/[ÁÀÂÃÄ]/g,'A').replace(/[ÉÈÊË]/g,'E').replace(/[ÍÌÎÏ]/g,'I').replace(/[ÓÒÔÕÖ]/g,'O').replace(/[ÚÙÛÜ]/g,'U').replace(/Ç/g,'C').replace(/[^A-Z0-9_]/g, '') : ''); requiredTagsMap[t] = reqData; const tagsHTML = reqData.map(tg => `<span class="pr-data-tag pr-tag-${tg.replace(/[^a-zA-Z0-9]/g, '_')}">${tg.replace(/_/g, ' ')}</span>`).join(' '); const tagsDiv = item.querySelector('.pr-data-tags'); if (tagsDiv) tagsDiv.innerHTML = tagsHTML; newPs.push({ title: t, text: txt, isFavorite: fav, requiredData: reqData }); } }); if (err) { UI.createNotification("Corrija campos inválidos.", 'error'); return; } CONFIG.PROTOCOLOS = newPs; CONFIG.PR_DARK_MODE = panel.querySelector('#pr-dark-mode-toggle').checked; saveData(); UI.createNotification("Configurações salvas!", "success"); panel.remove(); }; renderSettings();
         },
 
+        // --- FUNÇÃO CORRIGIDA (V1.5.19) ---
+        // Esta é a lógica de "arrastar" (drag-and-drop) que funciona, copiada do 'Respostas Rapidas.js'
         createTriggerButton() {
-             let triggerBtn = document.getElementById('pr-trigger-button'); if (triggerBtn) return; triggerBtn = document.createElement('button'); triggerBtn.id = 'pr-trigger-button'; triggerBtn.innerHTML = '📋'; triggerBtn.title = 'Protocolos (Ctrl+Shift+U)'; if (!document.body) { log("document.body não encontrado ao criar botão."); return; } document.body.appendChild(triggerBtn); let isDragging = false, dragStartX, dragStartY, btnInitialLeft, btnInitialTop; const savedPos = localStorage.getItem('prTriggerButtonPos'); let posLoaded = false; if (savedPos) { try { const p = JSON.parse(savedPos); const sl = parseFloat(p.left), st = parseFloat(p.top); const btnWidth = 50; const btnHeight = 50; if (!isNaN(sl) && !isNaN(st) && sl >= 0 && sl <= window.innerWidth - btnWidth && st >= 0 && st <= window.innerHeight - btnHeight) { triggerBtn.style.left = p.left; triggerBtn.style.top = p.top; triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto'; posLoaded = true; } else { log("Posição salva inválida, resetando."); localStorage.removeItem('prTriggerButtonPos'); } } catch (e) { log("Erro ao carregar posição salva, resetando."); localStorage.removeItem('prTriggerButtonPos'); } } if (!posLoaded) { triggerBtn.style.right = '25px'; triggerBtn.style.bottom = '30px'; triggerBtn.style.left = 'auto'; triggerBtn.style.top = 'auto'; } const btn = triggerBtn; triggerBtn.onmousedown = (e) => { if (e.button!==0) return; isDragging=false; dragStartX=e.clientX; dragStartY=e.clientY; const r=triggerBtn.getBoundingClientRect(); btnInitialLeft=r.left; btnInitialTop=r.top; triggerBtn.style.cursor='grabbing'; e.preventDefault(); const moveT=5, timeT=150; let dragT = setTimeout(() => isDragging=true, timeT); document.onmousemove = (me) => { const dx=Math.abs(me.clientX-dragStartX), dy=Math.abs(me.clientY-dragStartY); if (dx>moveT || dy>moveT || isDragging) { clearTimeout(dragT); isDragging=true; let nx=btnInitialLeft+(me.clientX-dragStartX), ny=btnInitialTop+(me.clientY-dragStartY); const bw=btn.offsetWidth, bh=btn.offsetHeight; nx=Math.max(5, Math.min(nx, window.innerWidth-bw-5)); ny=Math.max(5, Math.min(ny, window.innerHeight-bh-5)); btn.style.left=`${nx}px`; btn.style.top=`${nY}px`; btn.style.right='auto'; btn.style.bottom='auto'; } }; document.onmouseup = () => { clearTimeout(dragT); if (isDragging) { localStorage.setItem('prTriggerButtonPos', JSON.stringify({left: triggerBtn.style.left, top: triggerBtn.style.top})); isDragging=false; } btn.style.cursor='pointer'; document.onmousemove=null; document.onmouseup=null; }; }; triggerBtn.onclick = () => { if (!isDragging) UI.createProtocoloPopup(); setTimeout(() => isDragging=false, 0); };
+             let triggerBtn = document.getElementById('pr-trigger-button'); if (triggerBtn) return;
+             triggerBtn = document.createElement('button');
+             triggerBtn.id = 'pr-trigger-button'; // <-- Prefixo 'pr-'
+             triggerBtn.innerHTML = '📋'; // <-- Ícone Protocolos
+             triggerBtn.title = 'Protocolos (Ctrl+Shift+U)'; // <-- Título Protocolos
+             if (!document.body) { log("document.body não encontrado ao criar botão."); return; }
+             document.body.appendChild(triggerBtn);
+             
+             let isDragging = false, dragStartX, dragStartY, btnInitialLeft, btnInitialTop;
+             const savedPos = localStorage.getItem('prTriggerButtonPos'); // <-- Prefixo 'pr-'
+             let posLoaded = false;
+             
+             if (savedPos) {
+                 try {
+                     const p = JSON.parse(savedPos); const sl = parseFloat(p.left), st = parseFloat(p.top);
+                     const btnWidth = 50; const btnHeight = 50;
+                     if (!isNaN(sl) && !isNaN(st) && sl >= 0 && sl <= window.innerWidth - btnWidth && st >= 0 && st <= window.innerHeight - btnHeight) {
+                         triggerBtn.style.left = p.left; triggerBtn.style.top = p.top;
+                         triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto';
+                         posLoaded = true;
+                     } else {
+                         log("Posição salva inválida, resetando."); localStorage.removeItem('prTriggerButtonPos');
+                     }
+                 } catch (e) { log("Erro ao carregar posição salva, resetando."); localStorage.removeItem('prTriggerButtonPos'); }
+             }
+             
+             if (!posLoaded) {
+                 triggerBtn.style.right = '25px'; triggerBtn.style.bottom = '30px';
+                 triggerBtn.style.left = 'auto'; triggerBtn.style.top = 'auto';
+             }
+             
+             const btn = triggerBtn;
+             
+             btn.onmousedown = (e) => {
+                 if (e.button !== 0) return;
+                 isDragging = false; 
+                 dragStartX = e.clientX;
+                 dragStartY = e.clientY;
+                 const rect = btn.getBoundingClientRect();
+                 btnInitialLeft = rect.left;
+                 btnInitialTop = rect.top;
+                 btn.style.cursor = 'grabbing';
+                 e.preventDefault();
+                 
+                 const threshold = 5; // Limite de movimento
+                 let moved = false; // Flag para ver se o mouse realmente se moveu
+
+                 document.onmousemove = (me) => {
+                     const dX = me.clientX - dragStartX;
+                     const dY = me.clientY - dragStartY;
+                     
+                     if (!moved && (Math.abs(dX) > threshold || Math.abs(dY) > threshold)) {
+                         moved = true;
+                         isDragging = true; // Define como "a arrastar"
+                     }
+                     
+                     if (moved) { // Só move se o limite foi ultrapassado
+                         let nX = btnInitialLeft + dX;
+                         let nY = btnInitialTop + dY;
+                         const bW = btn.offsetWidth, bH = btn.offsetHeight;
+                         nX = Math.max(5, Math.min(nX, window.innerWidth - bW - 5));
+                         nY = Math.max(5, Math.min(nY, window.innerHeight - bH - 5));
+                         btn.style.left = `${nX}px`;
+                         btn.style.top = `${nY}px`;
+                         btn.style.right = 'auto';
+                         btn.style.bottom = 'auto';
+                     }
+                 };
+
+                 document.onmouseup = () => {
+                     btn.style.cursor = 'pointer';
+                     if (moved) { // Só salva a posição se o botão foi movido
+                         localStorage.setItem('prTriggerButtonPos', JSON.stringify({left: btn.style.left, top: btn.style.top}));
+                     }
+                     document.onmousemove = null;
+                     document.onmouseup = null;
+                     setTimeout(() => { isDragging = false; }, 0); // Limpa o estado
+                 };
+             };
+             
+             btn.onclick = () => {
+                 if (!isDragging) { // Se não foi um "arrastar", é um "clique"
+                     UI.createProtocoloPopup(); // <-- Chama a função correta
+                 }
+             };
         }
+        // --- FIM DA FUNÇÃO CORRIGIDA ---
     };
 
     // --- Injeção de CSS ---
@@ -571,14 +656,105 @@
             .pr-switch input { opacity: 0; width: 0; height: 0; }
             .pr-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-light); transition: .4s; }
             .pr-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: var(--text-secondary); transition: .4s; }
-            input:checked + .pr-slider { background-color: var(--accent-secondary); }
-            input:focus + .pr-slider { box-shadow: 0 0 1px var(--accent-secondary); }
-            input:checked + .pr-slider:before { transform: translateX(20px); background-color: var(--bg-dark); }
+            input:checked + .slider { background-color: var(--accent-secondary); }
+            input:focus + .slider { box-shadow: 0 0 1px var(--accent-secondary); }
+            input:checked + .slider:before { transform: translateX(20px); background-color: var(--bg-dark); }
             .pr-slider.round { border-radius: 24px; }
             .pr-slider.round:before { border-radius: 50%; }
         `;
         if (typeof GM_addStyle !== "undefined") GM_addStyle(css); else { let style = document.getElementById('pr-script-injected-style'); if (!style) { style = document.createElement('style'); style.id = 'pr-script-injected-style'; document.head.appendChild(style); } style.textContent = css; }
     };
+
+    // --- FUNÇÃO CORRIGIDA (V1.5.19) ---
+    // Esta é a lógica de "arrastar" (drag-and-drop) que funciona, copiada do 'Respostas Rapidas.js'
+    UI.createTriggerButton = function() {
+         let triggerBtn = document.getElementById('pr-trigger-button'); if (triggerBtn) return;
+         triggerBtn = document.createElement('button');
+         triggerBtn.id = 'pr-trigger-button'; // <-- Prefixo 'pr-'
+         triggerBtn.innerHTML = '📋'; // <-- Ícone Protocolos
+         triggerBtn.title = 'Protocolos (Ctrl+Shift+U)'; // <-- Título Protocolos
+         if (!document.body) { log("document.body não encontrado ao criar botão."); return; }
+         document.body.appendChild(triggerBtn);
+         
+         let isDragging = false, dragStartX, dragStartY, btnInitialLeft, btnInitialTop;
+         const savedPos = localStorage.getItem('prTriggerButtonPos'); // <-- Prefixo 'pr-'
+         let posLoaded = false;
+         
+         if (savedPos) {
+             try {
+                 const p = JSON.parse(savedPos); const sl = parseFloat(p.left), st = parseFloat(p.top);
+                 const btnWidth = 50; const btnHeight = 50;
+                 if (!isNaN(sl) && !isNaN(st) && sl >= 0 && sl <= window.innerWidth - btnWidth && st >= 0 && st <= window.innerHeight - btnHeight) {
+                     triggerBtn.style.left = p.left; triggerBtn.style.top = p.top;
+                     triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto';
+                     posLoaded = true;
+                 } else {
+                     log("Posição salva inválida, resetando."); localStorage.removeItem('prTriggerButtonPos');
+                 }
+             } catch (e) { log("Erro ao carregar posição salva, resetando."); localStorage.removeItem('prTriggerButtonPos'); }
+         }
+         
+         if (!posLoaded) {
+             triggerBtn.style.right = '25px'; triggerBtn.style.bottom = '30px';
+             triggerBtn.style.left = 'auto'; triggerBtn.style.top = 'auto';
+         }
+         
+         const btn = triggerBtn;
+         
+         btn.onmousedown = (e) => {
+             if (e.button !== 0) return;
+             isDragging = false; 
+             dragStartX = e.clientX;
+             dragStartY = e.clientY;
+             const rect = btn.getBoundingClientRect();
+             btnInitialLeft = rect.left;
+             btnInitialTop = rect.top;
+             btn.style.cursor = 'grabbing';
+             e.preventDefault();
+             
+             const threshold = 5; // Limite de movimento
+             let moved = false; // Flag para ver se o mouse realmente se moveu
+
+             document.onmousemove = (me) => {
+                 const dX = me.clientX - dragStartX;
+                 const dY = me.clientY - dragStartY;
+                 
+                 if (!moved && (Math.abs(dX) > threshold || Math.abs(dY) > threshold)) {
+                     moved = true;
+                     isDragging = true; // Define como "a arrastar"
+                 }
+                 
+                 if (moved) { // Só move se o limite foi ultrapassado
+                     let nX = btnInitialLeft + dX;
+                     let nY = btnInitialTop + dY;
+                     const bW = btn.offsetWidth, bH = btn.offsetHeight;
+                     nX = Math.max(5, Math.min(nX, window.innerWidth - bW - 5));
+                     nY = Math.max(5, Math.min(nY, window.innerHeight - bH - 5));
+                     btn.style.left = `${nX}px`;
+                     btn.style.top = `${nY}px`;
+                     btn.style.right = 'auto';
+                     btn.style.bottom = 'auto';
+                 }
+             };
+
+             document.onmouseup = () => {
+                 btn.style.cursor = 'pointer';
+                 if (moved) { // Só salva a posição se o botão foi movido
+                     localStorage.setItem('prTriggerButtonPos', JSON.stringify({left: btn.style.left, top: btn.style.top}));
+                 }
+                 document.onmousemove = null;
+                 document.onmouseup = null;
+                 setTimeout(() => { isDragging = false; }, 0); // Limpa o estado
+             };
+         };
+         
+         btn.onclick = () => {
+             if (!isDragging) { // Se não foi um "arrastar", é um "clique"
+                 UI.createProtocoloPopup(); // <-- Chama a função correta
+             }
+         };
+    }
+    // --- FIM DA FUNÇÃO CORRIGIDA ---
 
     // --- Inicialização (MODIFICADA V1.5.18) ---
     const initialize = async () => { // <-- TORNAR ASYNC
