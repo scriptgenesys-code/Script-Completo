@@ -1,23 +1,25 @@
 // ==UserScript==
-// @name         PureCloud - Respostas Rápidas (v2.4.7 - Auto-Fetch GitHub Pages)
+// @name         PureCloud - Respostas Rápidas (v2.4.8 - Isolado)
 // @namespace    http://tampermonkey.net/
-// @version      2.4.7
-// @description  Script de Respostas Rápidas com auto-fetch do JSON (via GitHub Pages)
+// @version      2.4.8
+// @description  Script de Respostas Rápidas (Isolado para evitar colisão)
 // @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
 // @grant        GM_addStyle
 // @run-at       document-idle
 // ==/UserScript==
 
+// --- INÍCIO DO ISOLAMENTO (V5) ---
+// Esta "caixa" impede que este script colida com os outros (ex: Cronometros.js)
 (function() {
     'use strict';
 
-    const SCRIPT_VERSION = '2.4.7-auto-fetch';
+    const SCRIPT_VERSION = '2.4.8-isolado';
     const DEBUG_MODE = true;
     const log = (...args) => { if (DEBUG_MODE) console.log(`[QR Script v${SCRIPT_VERSION}]`, ...args); };
 
-    // --- CORREÇÃO IMPORTANTE (V2.4.7) ---
-    // Atualizado para o seu NOVO GitHub Pages: "scriptgenesys-code.github.io/Script-Completo"
+    // --- CORREÇÃO IMPORTANTE (V2.4.8) ---
+    // Atualizado para o seu GitHub Pages (o link que funciona)
     const RESPOSTAS_JSON_URL = 'https://scriptgenesys-code.github.io/Script-Completo/respostas_COMPLETAS.json';
 
     // --- CORES, ÍCONES, MAPAS (O código original permanece o mesmo) ---
@@ -53,7 +55,7 @@
 
 
     // --- Lógica de Dados (loadData, saveData, logUsedReply) ---
-    // *** loadData MODIFICADO v2.4.7 (Auto-Fetch) ***
+    // *** MODIFICADO v2.4.8 (Auto-Fetch corrigido + JSON Embutido) ***
     const loadData = async () => {
         let repliesLoaded = false;
         
@@ -281,7 +283,7 @@
         if (typeof GM_addStyle !== "undefined") { GM_addStyle(css); } else { let style = document.getElementById('qr-script-injected-style'); if (!style) { style = document.createElement('style'); style.id = 'qr-script-injected-style'; document.head.appendChild(style); } style.textContent = css; }
     };
 
-    // --- Inicialização (MODIFICADA V2.4.7) ---
+    // --- Inicialização (MODIFICADA V2.4.8) ---
     const initialize = async () => { // <-- TORNAR ASYNC
         try {
             log(`Initializing QR Script V${SCRIPT_VERSION}`);
@@ -296,7 +298,7 @@
         log("Script ready.");
     };
 
-    // --- Ponto de Entrada (MODIFICADO V2.4.7) ---
+    // --- Ponto de Entrada (MODIFICADO V2.4.8) ---
     const tryInitialize = async () => { // <-- TORNAR ASYNC
         if (findEl('body')) { 
             log("Body found. Initializing."); 
@@ -308,4 +310,4 @@
     }; 
     if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', tryInitialize); } else { tryInitialize(); };
 
-})();
+})(); // --- FIM DO ISOLAMENTO (V5) ---
