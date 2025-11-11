@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         PureCloud - Respostas Rápidas (v2.4.5 - Auto-Fetch)
+// @name         PureCloud - Respostas Rápidas (v2.4.6 - Auto-Fetch Corrigido)
 // @namespace    http://tampermonkey.net/
-// @version      2.4.5
+// @version      2.4.6
 // @description  Script de Respostas Rápidas com auto-fetch do JSON do GitHub.
 // @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
@@ -12,13 +12,13 @@
 (function() {
     'use strict';
 
-    const SCRIPT_VERSION = '2.4.5-auto-fetch';
+    const SCRIPT_VERSION = '2.4.6-auto-fetch'; // Versão atualizada
     const DEBUG_MODE = true;
     const log = (...args) => { if (DEBUG_MODE) console.log(`[QR Script v${SCRIPT_VERSION}]`, ...args); };
 
-    // --- NOVO (V2.4.5): URL para o ficheiro JSON de RESPOSTAS no GitHub ---
-    // Este URL usa jsDelivr para carregar mais rápido
-    const RESPOSTAS_JSON_URL = 'https://cdn.jsdelivr.net/gh/kingoffjoss/Meus-Scripts@main/respostas_COMPLETAS.json';
+    // --- CORREÇÃO IMPORTANTE (V2.4.6) ---
+    // Atualizado para o seu NOVO repositório: "scriptgenesys-code/Script-Completo"
+    const RESPOSTAS_JSON_URL = 'https://cdn.jsdelivr.net/gh/scriptgenesys-code/Script-Completo@main/respostas_COMPLETAS.json';
 
     // --- CORES, ÍCONES, MAPAS (O código original permanece o mesmo) ---
     const DEFAULT_CYBERPUNK_COLORS = { /* ... (igual v2.4.1) ... */
@@ -53,7 +53,7 @@
 
 
     // --- Lógica de Dados (loadData, saveData, logUsedReply) ---
-    // *** MODIFICADO v2.4.5 (Auto-Fetch) ***
+    // *** loadData MODIFICADO v2.4.6 (Auto-Fetch) ***
     const loadData = async () => {
         let repliesLoaded = false;
         
@@ -281,7 +281,7 @@
         if (typeof GM_addStyle !== "undefined") { GM_addStyle(css); } else { let style = document.getElementById('qr-script-injected-style'); if (!style) { style = document.createElement('style'); style.id = 'qr-script-injected-style'; document.head.appendChild(style); } style.textContent = css; }
     };
 
-    // --- Inicialização (MODIFICADA V2.4.5) ---
+    // --- Inicialização (MODIFICADA V2.4.6) ---
     const initialize = async () => { // <-- TORNAR ASYNC
         try {
             log(`Initializing QR Script V${SCRIPT_VERSION}`);
@@ -296,7 +296,7 @@
         log("Script ready.");
     };
 
-    // --- Ponto de Entrada (MODIFICADO V2.4.5) ---
+    // --- Ponto de Entrada (MODIFICADO V2.4.6) ---
     const tryInitialize = async () => { // <-- TORNAR ASYNC
         if (findEl('body')) { 
             log("Body found. Initializing."); 
