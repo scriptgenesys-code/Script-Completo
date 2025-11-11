@@ -1,25 +1,27 @@
 // ==UserScript==
-// @name         PureCloud - Protocolos Rápidos (v1.5.17 - Auto-Fetch GitHub Pages)
+// @name         PureCloud - Protocolos Rápidos (v1.5.18 - Isolado)
 // @namespace    http://tampermonkey.net/protocolos-rapidos
-// @version      1.5.17
-// @description  Popup de protocolos com auto-fetch do JSON (via GitHub Pages)
+// @version      1.5.18
+// @description  Popup de protocolos (Isolado para evitar colisão)
 // @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
 // @grant        GM_addStyle
 // @run-at       document-idle
 // ==/UserScript==
 
+// --- INÍCIO DO ISOLAMENTO (V5) ---
+// Esta "caixa" impede que este script colida com os outros (ex: Cronometros.js)
 (function() {
     'use strict';
 
-    const SCRIPT_VERSION = '1.5.17_AutoFetch_Pages'; // Versão atualizada
+    const SCRIPT_VERSION = '1.5.18_Isolado';
     const DEBUG_MODE = true;
 
     // --- Log Helper ---
     const log = (...args) => { if (DEBUG_MODE) console.log(`[Protocolos Script v${SCRIPT_VERSION}]`, ...args); };
     
-    // --- CORREÇÃO IMPORTANTE (V1.5.17) ---
-    // Atualizado para o seu NOVO GitHub Pages: "scriptgenesys-code.github.io/Script-Completo"
+    // --- CORREÇÃO IMPORTANTE (V1.5.18) ---
+    // Atualizado para o seu GitHub Pages (o link que funciona)
     const PROTOCOLOS_JSON_URL = 'https://scriptgenesys-code.github.io/Script-Completo/protocolos_brisanet_v1_9.json';
 
     // --- Lista Padrão Vazia ---
@@ -39,7 +41,7 @@
     const formatReplyText = (text, name = 'cliente', id = 'protocolo') => { return text; };
     const makeDraggable = (popup, header, popupName) => { let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0; const enforceBounds = (top, left) => { const vh = window.innerHeight, vw = window.innerWidth; const ph = popup.offsetHeight, pw = popup.offsetWidth; const m = 5; let st = Math.max(m, Math.min(vh - ph - m, top)); let sl = Math.max(m, Math.min(vw - pw - m, left)); if (pw > vw - 2 * m) sl = m; if (ph > vh - 2 * m) st = m; return { top: st, left: sl }; }; try { CONFIG.POPUP_POSITIONS = JSON.parse(sessionStorage.getItem('pr_popupPositions') || '{}'); } catch(e) { log("Erro pos:", e); CONFIG.POPUP_POSITIONS = {}; } if (CONFIG.POPUP_POSITIONS[popupName]?.top && CONFIG.POPUP_POSITIONS[popupName]?.left) { try { let ct = parseFloat(CONFIG.POPUP_POSITIONS[popupName].top); let cl = parseFloat(CONFIG.POPUP_POSITIONS[popupName].left); const ir = popup.getBoundingClientRect(); const th = parseFloat(CONFIG.POPUP_POSITIONS[popupName].height) || ir.height || 500; const tw = parseFloat(CONFIG.POPUP_POSITIONS[popupName].width) || ir.width || 850; let st = Math.max(5, Math.min(window.innerHeight - th - 5, ct)); let sl = Math.max(5, Math.min(window.innerWidth - tw - 5, cl)); popup.style.top = st + 'px'; popup.style.left = sl + 'px'; popup.style.width = CONFIG.POPUP_POSITIONS[popupName].width || '850px'; popup.style.height = CONFIG.POPUP_POSITIONS[popupName].height || '75vh'; popup.style.transform = 'none'; popup.style.margin = '0'; } catch(e) { popup.style.top = '10%'; popup.style.left = '10%'; popup.style.width = '850px'; popup.style.height = '75vh'; popup.style.transform = 'none';} } else { popup.style.top = '10%'; popup.style.left = '10%'; popup.style.width = '850px'; popup.style.height = '75vh'; popup.style.margin = '0'; } const saveCurrentPositionAndSize = () => { clearTimeout(popup._savePosTimeout); popup._savePosTimeout = setTimeout(() => { let cut = popup.style.top, cul = popup.style.left; if (popup.style.transform && popup.style.transform !== 'none') { const rect = popup.getBoundingClientRect(); cut = rect.top + 'px'; cul = rect.left + 'px'; popup.style.transform = 'none'; } const sp = enforceBounds(parseFloat(cut), parseFloat(cul)); CONFIG.POPUP_POSITIONS[popupName] = { top: sp.top + 'px', left: sp.left + 'px', width: popup.style.width, height: popup.style.height }; try { sessionStorage.setItem('pr_popupPositions', JSON.stringify(CONFIG.POPUP_POSITIONS)); } catch (e) { log("Erro save pos:", e); } }, 300); }; if (header) { header.onmousedown = e => { if (e.target.closest('button') || e.button !== 0) return; e.preventDefault(); const rect = popup.getBoundingClientRect(); popup.style.top = rect.top + 'px'; popup.style.left = rect.left + 'px'; popup.style.transform = 'none'; pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; saveCurrentPositionAndSize(); }; document.onmousemove = ev => { ev.preventDefault(); pos1 = pos3 - ev.clientX; pos2 = pos4 - ev.clientY; pos3 = ev.clientX; pos4 = ev.clientY; const nt = popup.offsetTop - pos2, nl = popup.offsetLeft - pos1; const sp = enforceBounds(nt, nl); popup.style.top = sp.top + "px"; popup.style.left = sp.left + "px"; }; }; } const ro = new ResizeObserver(saveCurrentPositionAndSize); ro.observe(popup); };
 
-    // --- Lógica de Dados (MODIFICADA V1.5.17) ---
+    // --- Lógica de Dados (MODIFICADA V1.5.18) ---
     const loadData = async () => {
         let protocolsLoaded = false;
         
@@ -431,7 +433,7 @@
         },
 
         createTriggerButton() {
-             let triggerBtn = document.getElementById('pr-trigger-button'); if (triggerBtn) return; triggerBtn = document.createElement('button'); triggerBtn.id = 'pr-trigger-button'; triggerBtn.innerHTML = '📋'; triggerBtn.title = 'Protocolos (Ctrl+Shift+U)'; if (!document.body) { log("document.body não encontrado ao criar botão."); return; } document.body.appendChild(triggerBtn); let isDragging = false, dragStartX, dragStartY, btnInitialLeft, btnInitialTop; const savedPos = localStorage.getItem('prTriggerButtonPos'); let posLoaded = false; if (savedPos) { try { const p = JSON.parse(savedPos); const sl = parseFloat(p.left), st = parseFloat(p.top); const btnWidth = 50; const btnHeight = 50; if (!isNaN(sl) && !isNaN(st) && sl >= 0 && sl <= window.innerWidth - btnWidth && st >= 0 && st <= window.innerHeight - btnHeight) { triggerBtn.style.left = p.left; triggerBtn.style.top = p.top; triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto'; posLoaded = true; } else { log("Posição salva inválida, resetando."); localStorage.removeItem('prTriggerButtonPos'); } } catch (e) { log("Erro ao carregar posição salva, resetando."); localStorage.removeItem('prTriggerButtonPos'); } } if (!posLoaded) { triggerBtn.style.right = '25px'; triggerBtn.style.bottom = '30px'; triggerBtn.style.left = 'auto'; triggerBtn.style.top = 'auto'; } const btn = triggerBtn; triggerBtn.onmousedown = (e) => { if (e.button!==0) return; isDragging=false; dragStartX=e.clientX; dragStartY=e.clientY; const r=triggerBtn.getBoundingClientRect(); btnInitialLeft=r.left; btnInitialTop=r.top; triggerBtn.style.cursor='grabbing'; e.preventDefault(); const moveT=5, timeT=150; let dragT = setTimeout(() => isDragging=true, timeT); document.onmousemove = (me) => { const dx=Math.abs(me.clientX-dragStartX), dy=Math.abs(me.clientY-dragStartY); if (dx>moveT || dy>moveT || isDragging) { clearTimeout(dragT); isDragging=true; let nx=btnInitialLeft+(me.clientX-dragStartX), ny=btnInitialTop+(me.clientY-dragStartY); const bw=btn.offsetWidth, bh=btn.offsetHeight; nx=Math.max(5, Math.min(nx, window.innerWidth-bw-5)); ny=Math.max(5, Math.min(ny, window.innerHeight-bh-5)); btn.style.left=`${nx}px`; btn.style.top=`${ny}px`; btn.style.right='auto'; btn.style.bottom='auto'; } }; document.onmouseup = () => { clearTimeout(dragT); if (isDragging) { localStorage.setItem('prTriggerButtonPos', JSON.stringify({left: triggerBtn.style.left, top: triggerBtn.style.top})); isDragging=false; } btn.style.cursor='pointer'; document.onmousemove=null; document.onmouseup=null; }; }; triggerBtn.onclick = () => { if (!isDragging) UI.createProtocoloPopup(); setTimeout(() => isDragging=false, 0); };
+             let triggerBtn = document.getElementById('pr-trigger-button'); if (triggerBtn) return; triggerBtn = document.createElement('button'); triggerBtn.id = 'pr-trigger-button'; triggerBtn.innerHTML = '📋'; triggerBtn.title = 'Protocolos (Ctrl+Shift+U)'; if (!document.body) { log("document.body não encontrado ao criar botão."); return; } document.body.appendChild(triggerBtn); let isDragging = false, dragStartX, dragStartY, btnInitialLeft, btnInitialTop; const savedPos = localStorage.getItem('prTriggerButtonPos'); let posLoaded = false; if (savedPos) { try { const p = JSON.parse(savedPos); const sl = parseFloat(p.left), st = parseFloat(p.top); const btnWidth = 50; const btnHeight = 50; if (!isNaN(sl) && !isNaN(st) && sl >= 0 && sl <= window.innerWidth - btnWidth && st >= 0 && st <= window.innerHeight - btnHeight) { triggerBtn.style.left = p.left; triggerBtn.style.top = p.top; triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto'; posLoaded = true; } else { log("Posição salva inválida, resetando."); localStorage.removeItem('prTriggerButtonPos'); } } catch (e) { log("Erro ao carregar posição salva, resetando."); localStorage.removeItem('prTriggerButtonPos'); } } if (!posLoaded) { triggerBtn.style.right = '25px'; triggerBtn.style.bottom = '30px'; triggerBtn.style.left = 'auto'; triggerBtn.style.top = 'auto'; } const btn = triggerBtn; triggerBtn.onmousedown = (e) => { if (e.button!==0) return; isDragging=false; dragStartX=e.clientX; dragStartY=e.clientY; const r=triggerBtn.getBoundingClientRect(); btnInitialLeft=r.left; btnInitialTop=r.top; triggerBtn.style.cursor='grabbing'; e.preventDefault(); const moveT=5, timeT=150; let dragT = setTimeout(() => isDragging=true, timeT); document.onmousemove = (me) => { const dx=Math.abs(me.clientX-dragStartX), dy=Math.abs(me.clientY-dragStartY); if (dx>moveT || dy>moveT || isDragging) { clearTimeout(dragT); isDragging=true; let nx=btnInitialLeft+(me.clientX-dragStartX), ny=btnInitialTop+(me.clientY-dragStartY); const bw=btn.offsetWidth, bh=btn.offsetHeight; nx=Math.max(5, Math.min(nx, window.innerWidth-bw-5)); ny=Math.max(5, Math.min(ny, window.innerHeight-bh-5)); btn.style.left=`${nx}px`; btn.style.top=`${nY}px`; btn.style.right='auto'; btn.style.bottom='auto'; } }; document.onmouseup = () => { clearTimeout(dragT); if (isDragging) { localStorage.setItem('prTriggerButtonPos', JSON.stringify({left: triggerBtn.style.left, top: triggerBtn.style.top})); isDragging=false; } btn.style.cursor='pointer'; document.onmousemove=null; document.onmouseup=null; }; }; triggerBtn.onclick = () => { if (!isDragging) UI.createProtocoloPopup(); setTimeout(() => isDragging=false, 0); };
         }
     };
 
@@ -578,7 +580,7 @@
         if (typeof GM_addStyle !== "undefined") GM_addStyle(css); else { let style = document.getElementById('pr-script-injected-style'); if (!style) { style = document.createElement('style'); style.id = 'pr-script-injected-style'; document.head.appendChild(style); } style.textContent = css; }
     };
 
-    // --- Inicialização (MODIFICADA V1.5.17) ---
+    // --- Inicialização (MODIFICADA V1.5.18) ---
     const initialize = async () => { // <-- TORNAR ASYNC
         try {
             log(`Init Protocolos V${SCRIPT_VERSION}`);
@@ -595,7 +597,7 @@
         setTimeout(() => {
             try { log("Tentando criar botão..."); UI.createTriggerButton(); log("Botão OK."); } catch (error) { log("ERRO Botão:", error); UI.createNotification("Erro criar botão Protocolos.", "error", 5000); }
             try { document.addEventListener('keydown', keyboardEventHandler); log("Teclado OK."); } catch (error) { log("ERRO Teclado:", error); }
-        }, 2000);
+        }, 2000); // Um pequeno atraso para não colidir com o botão do Respostas Rapidas
         log("Protocolos pronto (inicialização base).");
     };
 
@@ -610,4 +612,4 @@
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryInitialize); else tryInitialize();
 
-})();
+})(); // --- FIM DO ISOLAMENTO (V5) ---
