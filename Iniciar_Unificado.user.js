@@ -1,28 +1,28 @@
 // ==UserScript==
-// @name         Carregador Principal de Scripts (Iniciador Unificado V4)
+// @name         Carregador Principal de Scripts (Iniciador Unificado V4.2)
 // @namespace    http://tampermonkey.net/
-// @version      4.0
+// @version      4.2
 // @description  Carrega automaticamente TODOS os scripts (Pausas, Cronômetros, Respostas e Protocolos)
-// @author       Seu Nome (Adaptado por Parceiro de Programacao)
+// @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/kingoffjoss/Meus-Scripts/main/Iniciar_Unificado.user.js
-// @updateURL    https://raw.githubusercontent.com/kingoffjoss/Meus-Scripts/main/Iniciar_Unificado.user.js
+// @downloadURL  https://raw.githubusercontent.com/kingoffjoss/scriptgenesys-code/main/Iniciar_Unificado.user.js
+// @updateURL    https://raw.githubusercontent.com/kingoffjoss/scriptgenesys-code/main/Iniciar_Unificado.user.js
 // ==/UserScript==
 
 (function() {
     'use strict';
-    console.log('[Bootloader V4 Unificado] Iniciador principal carregado.');
+    console.log('[Bootloader V4.2 Unificado] Iniciador principal carregado.');
 
     // URL base do seu repositório (usando jsDelivr para mais velocidade)
-    const basePath = 'https://cdn.jsdelivr.net/gh/kingoffjoss/Meus-Scripts@main/';
+    const basePath = 'https://cdn.jsdelivr.net/gh/kingoffjoss/scriptgenesys-code@main/';
 
-    // Lista de TODOS os scripts que este ficheiro deve carregar
+    // Lista CORRIGIDA com os 4 scripts que você quer carregar
     const scriptsToLoad = [
         'Cronometros.js',
-        'Pausas Automaticas.js',
-        'Respostas Rapidas.js',   // <--- ADICIONADO
-        'Protocolos rapidos.js' // <--- MANTIDO
+        'Pausas Automaticas (1).js', // <--- CORRIGIDO (o seu ficheiro tem "(1)")
+        'Respostas Rapidas.js',      // <--- Script 1 (v2.4.5, que puxa respostas_COMPLETAS.json)
+        'Protocolos rapidos.js'      // <--- Script 2 (v1.5.15, que puxa protocolos_brisanet_v1_9.json)
     ];
     
     // URL DE LOG (Mantido)
@@ -46,26 +46,29 @@
                     page: window.location.href
                 })
             });
-            console.log('[Bootloader V4] Log de acesso enviado.');
+            console.log('[Bootloader V4.2] Log de acesso enviado.');
         }, 5000); 
     } catch (err) {
-        console.log('[Bootloader V4] Falha ao registrar log:', err);
+        console.log('[Bootloader V4.2] Falha ao registrar log:', err);
     }
 
     /* --- Carregador de Scripts --- */
     try {
         scriptsToLoad.forEach(scriptName => {
             var scriptElement = document.createElement('script');
-            // O ?v=Date.now() evita problemas de cache
-            scriptElement.src = basePath + scriptName + '?v=' + Date.now();
+            
+            // IMPORTANTE: Adicionado 'encodeURIComponent' para garantir que nomes
+            // com espaços ou (1) funcionem corretamente.
+            scriptElement.src = basePath + encodeURIComponent(scriptName) + '?v=' + Date.now();
+            
             document.body.appendChild(scriptElement);
-            console.log(`[Bootloader V4] Carregando: ${scriptName}`);
+            console.log(`[Bootloader V4.2] Carregando: ${scriptName}`);
         });
         
-        console.log('[Bootloader V4] Todos os scripts foram injetados.');
+        console.log('[Bootloader V4.2] Todos os 4 scripts foram injetados.');
         
     } catch(e) {
-        console.error('[Bootloader V4] Erro crítico ao carregar scripts:', e);
+        console.error('[Bootloader V4.2] Erro crítico ao carregar scripts:', e);
     }
 
 })();
