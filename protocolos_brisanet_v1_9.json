@@ -1,0 +1,2264 @@
+{
+  "protocols": [
+    {
+      "title": "AGENDAMENTO - Cobrança (Dentro do Prazo)",
+      "text": "Próprio titular. Entrou em contato com o número.cobrando reparo. Visto chamado dentro do prazo foi registrada a informação e solicitado ao cliente, aguarda prazo do chamado, cliente ciente das informações, aguarda visita!",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "AGENDAMENTO - Cobrança (Dentro do Prazo - Detalhado)",
+      "text": "O titular entrou em contato relatando insatisfação devido à demora no reparo do serviço. Após análise, foi confirmado que o caso está dentro do prazo operacional previamente informado. Reforçamos as informações sobre o prazo estimado para a resolução do problema, explicando ao cliente os motivos do tempo necessário, como logística, recursos técnicos ou interferências externas, e garantimos que a equipe técnica está empenhada em resolver o problema o mais breve possível. O cliente foi tranquilizado e orientado a aguardar dentro do prazo estipulado, sendo informado que será atualizado assim que houver novidades sobre a resolução ou conclusão do reparo. O caso permanece em andamento, e o cliente demonstrou compreensão após as explicações, sendo solicitado que entre em contato caso observe alguma alteração significativa no serviço antes do prazo.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ATIVO - Sem Contato (SMS Enviado)",
+      "text": "Foi tentado contato, porém sem êxito, foi enviado SMS informativo, chamado será finalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ATIVO - Agendado Painel (Sem Contato)",
+      "text": "Cliente agendado pelo painel, tentado contato porem sem exito, retornado ao painel.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "BRISATV - Sem Acesso (Reinício - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso a sua TV. \nFoi visto que o sinal e a rota estão normais, cliente não pressionou nenhum botão lateral. Cabos conectados corretamente. \nFoi reiniciada a ONU e os outros equipamentos manually, cliente testa e afirma que normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "BRISATV - Troca Controle (Abertura OS - Custo Condicional)",
+      "text": "Própria titular, entra em contato, confirma dados, a mesma informa que seu controle remoto de sua Tv. Está com mau funcionamento, cliente já tentou trocar as pilhas porem sem sucesso, a mesma ciente que se for constatado algum tipo de dano por parte do cliente, pode ser que gere custos dependendo da avaliação do técnico, cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "BRISATV - Sem Acesso (STB Não Atualiza - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente informa esta sem acesso na TV da Brisanet. \nVerificado o STB brisanet não está atualizando e pegando as configurações da rede… \nApós as verificações será necessário abrir um O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "BRISATV - Sem Acesso (STB Não Atualiza - Abertura OS 2)",
+      "text": "Próprio titular. Entrou em contato com o número (85) 9 8659-2800.\nCliente informa esta sem acesso na TV da Brisanet. \nVerificado o STB brisanet não está atualizando e pegando as configurações da rede.. \nApós as verificações será necessário abrir um O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia 13/06/2024 no período da manhã.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Baixo/Desencapado (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCabo Baixo. \nCliente informa que o cabo próximo da residência está baixo e esta desencapado, pode ocorrer perigo ao poste devido aos fios estarem de forma irregular… \nserá aberto O.S. para o técnico. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Caminhão - Detalhado)",
+      "text": "Cliente: Identificado e confirmado como titular da conta.\nEndereço: Validado pelo atendente.\n\nSolicitação:\n\nCliente relatou que um caminhão passou na rua e rompeu o cabo de fibra, interrompendo o serviço.\nEnviou imagens do ocorrido para comprovação.\nAtendimento:\n\nAtendimento iniciado pelo bot e encaminhado para o suporte técnico.\nO atendente Josias Apolonio de Queiroz Xavier confirmou os dados do cliente e validou o endereço.\nVerificado que o cliente é o único do split-ter sem sinal.\nOS aberta para verificação e reparo.\nRealizado pré-agendamento da visita técnica.\n\nCliente confirmou disponibilidade para receber a equipe no dia marcado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Caminhão)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCabo de fibra Rompido. \nO mesmo informa que seu cabo de fibra encontra-se rompido no trajeto do poste até sua residência, rompido por caminhão. \nVerificado o cliente e o único do split-ter sem sinal. Aberto OS para verificação… \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Corte)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCabo de fibra Rompido. \nO mesmo informa que seu cabo de fibra encontra-se rompido no trajeto do poste até sua residência, rompido por corta. \nVerificado o cliente e o único do split-ter sem sinal. Aberto OS para verificação… \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Incêndio)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCabo de fibra Rompido. \nO mesmo informa que seu cabo de fibra encontra-se rompido no trajeto do poste até sua residência, incêndio em um poste no local. \nVerificado o cliente e o único do split-ter sem sinal. Aberto OS para verificação… \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Tempo)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCabo de fibra Rompido. O mesmo informa que seu cabo de fibra encontra-se rompido no trajeto do poste até sua residência, rompido devido ao tempo. Verificado o cliente e o único do split-ter sem sinal. Aberto OS para verificação… Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Companhia Elétrica)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCabo de fibra Rompido. O mesmo informa que seu cabo de fibra encontra-se rompido no trajeto do poste até sua residência, rompido devido à companhia de energia elétrica ter feito uma manutenção no poste. Verificado o cliente e o único do split-ter sem sinal. Aberto OS para verificação… Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO - Rompido (Vegetação Retirada)",
+      "text": "a vegetação que impossibilitava dos técnicos fazerem o reparo foi retirada e feito o caminho de todo o trajeto aos postes, assim possibilitando que as equipes possam realizar o reparo.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CANCELAMENTO - Retenção (Transferência)",
+      "text": "Próprio titular. Entrou em contato com o número.\nSolicitação de cancelamento. \nEntrou em contato solicitando cancelamento. \nConfirmado todos os dados e feito uma sondagem do motivo do cancelamento, cliente informa muito insatisfação e deseja realmente o cancelamento. Dessa maneira, feito a transferência para o setor de retenção…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "DIALOGO - Falta de Compreensão (Manutenção/Cancelamento)",
+      "text": "Próprio titular. Entrou em contato com o número (85) 9 9281-1340.\nFalta de compreensão. \nCliente estava sem acesso, se encontrava bloqueado por falta de pagamento, o mesmo realizou o pagamento e solicitou o desbloqueio com o setor financeiro. \nRealizado a verificação ao nível de sistema identificado que o comando de desbloqueio do cliente estava na lista de comandos, após a identificação a cidade do mesmo está passando por uma manutenção na rede, impossibilitando de serem gerados comando para os clientes e retorno de acesso, foi repassado o prazo de até as 5 horas da manhã do dia 11/09, cliente solicita o cancelamento, informado a mesmo que é necessário realizar a transferência para o setor de retenção, cliente informou que não queira ser transferido e exigiu que fosse realizado o cancelamento naquele momento mesmo, informado que só quem consegue realizar o cancelamento e o setor de retenção, foi encerrado a ligação por falta de compreensão, o mesmo não aceitou as informações e não deixava repassar as informações corretas, ligação encerrada.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "DIALOGO - Falta de Cordialidade (Wi-Fi Desligado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente informou esta sem acesso em seu dispositivo móvel. \nO mesmo informa que esta sem acesso e solicitou um comando no sistema, porem estava com a rede wifi desligada. \nFoi realizado verificação ao nível de sistema, ativado os equipamentos no local, ligação foi encerrada por falta de cordialidade.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (Wi-Fi Apagado - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente informa esta sem acesso. \nO mesmo informa esta sem acesso, pois o rede WI-FI não mostra nos dispositivos, e a LED do WI-FI está apagada… \nVou colocado a rede para invisível e depois para visível e desabilitado o wi-fi e habilitado, reconfigurado ONU, porem sem exito será aberto O.S. para o Técnico revisar o equipamento… \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (TP-Link Morto - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRevisão de equipamento. \nCliente informa que o TP-link da brisanet esta com os leds apagados, o mesmo não liga, já foi trocado de tomada, pressionado o botão de liga e desliga, porem sem exito. \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (Modem Morto - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRevisão de equipamento. \nCliente informa que o Moldem da brisanet esta com os leds apagados, o mesmo não liga, já foi trocado de tomada, pressionado o botão de liga e desliga, porem sem exito. \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (Cabeada Não Funciona - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRevisão de equipamento. \nCliente informa que a conexão cabeada na casa dele não está funcionando, verificado e realizado procedimentos ao nível de sistema, porem sem exito.\nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (Botão Solto - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRevisão de equipamento. \nCliente informa que o moldem da Brisanet esta com os leds apagados, o mesmo liga porem desliga logo em seguida desliga, o botão de liga e desliga está solto. Cliente pede revisão no equipamento. \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (Cabos Danificados - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRevisão de equipamento. \nCliente informa que os cabos da internet e do telefone estão danificados, os conectores estão soltos. \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Revisão (Modem Reiniciando - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRevisão de equipamento. \nCliente informa que o moldem da Brisanet esta com instabilidade fica desligando toda hora, o mesmo liga porem desliga logo em seguida. Cliente pede revisão no equipamento. \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "EQUIPAMENTO - Recolher TP-Link (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número\nRecolher tp-link. \nSolicitando recolhimento do tp-link para ser colocado um roteador particular. \nConfirmado todos os dados e feto a abertura do chamado para que uma equipe possa passar e recolher o tp-link, para que o cliente coloque o particular. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Bloqueado (Ciente)",
+      "text": "Próprio titular. Entrou em contato com o número.\nProblema financeiro. \nCliente informa esta sem acesso à internet. \nVerificado em sistema foi identificado que o cliente se encontra bloqueado devido a uma pendência financeira, informado ao mesmo o acontecido, o mesmo esta ciente das informações passadas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Bloqueado (Pago PIX - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nProblema financeiro. \nCliente informa esta sem acesso à internet. \nVerificado em sistema foi identificado que o cliente se encontra bloqueado devido a uma pendência financeira, informado ao mesmo o acontecido o mesmo esta ciente das informações passadas, o mesmo realizou o pagamento da fatura via PIX, reconfigurado ONU, acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Dúvida (Transferência)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformações Financeiras. \nCliente deseja realizar o pagamento da fatura que está em atraso… \nVerificado o cadastro da cliente, encaminhada ao setor responsável…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Falar (Transferência)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformações Financeiras. \nCliente deseja Falar com o setor financeiro… \nVerificado o cadastro da cliente, encaminhada ao setor responsável…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Pagar (Fora do Expediente)",
+      "text": "Próprio titular. Entrou em contato com o número. \nInformações Financeiras. \nCliente deseja realizar o pagamento da fatura que está em atraso… \nVerificado o cadastro da cliente, visto que o setor responsável não está em expediente aberto, informado o horário de retorno do setor cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Pago (Acesso Normalizado)",
+      "text": "Titular. Entrou em contato com o número. \nInformações financeiras - sem acesso. \nCliente informa esta sem acesso, o mesmo informou que o Pagamento da fatura foi feito hoje, porem continua sem acesso. \nFoi verificado os equipamentos os mesmos constam esta normal e com acesso, foi pedido para o cliente testar o mesmo informa que normalizou o acesso…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Bloqueado (Prazo 24h/WhatsApp)",
+      "text": "Próprio titular. Entrou em contato com o número.\nSem Acesso. Bloqueado\nrepassado que o sistema pode levar até 24 horas para validar o pagamento e efetuar o desbloqueio e foi repassado também que poderia entrar em contato pelo WhatsApp e enviar o comprovante do pagamento e solicitar o desbloqueio.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FINANCEIRO - Bloqueado (Protocolo Detalhado - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Sem Acesso devido a Bloqueio Financeiro\nTitular: \nContato: \nO titular entrou em contato relatando que estava sem acesso à internet. Durante a análise inicial, verifiquei que o bloqueio de acesso foi causado por uma pendência financeira em sua conta, o que resultou na suspensão temporária do serviço.\nExpliquei ao cliente sobre a situação e orientei que regularizasse a pendência financeira para que o acesso fosse restabelecido. O cliente confirmou que a pendência foi resolvida e, após a confirmação do pagamento ou regularização financeira, procedi com a reinicialização dos equipamentos, incluindo a ONU e o roteador.\nApós a reinicialização dos dispositivos, o acesso foi normalizado e o cliente foi capaz de se conectar à internet novamente sem problemas.\nO cliente foi orientado a manter suas pendências financeiras em dia para evitar novas interrupções no serviço e foi informado sobre os procedimentos para monitorar e gerenciar sua conta. O atendimento foi concluído com a confirmação de que o acesso estava restaurado e funcionando corretamente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FWA - Sem Acesso (5G Vermelho - Abertura OS)",
+      "text": "Próprio titular entrou em contato pelo número: \n O mesmo informa estar sem acesso no seu FWA e que a luz do 5G esta vermelha. Solicitado ao mesmo que desligasse o equipamento por 15 segundos e após isso o acesso não normalizou. Dessa forma aberta O.S para verificação.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ID - Ausência de Confirmação (Titular)",
+      "text": "Próprio titular. Entrou em contato com o número\nAusência de confirmação de dados. \nCliente não confirmou os dados corretamente, desse jeito não pode ser prosseguido o atendimento em diante… \nLigação encerrada por falta de confirmação de dados.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ID - Ausência de Confirmação (Não Titular)",
+      "text": "Cliente. Entrou em contato com o número\nAusência de confirmação de dados. \nCliente não confirmou os dados corretamente, desse jeito não pode ser prosseguido o atendimento em diante… \nLigação encerrada por falta de confirmação de dados.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INFO - Técnicas (Dúvida Resolvida)",
+      "text": "Próprio titular. Entrou em contato com o número \nInformações técnicas. \nCliente solicitou informações sobre o serviço de internet. \nRepassado informações ao cliente sobre sua dúvida, auxiliado ele no que precisava.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INFO - Prazo Reparo (24h)",
+      "text": "Prazo de reparo: Até 24h",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INFO - Prazo Mudança Endereço (72h)",
+      "text": "Prazo de Alteração de Endereço: Até 72h (3 dias)",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INFO - Prazo Instalação (3-5 dias)",
+      "text": "O prazo de instalação ainda será de 3 a 5 dias úteis.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INFO - Técnicas (Protocolo Detalhado)",
+      "text": "Protocolo de Atendimento ao Cliente: Informações Técnicas sobre o Serviço de Internet\nTitular:\nContato: \nO titular entrou em contato solicitando informações técnicas sobre o serviço de internet contratado, demonstrando dúvidas específicas quanto à configuração e ao desempenho do serviço. Durante a interação, ele mencionou questões relacionadas à velocidade do plano, estabilidade da conexão, configurações do roteador e outros detalhes técnicos que impactam a qualidade da navegação.\nCom base nas informações fornecidas, expliquei detalhadamente os recursos do plano contratado, incluindo a velocidade nominal, limitações técnicas do serviço e condições de uso ideal. Orientei sobre como realizar verificações básicas no equipamento, como reiniciar o roteador e identificar possíveis problemas, como interferências na rede Wi-Fi ou mau funcionamento de dispositivos conectados.\nTambém informei sobre os procedimentos para melhorar a cobertura da rede Wi-Fi no local, caso necessário, e a possibilidade de solicitar um serviço de configuração estruturada para otimização da rede interna. Ao final, disponibilizei informações sobre canais de suporte e prazos para atendimento técnico em casos mais complexos.\nO cliente informou que todas as suas dúvidas foram respondidas de maneira satisfatória e agradeceu pelo suporte. Reforcei que ele pode entrar em contato novamente caso surjam novas dúvidas ou a necessidade de assistência técnica adicional. Atendimento finalizado com sucesso.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INFO - Pesquisa GPTW",
+      "text": "Obrigado por participar dessa pesquisa, sua contribuição é muito importante!\n\nLembre-se, caso presencie ou se sinta incomodado com alguma ação da organização relacionada à essa pesquisa, por favor, entre em contato conosco por: Whatsapp: (85) 98116-1364 ou giovanna.campos@greatpeople.com.br\n\nCaso tenha alguma denúncia, entre em contato pelo email: auditoria@gptwbrasil.com.br",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE - Wi-Fi (Config. - Normalizado)",
+      "text": "Titular. Entrou em contato com o número. \nInstabilidade no Wi-Fi. \nCliente informa que esta com instabilidade na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE - Wi-Fi (Abertura OS)",
+      "text": "Titular. Entrou em contato com o número. \nInstabilidade no Wi-Fi. \nCliente informa que esta com instabilidade na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que não normalizou… \nAberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE - Wi-Fi (Recusa Procedimento - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente informa instabilidade na conexão wi-fi. O mesmo informa que não consegue acessar seus aplicativos no dispositivo, cliente pede um técnico no local… Foi realizado a verificação no sistema esta normal sinal e roteador, o mesmo não quis realizar nenhum procedimento remoto de atendimento. Aberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE - Wi-Fi (Recusa/Cobra Taxa - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente informa instabilidade na conexão wi-fi. O mesmo informa que não consegue acessar seus aplicativos no dispositivo, cliente pede um técnico no local… Foi realizado a verificação no sistema esta normal sinal e roteador, informado ao cliente que caso seja constatado normal o sistema na hora dos testes com o técnico será cobrado a visita, mas caso esteja com problema a conexão não e cobrado a taxa da visita, cliente ciente, o mesmo não quis realizar nenhum procedimento remoto de atendimento. Aberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE - Wi-Fi (Queda na Ligação)",
+      "text": "Titular. Entrou em contato com o número. \nInstabilidade no Wi-Fi. \nCliente informa que esta com instabilidade na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, o mesmo informou também, que esta ocorrendo há vários dias esse problema, porem a ligação caiu, tentado contato pelo número do cadastro sem exito.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE - Wi-Fi (Rascunho - Abertura OS)",
+      "text": "Cliente entrou em contato com o número 85991178776 Cliente informou que está com o acesso instável. Verificado que o sinal está padronizado e rota ativa. Feito sondagem de instabilidade pelo Wi-Fi: notou instabilidade com o em todos os aplicativos travando, porém, ocorre em todos os serviços; confirmou o SSID e a senha da rede não é compartilhada com terceiros; equipamento instalado na Sala e nada interferindo no sinal; ocorre o dia todo e tem mais dispositivos conectado a rede pela(o) Dia todo. Alterado canal, modo das redes e reconfigurado o equipamento, onde acesso não apresentou melhorias. Verificado os cabos, aparentemente todos bem conectados, dessa forma, aberto O.S. para verificar no local",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTALACAO - Mal Sucedida (<48h - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInstalação mal sucedida. \nO mesmo informa que sua instalação foi realizada hoje e já se encontra sem acesso. Verificado que não houve nenhuma irregularidade física após a instalação, assim. \nSe enquadra em uma installation mal sucedida, pois o mesmo estar sem acesso antes de 48 horas, por gentileza verificar… \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTALACAO - Reparo Mal Sucedido (LOS - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número .\nCliente informa esta sem acesso novamente. Verificado com a cliente mostra o mesmo problema de anteriormente LOS no equipamento, já tinha sido realizado um reparo no mesmo dia, porem continua sem o acesso. Aberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "JOGOS - Ping Alto (Free Fire - Normalizado)",
+      "text": "Titular informa que está com o Ping alto para o jogo Free Fire, onde a mesma informa que está em 73, sendo que seu histórico era de 45 a 50, a mesma usa servidor nacional, na conexão pelo wi-fi no celular.\nFoi alterado o canal, ativado e reiniciado ONU, cliente testa e informa que o seu acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "JOGOS - Ping Alto (CS:GO - Não Normalizado)",
+      "text": "Titular informa que está com o Ping alto para o jogo Conter Strike Go, onde a mesma informa que está em 80, sendo que seu histórico era de 45 a 50, a mesma usa servidor nacional, na conexão pelo cabo no computador.\nFoi alterado o canal, ativado e reiniciado ONU, cliente testa e informa que o seu acesso não normalizou, ficou de testar e depois entraria em contato.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "JOGOS - Ping Alto (Roteador Particular - Ciente)",
+      "text": "Cliente entra em contato informando que o seu Ping esta bastante alto, e o mesmo queria a liberação das duas portas do roteador. Foi informado que como ele já tem roteador particular e IP fixo, ele já tem gerência total da rede, e brisanet apenas fornece o sinal. E como ele já tem o IP, ele mesmo pode realizar a liberação das portas e melhorar justamente o Ping no jogo especifico que o cliente deseja. Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - VPN (Queda na Ligação)",
+      "text": "Próprio titular entrou em contato com o número relatando que a latência de sua internet está muito alta e pede auxílio para normalizar. O mesmo faz uso de VPN. Foi alterado canais, modo e largura de banda do Wi-Fi, e reconfigurada a ONU. Durante a ligação caiu. Foi realizado o retorno, mas sem êxito.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Normalizado)",
+      "text": "Titular. Entrou em contato com o número. \nLentidão \nCliente informa que esta com Lentidão na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Protocolo Detalhado - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Lentidão na Conexão Wi-Fi. Titular: Contato: \nO cliente entrou em contato relatando lentidão na conexão Wi-Fi em seus aparelhos. Ele mencionou que, embora conseguisse conectar, a internet apresentava uma lentidão significativa e, em algumas ocasiões, a conexão caía completamente.\nPara resolver o problema, realizei algumas intervenções. Primeiramente, fiz a troca do canal e do modo de operação do roteador. Também reconfigurei a ONU (Unidade de Rede Óptica) para assegurar que tudo estivesse correto.\nApós essas alterações, pedi que o cliente testasse a conexão novamente. Ele confirmou que, após as reconfigurações, finalizado por inaa conexão foi normalizada e a lentidão foi resolvida.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Sondagem Completa - Normalizado)",
+      "text": "Titular. Entrou em contato com o número. \nO mesmo informa que mesmo usando próximo ao equipamento ocorre o mesmo problema, notou o problema no acesso em geral, não compartilha sua senha com ninguém, visto que está conectado em sua própria rede, equipamento instalado na sala, ocorre também em qualquer período, sempre é usado o mesmo total de dispositivos, não possui nada eletrônico nem espelhos que possa interferir no sinal próximo ao roteador\nFoi alterado o canal, ativado e reconfigurado ONU, cliente testa e informa que o seu acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Queda na Ligação)",
+      "text": "Titular. Entrou em contato com o número. \nLentidão \nCliente informa que esta com Lentidão na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou porem a ligação",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Abertura OS)",
+      "text": "Titular. Entrou em contato com o número. \nLentidão \nCliente informa que esta com Lentidão na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que não normalizou… \nAberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Cliente Recusou Config. - Abertura OS)",
+      "text": "Titular. Entrou em contato com o número. \nLentidão \nCliente informa que esta com Lentidão na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nCliente não deseja configurações. \nAberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - FWA (Reinício Manual - Normalizado)",
+      "text": "Titular. Entrou em contato com o número. \nLentidão \nCliente informa que esta com Lentidão na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai… \nFoi realizado a REINICIALIZAÇÃO DO EQUIPAMENTO MANUALMENTE, Cliente testou a conexão e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Protocolo Detalhado 2 - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Lentidão na Conexão Wi-Fi\nTitular: \nContato: \nO titular entrou em contato relatando problemas de lentidão na conexão Wi-Fi em seus dispositivos. Ele explicou que, embora os aparelhos conseguissem se conectar à rede, a internet apresentava desempenho muito abaixo do esperado, e, em algumas ocasiões, a conexão chegava a cair completamente.\nDurante o atendimento, foram realizados procedimentos técnicos para solucionar a questão. Primeiramente, foi feita a troca do canal de transmissão e do modo de operação do roteador para minimizar interferências e a melhora do desempenho da rede. Além disso, a ONU (Unidade de Rede Óptica) foi reconfigurada para garantir que as configurações estivessem adequadas.\nApós a aplicação dessas alterações, o titular foi orientado a realizar testes de conexão em seus dispositivos. Ele confirmou que, após as intervenções, a conexão Wi-Fi foi normalizada, e a lentidão não foi mais observada. O atendimento foi concluído com a resolução do problema e a satisfação do cliente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Wi-Fi (Protocolo Detalhado - Abertura OS)",
+      "text": "Protocolo de Atendimento ao Cliente: Lentidão na Conexão Wi-Fi\nPróprio Titular: \nContato: \nO cliente entrou em contato relatando dificuldades relacionadas à conexão Wi-Fi. Segundo ele, os dispositivos conseguem se conectar à rede, mas a navegação apresenta lentidão constante, prejudicando atividades básicas, e em algumas ocasiões a conexão cai, comprometendo a utilização normal.\nNo atendimento, foram realizados diversos procedimentos técnicos para tentar solucionar o problema. Primeiramente, foi efetuada a troca do canal de transmissão do Wi-Fi para reduzir possíveis interferências. Em seguida, ajustes no modo e na área de cobertura do equipamento foram aplicados para otimizar o desempenho da rede. Por fim, a ONU foi reconfigurada para assegurar que todas as configurações estivessem corretas.\nApós a conclusão dos procedimentos, o cliente foi orientado a testar novamente a conexão. Apesar das alterações realizadas, o titular informou que o problema de lentidão persistiu. Com base nas informações fornecidas, foi aberta uma Ordem de Serviço (O.S.) para envio de uma equipe técnica ao local.\nO titular foi consultado sobre sua disponibilidade e confirmou que está apto a receber a equipe técnica na data pré-agendada. Todas as informações pertinentes foram devidamente registradas, e o cliente foi orientado a acompanhar o progresso da solicitação através dos canais de suporte. O atendimento foi finalizado com a confirmação do agendamento para a visita técnica.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDAO - Quedas (Config. - Normalizado)",
+      "text": "Titular entrou em contato pelo número, informando que está com lentidão e quedas na conexão. Foi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LIGACAO - Caiu (Sem ID)",
+      "text": "Cliente. Entrou em contato pelo primeiro número do cadastro\ninformando que está sem acesso. \nPorém, antes das confirmações de dados a ligação caiu, tentei contato várias vezes em todos os números para contato, porém sem êxito. \nChamado será finalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LIGACAO - Caiu (Sem ID - Problema Conexão)",
+      "text": "Cliente. Entrou em contato pelo primeiro número do cadastro\ninformando que está com problema na conexão. \nA ligação caiu, tentei contato várias vezes em todos os números para contato, porém sem êxito. \nChamado será finalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LIGACAO - Caiu (Titular - Sem ID)",
+      "text": "Próprio titular. Entrou em contato com o número\ninformando que está sem acesso. \nPorém, antes das confirmações de dados a ligação caiu, tentei contato várias vezes em todos os números para contato, porém sem êxito. \nChamado será finalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LIGACAO - Caiu (Titular - Problema Não Informado)",
+      "text": "Próprio titular. Entrou em contato com o número\nProblema não informado. \nPorém, antes das confirmações de dados a ligação caiu, tentei contato várias vezes em todos os números para contato, porém sem êxito. \nChamado será finalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LIGACAO - Caiu (Titular - Pós ID)",
+      "text": "Próprio titular. Entrou em contato com o número\ninformando que está sem acesso. \nFoi realizado as confirmações de dados porem a ligação caiu, tentei contato várias vezes em todos os números para contato, porém sem êxito. \nChamado será finalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LIGACAO - Retorno Sem Êxito (Fechamento)",
+      "text": "Retorno sem exito. \nFoi tentado retorno com o cliente diversas vezes pelos números do cadastro, porem sem exito. \nDessa forma o protocolo será fechado por falta de contato com o cliente…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - TV (Reconfig. Sistema - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformou falta de acesso apenas em sua TV, porém nos outros está normal. Como se trata de algo específico e particular de apenas um dispositivo não é necessário sondagem. Reconfigurado ao nível de teste de sistema, serviço normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - Celular (Reconfig. Sistema - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformou falta de acesso apenas em seu celular, porém nos outros está normal. Como se trata de algo específico e particular de apenas um dispositivo não é necessário sondagem. Reconfigurado ao nível de teste de sistema, serviço normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - Celular (Protocolo Detalhado - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Falta de Acesso em Dispositivo Específico\nTitular: \nContato: \nO próprio cliente entrou em contato relatando dificuldades de acesso à internet, indicando que o problema ocorria exclusivamente em seu celular. Ele informou que outros dispositivos conectados à mesma rede estavam funcionando normalmente, sem apresentar interrupções ou falhas.\nDurante a análise inicial, foi constatado que o problema estava restrito ao celular do cliente, sem evidências de falhas na rede geral ou no equipamento fornecido pela operadora. Por se tratar de um caso específico e particular de configuração do dispositivo, não houve necessidade de sondagem ou ajuste na infraestrutura de rede, ou no sinal.\nComo parte do suporte, foi realizada uma reconfiguração no sistema para corrigir possíveis inconsistências na comunicação entre o dispositivo e a rede Wi-Fi. Após os ajustes, solicitei que o titular testasse a conexão no celular, confirmando o funcionamento do serviço. Ele relatou que conseguiu acessar a internet normally e que o problema foi resolvido.\nReforcei a importância de manter o dispositivo atualizado e, caso enfrente situações semelhantes no futuro, verificar as configurações de Wi-Fi do celular antes de buscar suporte. O cliente agradeceu o atendimento, e o caso foi encerrado com a confirmação de que a situação foi completamente normalizada.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - TV DNS (Config. Manual - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número .\nCliente informa problema para se conectar aos streams. \nRealizado a sondagem do problema na residência do cliente o mesmo está sem acesso a TV, o DNS não esta se conectando a rede.. \nFeito os procedimentos de alteração de DNS manual na TV do cliente, o mesmo informa que o acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - PPPoE Não Conecta (Pós UPNP)",
+      "text": "Cliente informou que estava com lentidão, colaborador realizou um comando de ativação do UPNP, após essa ativação o cliente perdeu acesso a seu roteador particular, usuário e senha do PPP OE não se conecta no roteador e nem na configuração manual no computador.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - IPTV (Bloqueio/Orientação)",
+      "text": "O serviço fornecido pela brisanet está entregue conforme o garantido, no entanto, essa indisponibilidade do serviço de IPTV não podemos realizar nem uma configuração para estabelecer esse acesso. Por favor, contactar o fornecedor do serviço de IPTV.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - IPTV (Bloqueio ANATEL - Ciente)",
+      "text": "Próprio(a) titular. Entrou em contato com o número.\nCliente informa que não está conseguindo conectar o seu IPTV na rede da Brisanet. O mesmo relata que só ocorre o problema nesse equipamento. Repassado informações que a Anatel vem bloqueando esse tipo de transmissão, o mesmo informa que quando conecta o Wi-Fi de seu celular o mesmo consegue acesso. Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PARTICULAR - TV Box (Config. - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente entra em contato informando estar sem acesso somente a TV, visto que o mesmo utiliza o aparelho TV box… Dessa forma, visto que os outros aparelhos têm acesso normal, somente a TV que não está funcionando… Em tentativa de normalizar o acesso foi alterado modo e canal, reconfigurado o equipamento e ativado a ONU, cliente informa acesso normalizado…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "QUEDAS - Noturna (Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente em contato informando está com quedas em sua conexão onde fica totalmente sem acesso em alguns momentos. \nO cliente informou que ocorre mais pela noite, e enquanto está utilizando… \nFoi alterado o modo, canal, ativo e reiniciado a ONU. Cliente testa e afirma normalização.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "QUEDAS - (Protocolo Detalhado - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Quedas na Conexão Wi-Fi. Titular: Contato: \nA cliente entrou em contato relatando problemas com a conexão Wi-Fi, informando que estava enfrentando quedas frequentes, especialmente durante a utilização de videochamadas e streaming de vídeo. Ela mencionou que isso acontece principalmente à noite, quando mais pessoas estão em casa.\nApós escutar suas preocupações, realizei algumas verificações. Primeiramente, pedi que ela reiniciasse o roteador e a ONU (Unidade de Rede Óptica). Em seguida, acessei as configurações do roteador e ajustei o canal de transmissão para um menos congestionado.\nApós realizar essas alterações, solicitei que a cliente testasse a conexão novamente. Ela confirmou que, após as mudanças, a estabilidade da internet melhorou e que as quedas foram significativamente reduzidas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "QUEDAS - Noturna (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente em contato informando está com quedas em sua conexão onde fica totalmente sem acesso em alguns momentos. \nO cliente informou que ocorre mais pela noite, e enquanto está utilizando… \nFoi alterado o modo, canal, ativo e reiniciado a ONU. Cliente testa e afirma que não normalizou. \nAberto OS para verificação. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "QUEDAS - Dia Todo (Reinício Manual - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente em contato informando está com quedas em sua conexão onde fica totalmente sem acesso em alguns momentos. \nO cliente informou que ocorre o dia todo, reiniciado a ONU manually. Cliente testa e afirma normalização.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "QUEDAS - (Protocolo Detalhado 2 - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Quedas na Conexão Wi-Fi.\nTitular: \nContato: \nA cliente entrou em contato relatando problemas com a conexão Wi-Fi, informando que estava enfrentando quedas frequentes, especialmente durante a utilização de videochamadas e streaming de vídeo. Ela mencionou que isso acontece principalmente à noite, quando mais pessoas estão em casa.\nApós escutar suas preocupações, realizei algumas verificações. Primeiramente, pedi que ela reiniciasse o roteador e a ONU (Unidade de Rede Óptica). Em seguida, acessei as configurações do roteador e ajustei o canal de transmissão para um menos congestionado.\nApós realizar essas alterações, solicitei que a cliente testasse a conexão novamente. Ela confirmou que, após as mudanças, a estabilidade da internet melhorou e que as quedas foram significativamente reduzidas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "QUEDAS - (Protocolo Detalhado - Abertura OS)",
+      "text": "Protocolo de Atendimento ao Cliente: Quedas na Conexão Wi-Fi\nTitular: \nContato: \nA cliente entrou em contato relatando problemas com a conexão Wi-Fi, mencionando quedas frequentes, especialmente durante a utilização de videochamadas e streaming de vídeo. Ela informou que as quedas ocorrem principalmente à noite, quando há mais pessoas em casa utilizando a rede.\nApós ouvir suas preocupações, realizei algumas verificações. Primeiramente, pedi que ela reiniciasse o roteador e a ONU (Unidade de Rede Óptica). Em seguida, acessei as configurações do roteador e ajustei o canal de transmissão para um menos congestionado, visando reduzir interferências.\nApós realizar essas alterações, solicitei que a cliente testasse a conexão novamente. No entanto, ela informou que o problema persistiu, com quedas ainda ocorrendo, embora com menor frequência.\nDiante disso, abri uma Ordem de Serviço (O.S.) para uma análise técnica mais aprofundada e agendei o envio de uma equipe ao local. A cliente foi orientada sobre o processo e ficou ciente de que poderá acompanhar o status da solicitação pelo canal de atendimento. Fui transparente quanto ao prazo de atendimento e reforcei que a equipe técnica verificará o caso detalhadamente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ROTEADOR - Desconfigurado (Rede TP-Link - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRoteador desconfigurado. \nCliente informa esta sem acesso, e sua rede não aparece mais, a única rede que a aparece e uma rede TP-Link, a mesma informa que isso ocorreu após desligar o equipamento bruscamente… \nFoi realizado o procedimento de reconfiguração e ativação no roteador, cliente testou e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ROTEADOR - Desconfigurado (Removido/Reconfigurado - Senha Auto)",
+      "text": "Próprio titular. Entrou em contato com o número.\nRoteador desconfigurado. \nCliente informa esta sem acesso, e sua rede não aparece mais, a única rede que a aparece e uma rede TP-Link, a mesma informa que isso ocorreu após desligar o equipamento bruscamente… \nFoi realizado o procedimento de remover roteador e configurar o roteador novamente, informado ao cliente que a senha vai ser alterada automaticamente devido ao procedimento de reconfiguração do roteador…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Sinal Normal (Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso a sua conexão. \nFoi visto que o sinal e a rota estão normais, cliente não pressionou nenhum botão lateral, não trocou o modo da ONU, insere a senha correta na rede correta. Cabos conectados corretamente. \nFoi ativada e reiniciada a ONU, cliente testa e afirma normalização do acesso.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Sinal Normal (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso a sua conexão. \nFoi visto que o sinal e a rota estão normais, cliente não pressionou nenhum botão lateral, não trocou o modo da ONU, insere a senha correta na rede correta. Cabos conectados corretamente. \nFoi ativada e reiniciada a ONU, cliente testa e afirma que não normalizou o acesso.\nAberto O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia, caso seja constatado que esta normal a conexão e não existe nenhum problema informar que será gerado valor da visita.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - FWA (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso a sua conexão no FWA. \nCliente não pressionou nenhum botão lateral, não trocou de lugar, insere a senha correta na rede correta. Cabos conectados corretamente. \nFoi reiniciada o FWA, cliente testa e afirma que não normalizou o acesso.\nAberto O.S. Realizado o pré-agendamento. \nPróprio titular informa ter disponibilidade para receber a equipe no dia, caso seja constatado que esta normal a conexão e não existe nenhum problema informar que será gerado valor da visita.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Equipamentos Desligados (Troca Tomada - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número \nSem Acesso. \nCliente informa esta sem acesso, o mesmo informa que não tem nenhum led acesso no equipamento… \nverificado com a cliente para trocar a tomada do equipamento, pois está mostrando desligado no sistema, cliente trocou a tomada dos equipamentos, a mesma informou que o acesso normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Equipamento Morto (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente sem sinal. \nCliente entrou em contato informando esta sem acesso devido à ONU não está Ligando, a mesma informa que quando chegou na residencio o equipamento estava com todas as luzes apagadas… \nFoi pedido a cliente para realizar o procedimento de pressionar o botão de liga e desliga do equipamento e trocar de tomada, porem sem exito, será aberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - ONU Desligada (Troca Tomada - Normalizado)",
+      "text": "Titular entrou em contato pelo número\ninformando esta sem acesso, foi identificado que a tomada onde os equipamentos estavam ligados estava com problema, trocado os equipamentos de tomada o acesso normalizou, foi pedido para cliente testar, a mesma informa que normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Sinal Normal (Protocolo Detalhado - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Acesso à Conexão. \nTitular:\nContato: \nO cliente entrou em contato informando que está sem acesso à sua conexão de internet. Durante a verificação inicial, constatei que tanto o sinal quanto a rota estavam normais, e não havia interrupções reportadas na área.\nO cliente confirmou que não pressionou nenhum botão lateral no equipamento que pudesse afetar a conexão, não trocou o modo da ONU (Unidade de Rede Óptica), e também inseriu a senha correta na rede correta. Além disso, verifiquei que todos os cabos estavam conectados corretamente e sem danos visíveis.\nPara tentar resolver a situação, ativei e reiniciei a ONU, garantindo que o processo de reinicialização fosse completo. Pedi ao cliente que aguardasse alguns minutos enquanto o equipamento se estabilizava.\nApós reiniciar, solicitei que o cliente testasse a conexão novamente. Ele confirmou que o acesso foi normalizado e que agora estava conseguindo navegar sem problemas.\nReforcei com o cliente a importância de verificar o estado dos cabos e do equipamento periodicamente e de não fazer alterações nas configurações sem assistência. Também deixei aberto o canal de comunicação para qualquer outra dúvida ou problema futuro.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Sinal Normal (Protocolo Detalhado - Abertura OS)",
+      "text": "Protocolo de Atendimento ao Cliente: Acesso à Conexão\nTitular: \nContato: \nO cliente entrou em contato informando que está sem acesso à sua conexão de internet. Durante a verificação inicial, constatei que tanto o sinal quanto a rota estavam normais, e não havia interrupções reportadas na área.\nO cliente confirmou que não pressionou nenhum botão lateral no equipamento que pudesse afetar a conexão, não alterou o modo da ONU (Unidade de Rede Óptica), e também inseriu a senha correta na rede correta. Além disso, verifiquei que todos os cabos estavam conectados corretamente e sem danos visíveis.\nPara tentar resolver a situação, ativei e reiniciei a ONU, garantindo que o processo de reinicialização fosse completo. Pedi ao cliente que aguardasse alguns minutos enquanto o equipamento se estabilizava.\nApós a reinicialização, solicitei que o cliente testasse a conexão novamente. Ele confirmou que o acesso ainda não havia sido normalizado e que o problema persistia.\nDado que os procedimentos realizados não solucionaram o problema, abri uma Ordem de Serviço (OS) para o envio de uma equipe técnica ao local. O cliente foi informado sobre o pré-agendamento para a visita e confirmou sua disponibilidade para receber a equipe na data combinada.\nReforcei a importância de acompanhar o andamento da solicitação pelo canal de atendimento e reiterei que ele pode nos contatar caso tenha dúvidas adicionais ou novos problemas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_ACESSO - Cliente Ausente (Aguardar Retorno)",
+      "text": "Titular entrou em contato informando esta sem acesso pelo número 89994082019, o mesmo não se encontra no local e o equipamento não está emitindo sinal, o mesmo ficou de ligar quando estiver na residência.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_GERENCIA - TP-Link (Inversão Cabos - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso. \nVisto ONU com sinal e roteador sem gerência. \nFoi Realizado as inversões de cabos da ONU para o roteador, ativado roteador e ONU, reiniciado roteador manualmente, acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_GERENCIA - TP-Link (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso. \nVisto ONU com sinal e roteador sem gerência. \nFoi ativado roteador e ONU, reiniciado roteador manually, acesso não normalizou, aberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_GERENCIA - TP-Link (Equipamento Morto - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso. \nVisto ONU com sinal e roteador sem gerência. \nFoi ativado roteador e ONU, reiniciado roteador manualmente, acesso não normalizou, foi verificado os cabos tudo normal, cliente informou que o TP-link não está acendendo nenhuma LED, foi trocado de tomada e trocado a fonte, equipamento não liga, aberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_GERENCIA - TP-Link (Protocolo Detalhado - Normalizado)",
+      "text": "Protocolo de Atendimento ao Cliente: Falta de Acesso ao TP-Link \nTitular: \nContato: \nO cliente entrou em contato relatando que estava sem acesso à internet. Durante a análise inicial, foi constatado que a ONU apresentava sinal normal, indicando que o sinal óptico estava chegando corretamente ao local. Entretanto, o roteador TP-Link estava sem gerência, o que indicava um possível problema na comunicação entre a ONU e o roteador ou alguma falha no próprio roteador.\nPara solucionar o problema, realizei algumas ações. Primeiro, verifiquei e desconectei os cabos que ligavam a ONU ao roteador, procedendo com a inversão das conexões para descartar a possibilidade de mau contato. Em seguida, reativei os dispositivos, permitindo que ambos fossem reiniciados por completo. Como medida adicional, solicitei que o cliente realizasse a reinicialização manual do roteador TP-Link, desligando-o e religando-o pelo botão de energia.\nApós a execução dessas ações, pedi ao cliente que testasse novamente a conexão. Ele confirmou que o acesso à internet foi restabelecido e que o roteador TP-Link voltou a operar novamente, possibilitando a navegação nos dispositivos conectados. Ressaltei ao cliente que problemas como esse podem ocorrer devido a falhas temporárias de hardware ou configurações e que a verificação periódica dos cabos e reinicializações preventivas do roteador podem ajudar a evitar recorrências.\nO atendimento foi encerrado com a confirmação de que o problema foi resolvido, e o cliente foi orientado a entrar em contato novamente caso enfrentasse novas dificuldades.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM_GERENCIA - TP-Link (Protocolo Detalhado - Cliente Não Vê LED)",
+      "text": "Em linha informa estar sem acesso onde todos os dispositivos apresentam estarem conectados sem internet ou a rede nem mesmo aparece para os dispositivos. Em sistema é possível identificar cliente com sistema de ONU + TP-Link, confirmado normal o sinal de fibra do cliente, mas o roteador é identificado sem configuração. Verificado com o cliente que afirma não terem ocorrido procedimentos nos cabeamentos dos equipamentos ou botões, não foi possível verificar o LED Wi-Fi como desativado (globo vermelho) pois o cliente não enxerga, cliente explica que não houve quedas de energia, por fim afirma que não se trata de um roteador particular. Assim foi reconfigurado sistema do cliente, checado cabeamento LAN da ONU e ROTEADOR, reiniciado manually equipamentos.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - LOS (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nSem acesso. \nO mesmo informando um led vermelho no equipamento, onde foi confirmado com o mesmo que não houve quedas de energia ou chuvas que possa ter infiltrado e molhado o equipamento, ninguém também mexeu e nem mesmo derrubar o equipamento por acidente, nenhum cabo desconectado ou rompido… \nAberto OS para verificação. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Rota Inoperante (URA)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso, visto que sua rota encontra-se inoperante. Foi repassado as informações e prazo conforme a URA, cliente fica ciente e no aguardo da normalização.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Rota Inoperante (Prazo Gestão)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformando que está sem acesso, visto que sua rota encontra-se inoperante. Foi repassado as informações e prazo conforme a gestão um prazo de 4 horas para a normalização, cliente fica ciente e no aguardo da normalização.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Irregular (-28dBm - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número\nCliente em contato informando que sua conexão está oscilando bastante. \nConforme os novos parâmetros de sinal irregular acima de −26.99 o local já se encontra irregular, sendo assim o do cliente está com −28.22, e na caixa tem cliente com sinal normal. \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Instabilidade Massiva (Prazo URA)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInstabilidade massiva na rede Brisanet. \nO mesmo informa que esta com instabilidade em sua rede e não consegue acessar… \nFoi realizado uma verificação com o setor de redes e foi identificado uma instabilidade massiva na rede, o que esta ocasionando muita lentidão, repassado o prazo padrão da ura para a normalização, cliente ciente…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - PON Piscando (Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente sem acesso. \nCliente informa esta sem acesso, verificado nos equipamentos da brisanet a ONU esta com a LED PON esta piscando… \nFoi realizado o procedimento de reconfiguração da ONU Pelos dois sistemas e reiniciado manualmente o equipamento, porem sem exito, será aberto O.S. para a verificação.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - PON Piscando (Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente sem acesso. \nCliente informa esta sem acesso, verificado nos equipamentos da brisanet a ONU esta com a LED PON esta piscando… \nFoi realizado o procedimento de reconfiguração da ONU Pelos dois sistemas e reiniciado manualmente o equipamento, cliente informa que normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Problema na Caixa (Planilha Monitoramento)",
+      "text": "Titular, no número, o mesmo informando que está sem serviço, visto caixa sem sinal, porém sem chamado aberto, foi registrado na planilha de monitoramento, repassado 24 horas de prazo, cliente ficou ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - PON Apagada (Abertura OS)",
+      "text": "Titular. Entrou em contato com o número \nPon Apagada. \nCliente informa esta sem acesso, verificado com o mesmo a LED Pon esta apagada… \nSerá Aberto O.S. \nRealizado o pré-agendamento. O mesmo informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Manutenção Roteadores (Prazo 2h)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente com quedas e instabilidade. \nCliente informou que esta com quedas na conexão e a rede fica com instabilidade está ocorrendo recentemente… \nFoi identificado que esta ocorrendo uma manutenção no sistema de roteadores onde não pode realizar procedimentos, pois o cliente pode ficar sem acesso caso realize, foi repassado o prazo de 2 horas para a normalização cliente ciente…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Irregular (Protocolo Detalhado - Abertura OS)",
+      "text": "Protocolo de Atendimento ao Cliente: Oscilação na Conexão\nTitular: \nContato: \nO próprio titular entrou em contato relatando problemas com a oscilação constante na sua conexão de internet. Ele mencionou que a instabilidade da rede tem ocorrido com frequência, afetando o uso diário, principalmente durante atividades de maior demanda, como navegação na web e streaming de vídeos.\nDurante a análise inicial, foi verificado que o sinal do cliente apresenta uma intensidade de −28,22 dBm, o que está fora dos parâmetros recomendados para uma conexão estável. Conforme os novos parâmetros de sinal, qualquer valor abaixo de −26.99 dBm indica uma irregularidade no sinal, o que pode causar as oscilações relatadas pelo cliente. Em comparação, foi verificado que a caixa de distribuição próxima ao local do cliente apresenta sinal dentro da faixa normal, o que sugere que o problema está relacionado especificamente à conexão do cliente.\nPara resolver a situação, foi aberta uma Ordem de Serviço (O.S.) para o envio de uma equipe técnica ao local. O pré-agendamento foi realizado, e o titular confirmou que tem disponibilidade para receber a equipe na data sugerida.\nA cliente foi orientada quanto ao prazo estimado para a visita técnica e informada sobre os próximos passos. Ela também foi esclarecida sobre o processo de acompanhamento da solicitação por meio do canal de atendimento. O atendimento foi encerrado com a confirmação do agendamento e a expectativa de resolução após a visita técnica.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - LOS (Protocolo Detalhado - Abertura OS)",
+      "text": "Protocolo de Atendimento: Suspeita de LOS\nTitular: \nContato: \nO cliente entrou em contato relatando que está sem acesso à internet. Durante o atendimento, informou que o LED vermelho estava aceso no equipamento, e que o problema iniciou-se hoje. Ao questioná-lo sobre eventuais causas para a falha, como quedas de energia, chuvas fortes ou manipulação do equipamento, o cliente confirmou que nenhum desses fatores ocorreu. Também verificamos que todos os cabos estavam corretamente conectados, sem sinais de danos, e que o aparelho não havia sido movimentado.\nExpliquei ao cliente que o LED vermelho pode ser indicativo de uma falha no sinal óptico (LOS - Loss of Signal), o que exigirá o envio de uma equipe técnica para realizar a verificação do problema. Foi aberta uma Ordem de Serviço (OS), e o pré-agendamento para a visita foi realizado. O cliente confirmou que estará disponível na data agendada para receber a equipe.\nAlém disso, forneci informações sobre o prazo estimado para o atendimento e expliquei que ele pode acompanhar o andamento da solicitação por meio do canal de atendimento, caso precise de mais informações. O cliente se mostrou ciente do processo, agradeceu o suporte e informou que aguardará a normalização do serviço.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Rota Inoperante (Protocolo Detalhado)",
+      "text": "Protocolo de Atendimento: Rompimento de Fibra FTTH.\nTitular: \nContato: \nO cliente entrou em contato informando que está sem acesso à internet, pois sua rota encontra-se inoperante. Ele confirmou que o problema começou Hoje e que não consegue se conectar.\nInformei ao cliente que a equipe de manutenção seria acionada para investigar o rompimento da fibra. Ele foi avisado sobre o prazo de atendimento conforme a URA e ficou ciente que aguardaria a normalização do serviço.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - Problema Localização (Email Responsáveis)",
+      "text": "Ao tentar abrir a O.S. informado um problema na localização, verificado com o setor responsável e visto que o sinal do cliente está inadequado. Questionado ao mesmo se o equipamento está no mesmo local que foi instalado e esta, se tem algo próximo que pode interferir e o mesmo afirma que não. Dessa forma, encaminhado email aos responsáveis.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL - IMOC (Cliente com Sinal Normal - Abertura OS)",
+      "text": "Cliente pelo número 85991648114 com problema na caixa, verificado chamado para a caixa o IMOC pede para abrir chamado normal para o cliente, pois ha um cliente com sinal normal, nesse caso será aberto chamado para o técnico passar no local e normalizar o acesso do cliente, aberto O.S",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - Brisaplay (Limpeza de Cache - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente sem acesso ao Brisa Play App. \nO mesmo informa que não está conseguindo a acessar os canais ao vivo pelo celular, atela fica preta e não carregando… \nFoi auxiliado ao cliente a limpar o cache do aplicativo e os dados, o mesmo realizou o procedimento e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - Netflix (Dúvidas Gerais)",
+      "text": "Próprio titular. Entrou em contato com o número.\nInformações Netflix. \nCliente informou que esta com dúvidas nos procedimentos da Netflix, em relação ao plano, como funciona, quantas telas são disponibilizadas em quais aparelhos o aplicativo pega… \nrepassado informações ao cliente de como funciona e o que é disponibilizado, cliente ficou ciente das informações passadas, o mesmo agradece pelas informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - GloboPlay (Recuperar Senha - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente sem acesso ao globo Play. \nO mesmo informa que não está conseguindo acessar o globo Play. \nAuxiliado a cliente a recuperar a senha dá globo Play, cliente informa que deu certo, e normalizou o acesso.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - BrisaCliente (Problema Opção Wi-Fi)",
+      "text": "Próprio titular. Entrou em contato com o número.\nBrisa Cliente. \nCliente com problema para acessar o brisa cliente na opção de Wi-Fi. \nAuxiliado o cliente os procedimentos de normalização do brisa cliente, cliente conseguiu acessar a plataforma normally.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - BrisaCliente (Esqueceu Senha)",
+      "text": "Próprio titular. Entrou em contato com o número.\nBrisa Cliente. \nCliente com problema para acessar o brisa cliente esqueceu a senha. \nAuxiliado o cliente os procedimentos de normalização do brisa cliente, cliente conseguiu acessar a plataforma normally.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - BrisaMusic (30s - Transferir Comercial)",
+      "text": "Cliente relata que seu brisa music, não passa a música toda, só fica até 30s verificado que o mesmo não estava logado na conta brisanet e auxiliado ao mesmo a entrar em contato com o setor comercial para verificação.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - Premiere (Transferir SAC)",
+      "text": "Próprio titular. Entrou em contato com o número.\nCliente sem acesso ao Première. \nComercial para correção, e caso esteja vermelho, foi feito ativação corretamente, porém deixar o cliente ciente que só irá ter acesso a conteúdos originais da premier, porém ao verificar com a cliente está com o fundo da imagem preta, foi transferido ao SAC comercial para verificação.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SVA - Telecine (Transferir SAC)",
+      "text": "Próprio titular. Entrou em contato com o número.\nComercial para correção, e caso esteja vermelho, foi feito ativação corretamente, porém deixar o cliente ciente que só irá ter acesso a conteúdos originais da telecine, porém ao verificar com a cliente o mesmo não consegue ativar, foi transferido ao SAC comercial para verificação.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TELEFONIA - Mudo (Abertura Saski)",
+      "text": "Próprio titular. Entrou em contato com o número.\nProblema na telefonia. \nCliente informa que o telefone chama, porem fica mudo, e o mesmo acontece quando ela faz a ligação… \nTelefone registra normal, reconfigurado, porta, mostra registro, porem o problema persiste, aberto Chamado no saski. Prazo padrão de 24h para a verificação e normalização do chamado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TELEFONIA - Desativado (Config. FXS - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nTitular, relatou que o telefone fixo estava sem realizar/receber ligações. Verificado no sistema a telefonia estava desativada\nConfigurado porta FXS, acesso normalizou",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TELEFONIA - Normal (Teste OK)",
+      "text": "Próprio titular. Entrou em contato com o número .\nCliente informa que o telefone fixo não está funcionando. \nO mesmo informa que tenta ligar para o fixo dele, mas não chama, informou que pediu para amigos realizar a ligação e o erro persiste.. \nFoi realizado os testes para o telefone do cliente e funcionou normally, informado ao cliente que se testa e verifica-se o número de telefone e o pre fixo.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TELEFONIA - Problema Físico (Cabo com Folga - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número.\nProblema físico no telefone. Cliente informa que não está conseguindo realizar ligação, porque tem que ficar segurando o cabo para conseguir realizar a ligação, cabo do telefone com folga… Aberto, O.S. Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VELOCIDADE - Cabo (Sem Muitos Dispositivos)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente em contato informando que o plano não está chegando ao contratado via cabo. \nO mesmo informa que durante os testes não há muitos dispositivos conectados, verificado sinal normal,",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VELOCIDADE - Cabo (Sistema Incompatível)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente em contato informando que o plano não está chegando ao contratado via cabo. \nO mesmo informa que durante os testes não há muitos dispositivos conectados, verificado sinal normal, foi solicitado o acesso remoto ao cliente porem o mesmo informou que o sistema dele e incompatível para realizar o procedimento, o mesmo ficou de adequar o dispositivo dele para conseguir o acesso remoto e entrar em contato novamente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VELOCIDADE - Cabo (Teste Remoto 91Mb - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente em contato informando que o plano não está chegando ao contratado via cabo. \nO mesmo informa que durante os testes não há muitos dispositivos conectados, verificado sinal normal. \nDessa forma foi realizado testes pelo acesso remoto está chegando apenas 91 megas no local, verificado placa Gigabit e cabo cat6, cliente pede um técnico no local para verificar, aberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VELOCIDADE - Cabo (Recusa Procedimento - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente em contato informando que o plano não está chegando ao contratado via cabo. \nO mesmo informa que durante os testes não há muitos dispositivos conectados, verificado sinal normal. \nDessa forma o mesmo não quer realizar procedimentos remotos, pede um técnico no local para verificar, aberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VELOCIDADE - Cabo (Cabo Cat5 - Ciente)",
+      "text": "Próprio titular. Entrou em contato com o número 83992196336\nCliente em contato informando que o plano não está chegando ao contratado via cabo. \nO mesmo informa que durante os testes não há muitos dispositivos conectados, verificado sinal normal, verificado o cliente possui um cabo de rede Cat. 5 normal, por isso o plano não chega o contratado em sua máquina, informado ao cliente que o mesmo teria que comprar um cabo de rede cat. 5e ou cat. para o plano chega ao contratado, cliente ciente das informações passadas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISITA - Alteração de Cômodo (Custo)",
+      "text": "Próprio titular. Entrou em contato com o número.\nO mesmo informa que deseja alterar o seu equipamento de comodo.\nInformei ao mesmo que para mudança de cômodo do equipamento teria o custo de R$ 30,00 e R$ 0,60 por metro de cabo de fibra e R$ 1,30 por metro de cabo de rede caso seja necessário utilizar.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISITA - Alteração de Parede (Custo)",
+      "text": "Próprio titular. Entrou em contato com o número.\nO mesmo informa que deseja alterar o seu equipamento de Parede.\nInformei ao mesmo que para mudança de cômodo do equipamento teria o custo de R$ 20,00 e R$ 0,60 por metro de cabo de fibra e R$ 1,30 por metro de cabo de rede caso seja necessário utilizar.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISITA - Config. Estruturada (Custo R$90)",
+      "text": "Titular. Entrou em contato com o número. \nConfiguração Estruturada de Rede Interna\no mesmo deseja que seja configurado seu roteador particular, para assim possui uma melhor cobertura de sinal no local, repassado o valor de R$ 90,00 pela visita que pode ser dividido em até 3x e que tem direito a 20 metros de cabo de rede grátis, porém caso ultrapasse dessa metragem será cobrado o valor de R$ 1,30 pelo metro de cabo",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISITA - Metragem de Cabo (Custo R$20)",
+      "text": "Cliente entra em contato informando que deseja que a equipe vá conectar um dispositivo via cabo.\nRepassado o valor de R$ 20,00 pela visita, e com direito a 15 metros de cabo de rede grátis, porém caso ultrapasse dessa metragem será cobrado o valor de R$ 1,30 pelo metro de cabo",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISITA - Config. Estruturada (Protocolo Detalhado - Custo R$90)",
+      "text": "Protocolo de Atendimento ao Cliente: Configuração Estruturada de Rede Interna\nTitular: \nContato: \nO titular entrou em contato solicitando a configuração de seu roteador particular para melhorar a cobertura de sinal em sua residência. O cliente informou que a intenção é otimizar a distribuição do Wi-Fi em sua casa, com foco em uma maior estabilidade e alcance da rede.\nFoi explicado que a configuração estruturada de rede interna, que inclui o ajuste do roteador e a possível reorganização de cabos, tem um custo de R$ 90,00 pela visita técnica. Esse valor pode ser parcelado em até 3 vezes. Além disso, o titular tem direito a 20 metros de cabo de rede gratuitos. Caso seja necessário utilizar mais cabo, será cobrado um adicional de R$ 1,30 por metro de cabo.\nA visita técnica foi agendada conforme a disponibilidade do titular, que confirmou que estará disponível para recebê-la. O cliente também foi informado sobre os detalhes do serviço, incluindo que a equipe técnica realizará uma análise do ambiente para garantir que o roteador seja configurado da melhor maneira possível, garantindo uma cobertura ideal de sinal.\nAlém disso, o titular foi orientado a manter os equipamentos em local adequado, sem obstruções, para garantir o melhor desempenho da rede. O atendimento foi concluído com a confirmação de que o cliente ficou satisfeito com as informações fornecidas e aguarda a execução do serviço.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISITA - Conecta+ (Cabeamento - Abertura OS)",
+      "text": "Próprio titular. Entrou em contato com o número \nCliente solicita o cabeamento do Conecta+. \nCliente entrou em contato solicitando o cabeamento que este incluso no seu pacote do conecta+, pois agora ele vai precisar do cabeamento na residência… \nAberto O.S. \nRealizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Alteração de Senha (Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nAlteração de senha. \nCliente solicita alteração de senha WI-FI. \nConfirmado dados cadastrais, gerado senha WI-FI das Redes, o mesmo anotou a senha, conectou em seus dispositivos, e informou que a conexão deu certo, acesso normalizado…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Configuração (Lentidão - Normalizado)",
+      "text": "Titular. Entrou em contato com o número. \nAlterações nas configurações do WI-FI. \nCliente informa que esta com lentidão na conexão Wi-Fi nos seus aparelhos, o mesmo informa que conecta porem fica com uma lentidão e às vezes a conexão cai, o mesmo pede uma configuração no moldem Wi-Fi.\nFoi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Alcance (Config. - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nAlcance wi-fi. Informa que a rede não está alcançando dois cômodos da residência, informa que fica a uma distância de 10 metros e que não há nada que possa interferir no sinal. Foi verificado sinal da ONU, sinal normal com registro de IP, foi alterado canal e alterador largura de banda, ativado ONU, Cliente informa que normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - TV Sem Acesso (Modo BGN - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número.\nSem Acesso na TV via Wi-Fi. \nCliente informou esta sem acesso via Wi-Fi na TV, os demais equipamentos estão se conectando normally, porem só a TV não se conecta no Wi-Fi. \nRealizado a alteração de canal e modo da rede 2,4 de N para BGN, e reconfigurado os equipamentos e reiniciado manual, cliente testou e informou que o acesso normalizou…",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Rede Unificada (Explicação)",
+      "text": "O titular entrou em contato informando que não consegue se conectar a rede 5,8 onde foi verificado que o modelo implementado na residência utiliza-se da rede unificada. Explicado que esse tipo de rede realiza a conexão de acordo com sua necessidade em que o dispositivo compatível a rede 5,8 realizará a conexão conforme a distância, geralmente quanto mais próximo do roteador, a rede 5,8 é conectada e quanto mais distante, a rede 2,4 irá conectar-se automaticamente, cliente ficou ciente das informações",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Sem Acesso (Reinício Manual - Normalizado)",
+      "text": "Próprio titular. Entrou em contato com o número\nSem acesso pelo wi-fi. \nCliente informou esta sem acesso no wi-fi, o mesmo informa que se conecta porem e desconectado automático, todos os dispositivos estão sem acesso... \nRealizado a sondagem sem acesso pelo Wi-Fi, não foi identificado nenhum problema, tudo dentro dos padrões, foi ativado roteador e ONU, reconfigurado ONU, sem êxito, reiniciado roteador manualmente, acesso normalizou...",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Senha (BrisaCliente com Problema)",
+      "text": "Titular, a mesma desejando verificar a senha, pois não consegue ver no brisa cliente, pois o mesmo está com problemas, foi verificado e repassado senha, a mesma ficou ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WIFI - Rede Unificada (Atualização TP-Link - Abertura OS)",
+      "text": "Próprio titular, entra em conato informando que tinha as redes separadas na sua residência, entretanto após uma atualização de problemas de lentidão, as redes passaram a ser unificadas. Informando ao cliente que não teria mais como fazer a separação da rede, somente com um roteador particular, o mesmo informa que deseja uma visita técnica e que NÃO IRÁ comprar nenhum equipamento, pois ao fazer o contrato tinha informado que suas câmeras só funcionavam na 2,4 e que precisava do equipamento de rede separada, o seu tp link era possível ter isso, entretanto nas atualizações ficou sem essa função se tornando igual aos demais. Dessa forma, aberto OS para passar a mesma informação para o cliente que informa que irá entrar em contato com a Anatel e que irá processar a brisanet.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Inatividade",
+      "text": "Cliente se permaneceu inativo desde o início do atendimento após o envio de várias mensagens, foi aguardado 10 minutos onde não foi dado nenhum posicionamento por parte do cliente, atendimento encerrado por inatividade.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Cancelamento",
+      "text": "entrou em contato solicitando o cancelamento dos serviços Brisanet. Cliente ciente que o nosso setor de retenção entrará em contato com a mesma.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Instabilidade Wifi -V",
+      "text": "Informa que sua conexão está lenta. Verificado que o problema ocorre tanto próximo quanto longe do roteador/modem e ocorre em todos os aparelhos da residência, o mesmo informa ser somente na rede wi-fi e. Analisado canais, IP e a rede conectada no aparelho do cliente. Alterado canais das duas frequências, alterado largura da rede 5.8GHz, ativado, reconfigurado e reiniciado equipamento. Cliente informa que o acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Instabilidade Wifi -X",
+      "text": "Informa que sua conexão está lenta. Verificado que o problema ocorre tanto próximo quanto longe do roteador/modem e ocorre em todos os aparelhos da residência, o mesmo informa ser somente na rede wi-fi e. Analisado canais, IP e a rede conectada no aparelho do cliente. Alterado canais das duas frequências, alterado largura da rede 5.8GHz, ativado, reconfigurado e reiniciado equipamento. Cliente informa que o problema ainda persiste, dessa forma foi aberto uma O.S. Para que uma equipe técnica possa verificar. Por gentileza, realizar o contato",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LOS",
+      "text": "Informa haver um LED vermelha piscando. Questionado se LED LOS estava ativa, se havia ocorrido acidentes ou alguma remoção de equipamento e se havia tido quedas de energias recentes, o cliente informou que não. Verificada que a rota está normal. Aberto O.S. para verificação no local. Realizar contato para agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Transferência",
+      "text": "entra tem contato solicitando informações/serviço que não competia a esse setor. Não foi necessário sondagem. O cliente é transferido ao setor responsável.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Rota Inoperante",
+      "text": "entrou em contato informando estar sem acesso, Informado ao/à mesmo/a que no momento o/a mesmo/a está sem acesso devido a um rompimento de cabo de fibra afetando toda a cidade. Passado o prazo da URA para o mesmo/a referente a normalização. Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Instabilidade cabo V",
+      "text": "Informa que sua conexão está lenta. Verificado que o problema ocorre na rede cabeada, o mesmo informa que tem somente um aparelho para testar. Analisado canais, IP e a rede conectada no aparelho do cliente. Alterado canais das duas frequências, alterado largura da rede 5.8 GHz, ativado, reconfigurado e reiniciado equipamento. Cliente informa que o acesso normalizou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "S. Irregular - Instabilidade",
+      "text": "Informou estar com problemas de quedas de conexão e lentidão no serviço de internet. Verificado que o problema ocorre em todos os aparelhos, independente de distância e/ou horário. Foi verificado que o cliente estar com o sinal irregular e é o único na rota com o sinal irregular. Aberto uma O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "S. Irregular - Sem Acesso",
+      "text": "Informou estar sem acesso ao serviço de internet. Verificado que o problema ocorre em todos os aparelhos, independente de distância e/ou horário e que não houve manuseio ou acidente com o modem/roteador. Sinal irregular. Aberto uma O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Fibra Rompida",
+      "text": "Informa que está sem acesso e que algo rompeu o cabo de fibra fora de sua residência. Não foi feito sondagem. Verificado rota normal e que o cliente estar sem sinal, aberto O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Sem acesso com sinal V",
+      "text": "Informa que está sem acesso. Questionado se LED LOS estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, e se a led PON estava piscando ou apagada, o cliente informou que não e que o led PON estava acesa. Verificado que ONU está com sinal e IP normal. Alterado modo, canal, ativado roteador e reiniciado manualmente. Serviço normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Sem acesso com sinal X",
+      "text": "Informa que está sem acesso. Questionado se LED LOS estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, e se a led PON estava piscando ou apagada, o cliente informou que não e que o led PON estava acesa. Verificado que ONU está com sinal e IP normal. Alterado modo, canal, ativado roteador e reiniciado manualmente. Cliente informa que o problema ainda persiste. Aberto O.S. Por gentileza agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Instabilidade cabo X",
+      "text": "Informa que sua conexão está lenta. Verificado que o problema ocorre na rede cabeada, o mesmo informa que tem somente um aparelho para testar. Analisado canais, IP e a rede conectada no aparelho do cliente. Alterado canais das duas frequências, alterado largura da rede 5.8 GHz, ativado, reconfigurado e reiniciado equipamento. Cliente informa que o problema ainda persiste, dessa forma foi aberto uma O.S. Para que uma equipe técnica possa verificar. Por gentileza, realizar o contato",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "NTP V",
+      "text": "Informa fixo sem funcionar. Ao realizar ligação informa que a linha não está ativada. Ativada a linha no Revan. Serviço normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "NTP X",
+      "text": "informa que TV Brisa não funciona. Reiniciado STB, deixado em DHCP, conferidos os cabos LAN2 e HDMI, ativada a ONU e reiniciada manualmente, reconfigurado o sistema de fábrica. Problema continua, por gentileza, passar e verificar. Realizar contato agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "S. Irregular - Rota",
+      "text": "Informou estar sem acesso ao serviço de internet. Verificado que o problema ocorre em todos os aparelhos, independente de distância e/ou horário. Sinal irregular. Aberto uma O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TP-Link Sem Gerência V",
+      "text": "entra em contato informando esta sem acesso, ONU com sinal e roteador sem gerência, solicitado para a cliente reiniciar os dois aparelhos, após o procedimento o acesso foi restabelecido.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Receptor bloqueado",
+      "text": "Informa receptor bloqueado. Solicitado imagem e verificado receptor bloqueado. Solicitado desbloqueio ao setor financeiro/lider, acesso normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Alteração de senha",
+      "text": "solicita alteração da senha da rede wifi-. Informado que durante o processo de alteração de senha, certifique-se de estar conectado em outra rede ou utilizando dados móveis para evitar ficar sem acesso à internet e posteriormente, não conseguir receber a senha via chat. Gerado senhas das redes wifi- enviado via CHAT. Cliente com acesso",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Cabo de Fibra baixo",
+      "text": "Informa que o cabo de fibra está solto fora de sua residência, arriscando ser roto. Aberto O.S. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Primeiro Acesso",
+      "text": "Solicita ajuda para realizar o primeiro acesso ao aplicativo X, ensinado o passo a passo,",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Plano cabo X",
+      "text": "Informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede cabeada. Alterado modo, canal, ativado roteador, reconfigurado ONU e reiniciado computador. Porém, sem sucesso. Verificado placa gigabyte e cabo de rede CAT. 5E. Aberto O.S. para verificação. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Alteração de Cômodo",
+      "text": "Solicita alteração do local do modem. Questionado se é uma alteração de cômodo. Informado que em referência ao serviço adicional de Alteração de cômodo existe uma taxa R$30,00 mais metragem de cabo, caso seja utilizado (R$0,60 por metro de cabo de fibra e/ou R$1,30 por metro de cabo de rede). Cliente ciente. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Troca de KIT grátis",
+      "text": "Solicita a troca do equipamento, pois a sua rede tem somente a frequência 2.4 GHz. Verificados aparelhos particulares do cliente, verificado ONU 2.4GHz. Conforme o manual de procedimentos da Brisanet, é liberado a instalação de um roteador TP-link usando a ONU atual em modo Bridge. Aberto O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Plano WIFI",
+      "text": "Informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede WIFI. Explicado sobre a garantia do plano, sendo somente garantida pela rede cabeada, mas o cliente alega estar com instabilidade geral. Dessa forma, alterado modo, canal, largura, ativado roteador e reconfigurado ONU. Cliente informa que o plano ainda não chega ao contratado e que não tem como testar na rede cabeada, o mesmo informa que deseja uma equipe técnica para verificar a entrega do plano conforme garantido pela empresa. Aberto O.S. para verificação.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TP-Link Sem Gerência X",
+      "text": "entra em contato informando esta sem acesso com uma luz vermelha do roteador, no início do atendimento foi verificado que a estava ONU com sinal e roteador sem gerência, solicitado para a cliente reiniciar os dois aparelhos, verificado cabo de rede na porta lan1 para porta wan. Reconfigurado o equipamento, porem, sem sucesso. Aberto O.S. para verificar. Realizar contato para agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Cabo de rede UDP",
+      "text": "Solicita cabo de rede. Recomendado que verificasse em uma loja de informática de sua cidade ou pode está contratando um dos seguintes serviços adicionais: configuração estruturada ou Conecta+. Cliente ciente e irá verificar em uma loja de sua cidade",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COB. de reparo no prazo",
+      "text": "nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra dentro de 48 horas. Repassado a informação ao o(a) cliente e pedido que o mesmo aguarde.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COB. de reparo fora do prazo",
+      "text": "nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra fora das 48 horas, foi agendado no painel 4.1 cobrando o retorno. Informado prazo máximo de 24 horas para a equipar vá em sua residência.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Rede Unificada",
+      "text": "Informa que sua rede 5GHz sumiu. Verificado que cliente tem a rede unificada, passado informações sobre a rede.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Resolvido",
+      "text": "No incio do atendimento informa que a problemática já foi resolvida..",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LOS com Valor",
+      "text": "Informa haver um LED vermelha piscando. Questionado se LED LOS estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que sim, o mesmo removeu o equipamento. Verificada que a rota está normal. Aberto O.S. para verificação no local. Cliente ciente do valor de R$20,00 pelo envio da equipe e pode ser gerado mais valores. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Alcance da rede Wi-fi",
+      "text": "Informa que a rede wi-fi não alcança toda a sua residência. Informado que o alcance médio dos equipamentos da Brisanet é de 8 a 12 metros quadrados dependendo da interferência sofrida pela rede no momento. Ressaltando que a rede 2.4GHz tem um alcance maior. Cliente ficou ciente sendo passada a informação sobre o uso de um roteador particular instalado em um local estratégico da residência para aumentar a cobertura.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON Apagada X",
+      "text": "Informa está sem acesso. Questionado se LED PON estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que não. Verificada que a rota está normal. Reconfigurado e reiniciado modem ONU, mas sem sucesso. Aberto O.S. para verificação no local. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Fixo Chaves",
+      "text": "Fixo sem funcionar, verificado posição das chaves erradas. Foi mudado chaves para Te HI, colocado seta apontando para bolinha vermelha. Cliente com linha funcionando.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Instalação Mal sucedida",
+      "text": "Informa que está sem acesso após a instalação do serviço de internet. Questionado se LED LOS estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que não. Foi realizada a instalação há menos de 48 horas e verificado rota. LOS ATIVA. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Comando CRM",
+      "text": "Informa está sem acesso. Verificado comando CRM no sistema, foi reforçado o prazo de 24 horas para o cliente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Plano Wifi -X",
+      "text": "Informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede WIFI. Explicado sobre a garantia do plano, sendo somente garantida pela rede cabeada, mas o cliente alega estar com instabilidade geral. Dessa forma, alterado modo, canal, largura, ativado roteador e reconfigurado ONU. Cliente informa que o plano ainda não chega ao contratado e que não tem como testar na rede cabeada, o mesmo informa que deseja uma equipe técnica para verificar a entrega do plano conforme garantido pela empresa. Aberto O.S. para",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Fixo Chiando",
+      "text": "Fixo sem funcionar, pois, está chiando muito e quando liga a pessoa do outro lado da linha não consegue ouvir. Cliente ao realizar ligação informa que não consegue escutar devido ao chiado. Verificado cabo e botões laterais. Linha ativada, mas o problema continua. Aberto O.S. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Alt. de Parede",
+      "text": "Solicita alteração do local do modem. Verificado se é uma alteração de parede. Informado que em referência ao serviço adicional de Alteração de parede existe uma taxa de apenas R$20,00 mais metragem de cabo, caso seja utilizado (R$0,60 por metro de cabo de fibra e/ou R$1,30 por metro de cabo de rede). Cliente ciente. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Brisa Cliente Escritório",
+      "text": "entrou em contato informando não conseguir receber o código do APP Brisa Cliente. Realizado alteração do número cadastrado e informado ao cliente que após duas horas deve-se realizar a solicitação do código, caso o problema persistir o mesmo deve procurar um escritório Brisanet próximo de sua residência para identificar o motivo. Cliente ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Visualizar senha do wifi",
+      "text": "Solicita a senha atual da rede wifi-. Informado que pode está visualizando ou gerando um QR code a qualquer momento pela opção Meu Wifi -no app Brisa Cliente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Inativo X",
+      "text": "Informa que está sem acesso. Cliente não responde sondagem, conforme o manual de procedimentos do suporte, foi aberto uma ordem de serviço para verificar a problemática. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Canais em Manutenção",
+      "text": "Entra em contato informando que seu serviço TV não está funcionando. Verificado que o problema acontece em canais específicos onde estão passando por manutenção. Informado ao mesmo sobre o problema e passado prazo consoante a URA/SIGA.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Troca de KIT",
+      "text": "Solicita a troca do equipamento para um modelo mais novo. Verificado que aparelhos particulares são do cliente são compatíveis com a rede 5GHz. Informado valor de R$100,00 podendo ser parcelado em até 4x. Cliente ciente dos valores e deseja o serviço. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Fixo Mudo",
+      "text": "Fixo sem funcionar, pois, está mudo e quando liga a pessoa do outro lado da linha não consegue ouvir. Cliente ao realizar ligação informa que não consegue escutar. Verificado cabo e botões laterais. Linha ativada, mas o problema continua. Aberto O.S. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Cob. Instalação mal sucedida",
+      "text": "O(a) cliente nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra dentro de 24 horas. Repassado a informação ao (a) cliente e pedido que o mesmo aguarde.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Não está na residência",
+      "text": "Informa que está com problemas nos serviços prestados pela Brisanet, durante sondagem foi verificado que o cliente não estava na residência para dar continuidade a tratativa. Cliente entrará em contato novamente quando estiver na residência.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Portas lan",
+      "text": "informou estar com problemas de lentidão exclusivamente em jogos. Explicado ao mesmo sobre a importância do uso da rede cabeada para serviços que demanda uma \"melhor conexão\", explicado ao mesmo sobre os testes de velocímetro, sobre a média de Ping que a ANATEL estabelece e sobre as interferências da Rede WIFI-. Cliente ciente das informações. Canais alterados, sinal e IP normais. ONU ativada. Cliente informa que a conexão melhorou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Roteador não configurado na instalação",
+      "text": "entrou em contato informando que seu Ping estar alto em jogos. Explicado ao mesmo sobre a importância do uso da rede cabeada para serviços que demanda uma \"melhor conexão\", explicado ao mesmo sobre os testes de velocímetro, sobre a média de Ping que a ANATEL estabelece e sobre as interferências da Rede WIFI-. Cliente ciente das informações. Canais alterados, sinal e IP normais. ONU ativada. Cliente informa que a conexão melhorou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Equipamento Particular",
+      "text": "Informa problema em somente um aparelho de sua residência. Verificado que outros aparelhos estão funcionando normal. Informado ao cliente que é recomendado levar o aparelho em uma assistência técnica particular.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "IPTV",
+      "text": "informou estar com problemas de lentidão exclusivamente em um serviço de IPTV, pois quando está assistindo alguma programação, o serviço fica travando. Dessa forma, expliquei ao/a cliente que o uso de servidores piratas não comporta vários acessos em simultâneo. Com isso, pedi para que testasse em outros aplicativos, onde verificou que o serviço está normal; resumindo, a sua conexão está normal, o único problema é no seu equipamento particular que não opera como o/a mesmo/a deseja.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Ping em jogos V",
+      "text": "entrou em contato informando que seu Ping estar alto em jogos. Explicado ao mesmo sobre a importância do uso da rede cabeada para serviços que demanda uma \"melhor conexão\", explicado ao mesmo sobre os testes de velocímetro, sobre a média de Ping que a ANATEL estabelece e sobre as interferências da Rede WIFI-. Cliente ciente das informações. Canais alterados, sinal e IP normais. ONU ativada. Cliente informa que a conexão melhorou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Placa de rede",
+      "text": "informou que seu plano não estava chegando ao contratado. Verificado que a placa de rede do seu dispositivo tem a velocidade (Barramento) de 100 Mbps, não sendo possível chegar ao plano contratado, mas chegando ao que o computador suporta devido à limitação da placa de rede. Realizado testes de velocidade com o velocímetro, o plano chegou ao contratado consoante a placa de rede do dispositivo. Ficou ciente das informações",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Lentidão n. aceita tratativa",
+      "text": "Nos contata via WhatsApp informando estar com muita lentidão. Verificado que o problema ocorre em todos os aparelhos. Informei que iria atualizar a rede, mas o cliente informa que a problemática é recorrente e que deseja que a equipe externa esteja verificando, pois, já entrou em contato outras vezes e não foi resolvida a problemática. Aberto O.S.Realizar contato para agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Configuração estruturada",
+      "text": "Informa que deseja uma equipe técnica para configurar equipamento particular. Este tem um custo de R$90,00 podendo ser parcelado em até 3x e disponibiliza até 20 metros de cabo gratuito incluso no serviço, mas vale ressaltar que esse cabo só será entregue se o cliente utilizar, caso passe dos 20 metros deve ser cobrado R$ $1,30 por metro. Após a abertura o prazo para resolução é de até 48 horas. O técnico levará um termo de compromisso para ser assinado no ato do procedimento. Cliente ciente. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Revisão de equipamento",
+      "text": "instabilidade. Informado sobre as instabilidades da rede WI-FI, sobre o alcance da rede WI-FI e sobre testes via WI-FI. Canais e largura foram alterados, sinal e IP normal, ONU Ativada/reconfigurada. O Cliente informa que a sua conexão não melhorou, por gentileza, passar, verificar se existe algum problema lógico na ONU do cliente, caso seja constatado, por gentileza, entrar em contato com o suporte regional e realizar a troca da ONU, se autorizado, por outra de mesmo modelo nosso de modo a verificar melhorias na conexão e reforçar também as informacões supracitadas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Placa de rede O.S.",
+      "text": "informou que seu plano não estava chegando ao contratado. Foi verificado que a placa de rede do seu dispositivo tem a velocidade (Barramento) de 100 Mbps, não sendo possível chegar ao plano contratado, mas chegando ao que o computador suporta devido à limitação da placa de rede. Realizado testes de velocidade com o velocimetro, o plano chegou ao contratado consoante a placa de rede do dispositivo. Ficou ciente das informações e deseja uma equipe para comprovar em um equipamento da empresa que chega todo o seu plano. Aberto O.S. Para verificar. Por",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PING abaixo de 80ms",
+      "text": "Informa que o Ping está alto. Verificado Ping abaixo de 80MS e é em vários jogos. Informado que Segundo a ANATEL, o Ping estará nos padrões se o mesmo estiver abaixo de 80ms, isso pode ser conferido no Regulamento de Gestão da Qualidade do Serviço de Comunicação Multimídia (RGQ-SCM), aprovado pela Resolução n.º 574, de 28 de outubro de 2011. Cliente ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Canais quadriculando",
+      "text": "informa que os canais de seu serviço de TV estão congelando/quadriculando. Verificado cabo de rede, desligado da energia a ONU e receptor, ligado à ONU e após pegar IP ligado receptor, reconfigurado ONU, acesso normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Personalizar a rede",
+      "text": "entrou em contato solicitando a personalização da senha/rede da rede WiFi, informado que por motivos de segurança e restrição, o Modem não permite a personalização da senha e rede WiFi. Cliente ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Não compatível com rede 5G",
+      "text": "Informa que a rede turbo não aparece. Verificado que o aparelho do cliente não é compatível com rede. Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Fixo Aumento de limite",
+      "text": "informa fixo sem funcionar, o mesmo informa que não consegue ligar do seu telefone fixo. Verificada chaves em Pe HI, seta apontando para bolinha vermelha, linha ativada. Foi re-ativado a linha, testado com vários números, porem sem sucesso, verificado bloqueio por limite. Passado para o TeleSaski.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Manutenção em serviços",
+      "text": "Entra em contato informando que os serviços da Brisanet não está funcionando. Verificado que o problema está acontecendo devido a uma manutenção na rede. Informado ao mesmo sobre o problema e passado prazo consoante a URA/SIGA.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Controle de STB",
+      "text": "solicitou a troca do controle do STB, pois o/a mesmo/a afirmar (Informar o motivo da troca). Cliente ciente do valor a ser pago (R$26,00 reais pela troca do controle) caso seja constatado danos físicos. Se não, será desconsiderado o valor e realizada a troca do equipamento. Cliente ciente das informações e do prazo de 48 h. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Conecta+",
+      "text": "cobra instalação do conecta+. Verificado que equipe técnica na realizou nenhum cabeamento durante a sua instalação. Conecta+ fornece até 30 metros de cabo para cabear até 4 aparelhos do cliente, caso a metragem total ultrapasse dos 30 metros, é gerado o valor de R$1,30 para cada metro adicional. Cliente ciente e no aguardo. Agendamento ativo.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COB. Alteração de plano",
+      "text": "O(a) cliente nos contata via WhatsApp cobrando alteração do plano. Assinado contatos. Passado prazo de no máximo 5 dias uteis. Cliente ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Sistema de câmeras (DVR)",
+      "text": "entrou em contato informando não conseguir colocar o seu sistema de câmera DVR em nossa rede, pois não reconhece. Cliente informado que para realizar tal procedimento, deve ter um roteador particular autenticado em nossa rede (ONU em modo bridge + roteador próprio autenticado PPPoE). Caso 0 sistema DVR necessite de redirecionamento de portas, você precisa de IP Fixo. Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Remover roteador TP-link - Roteador particular",
+      "text": "Solicita uma equipe técnica para remover o roteador TP-link da Brisanet para utilizar um roteador particular autenticando o PPPoE. Aberto O.S. Para remoção dos equipamentos. Realizar agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Histórico de ligação",
+      "text": "Solicita o histórico de ligação. Pedido ao cliente um e-mail e período do histórico desejado. Enviando e-mail solicitando. Cliente ciente de todas informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO CAT5",
+      "text": "Informa que estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que o cliente está testando na rede cabeada por meio e um cabo de rede CAT5, informado que essa categoria de cabo não aguenta a velocidade de todo o plano. Cliente ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WPS",
+      "text": "Informa que a função WPS não funciona. O mesmo fica ciente de que o aparelho oferecido pela Brisanet, como comodato tem a função WPS desabilitada em nossos equipamentos devido o WPS não ser um protocolo seguro, desta forma poderia causar problemas a rede do cliente. Para você conseguir conectar mais dispositivos, se faz necessário que você adquira um roteador particular (roteador próprio) e utilize o mesmo para conectar demais dispositivos.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "APP inoperante",
+      "text": "Informa que não consegue acessar appx, verificado que está passando manutenção. Passado prazo consoante a URA.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TP-link Aparelhos conectados",
+      "text": "Cliente questionando não conseguir verificar os clientes conectados a rede, repassado a cliente que essa função ainda não se encontra disponível para clientes que utilizam o roteador TP-Link",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Adaptador USB",
+      "text": "Informa que estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que o cliente está testando na rede cabeada por adaptador USB para ethernet. Informado que não temos como garantir a velocidade da conexa por essa categoria de equipamento. Cliente ciente e informou que irá verificar diretamente pela conexão ethernet.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Câmeras Wi-fi",
+      "text": "informando que suas câmeras wi-fi não estão funcionando, verificado que nossa rede está normal. Cliente ficou de verificar com a assistência técnica do equipamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Chamado NOC",
+      "text": "entra em contato informando que está sem acesso site (s) específicos onde foi traçado a rota de destino e realizado o envio de pacotes pelo comando Ping dando os seguintes resultados das fotos acima onde foi identificado possível problema na rede Brisanet. Também foi registrado o IP local obtido no site ao nível de informações e o destino (DNS ou IP do servidor). Aberto chamado para o setor NOC para verificação. Prazo de 24 horas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Home Office/Portas",
+      "text": "Informa que não consegue conectar para trabalhar em home office. Verificado que o Ti de sua empresa informou ser necessário a liberação de várias portas, Foi informa que para essas configurações seria necessário o serviço de IP Fixo no valor de R$50,00 mensais sendo preciso que o modem esteja em modo bridge e ter um roteador particular para realizar o direcionamento portas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "DMZ",
+      "text": "entra em contato solicitando a liberação da função DMZ (Demilitarized zone). Informado ao mesmo que para utilizar essa função o mesmo deve adquirir um roteador particular para a solicitação, pois o/a cliente não tem gerência dos dispositivos da provedora por questões de políticas de segurança. Cliente ciente das informaçõe",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "Lentidão inativo",
+      "text": "Cliente entra em contato informando esta com instabilidade, feito as configurações para a melhoria do acesso, ao solicitar a cliente para verificar se o acesso foi normalizado a mesma não me deu nenhum posicionamento e foi encerrada após 10 minutos de inatividade",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON piscando X",
+      "text": "Informa está sem acesso. Questionado se LED PON estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que a pon está piscando e que não havia nenhum acidente. Verificada que a rota está normal. Reconfigurado e reiniciado modem ONU, mas sem sucesso. Aberto O.S para verificação no local. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INATIVIDADE",
+      "text": "Cliente se permaneceu inativo desde o inicio do atendimento após o envio de várias mensagens, foi aguardado 10 minutos onde não foi dado nenhum posicionamento por parte do cliente, atendimento encerrado por inatividade.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TRANSFERENCIA",
+      "text": "Cliente entra tem contato solicitando informações/serviço que não competia a esse setor Não foi necessário sondagen. O cliente é transferido ao setor responsável",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "RESOLVIDO",
+      "text": "No inicio do atendimento informa que a problemática já foi resolvida",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CANCELAMENTO",
+      "text": "Cliente entrou em contato solicitando o cancelamento dos serviços Brisanet. Cliente ciente que o nosso setor de retenção entrará em contato com a mesma",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "NAO ESTA NA RESIDENCIA",
+      "text": "Cliente informa que está com problemas nos serviços prestados pela brisanet, durante sondagem foi verificado que o cliente não estava na residência para dar continuidade a tratativa Cliente entrará em contato novamente quando estiver na residência",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "A. DE CONFIRMAÇÃO DE DADOS",
+      "text": "Cliente não confirma os dados do titular Atendimento encerrado por mativo de segurança do titular. Foi solicitado 3 vezes os dados conforme orientado pela monitoria",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "NAO E O TITULAR",
+      "text": "Cliente solicita atendimento que envolve negociação/alteração de dados do cadastro, dessa forma foi informado que por questão de segurança dos dados pessoais do titular, só posso realizar esse processo se falar com o titular do contrato Por favor, peça que ele entre em contato conosco em outro momento ou se possível me passe o contato do titulat, assim posso ligar para ele e realizar o atendimento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FALTA DE DIALOGO",
+      "text": "Atendimento encerrado por falta de diálogo (uso de palavras de baixo calão) com o cliente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "NAO ACEITA TRATATIVA",
+      "text": "Cliente informa estar com muita instabilidade. Verificado que o problema ocorre em todos os aparelhos. Informei que iria atualizar a rede, mas o cliente informa que a problemática é recorrente e que deseja que a equipe externa esteja verificando pois, já entrou em contato outras vezes e não foi resolvida a problemática. Cliente insatisfeito, aberto O.S. para reter cliente. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDÃO WI-FI- RESOLVIDO",
+      "text": "Entrou em contato informando que a conexão estava lenta. Confirmado dados com o cliente e verificado que o problema ocorria tanto próximo quanto longe do roteador/modem e em todos os aparelhos da residência, mas somente na rede Wi-FL For analisado os canais, IP e a rede conectada no aparelho do cliente. Foi configurado a largura da tede 2.4Ghz e 5Ghz para 20 e 40Mhz respectively, ativado e reiniciado o equipamento Cliente informou que o acesso normalizou. Confirmamos a solução do problema",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LENTIDÃO WI-FI- EXTERNO",
+      "text": "Entrou em contato informando que a conexão estava lenta Confirmado dados com o cliente e verificado que o problema ocorria tanto próximo quanto longe do roteador/modem e em todos os aparelhos da residência, mas somente na rede Wi-Fi Fol analisado os canais, IP e a rede conectada no aparelho do cliente. Foi alterado os canais das duas frequências, alterada a largura da rede 5.8GHz, ativado e reiniciado o equipamento. Cliente informou que o problema ainda persiste, dessa forma foi aberto uma OS para que uma equipe técnica possa verificar",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTABILIDADE INATIVO",
+      "text": "Entrou em contato informando estar com instabilidade. Confirmado dados de segurança Aguardado por 10 minutos, porém, não houve posicionamento por parte do cliente. Dessa forma, o atendimento foi encerrado por inatividade.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM CONEXÃO- RESOLVIDO",
+      "text": "Entrou em contato informando estar sem acesso. Confirmado dados com o cliente e questionado se consegue conectar na rede Wi-Fi onde foi verificado que consegue se conectar, mas fica com a mensagem sem conexão. Verificado que a ONU está com sinal e IP normal. Realizado a alteração de modo, canal, ativação do roteador e reiniciado. Após os procedimentos, o serviço foi normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM ACESSO COM SINAL-EXTERNO",
+      "text": "Cliente informa que está sem acesso. Questionado se LED LOS estava ativa e se havia ocortido acidentes ou alguma remoção de equipamento, ese a LED PON estava piscando ou apagada, o cliente informou que não e que o LED PON estava acesa. Verificado que ONU está com sinal e IP normal Alterado modo, canal ativado roteador e reiniciado manually Cliente informa que o problema ainda persiste Aberto O.S. Por gentileza. agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM GERENCIA- RESOLVIDO",
+      "text": "Cliente entra em contato informando está sem acesso, ONU com sinal e roteador sem gerência, solicitado para a cliente reiniciar os dois aparelhos, após o procedimento o acesso foi restabelecido.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SEM GERENCIA- EXTERNO",
+      "text": "Cliente entra em contato informando está sem acesso com uma luz vermelha do roteador, no inicio do atendimento fol verificado que a estava ONU com sinal e roteador sem gerência, solicitado para a cliente reiniciar os dois aparelhos, verificado cabo de rede na porta LAN1 para porta WAN. Reconfigurado o equipamento, porém, sem sucesso. Aberto OS para verificar. Realizar contato para agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LOS",
+      "text": "Cliente informa haver um LED vermelha piscando Questionado se LED LOS estava ativa, se havia ocorrido acidentes ou alguma remoção de equipamento e se havia tido quedas de energias recentes, o cliente informou que tem uma luz vermelha acesa e não para as outras perguntas Verificada que a rota está normal. Aberto Q.S. para verificação no local. Realizar contato para agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ROTA INOPERANTE",
+      "text": "Cliente entrou em contato informando estar sem acesso. Informado ao/à mesmo/a que no momento o/a mesmo/a está sem acesso devido a um rompimento de cabo de fibra afetando toda a cidade. Passado o prazo da URA para o mesmo/a referente a normalização. Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON PISCANDO- RESOLVIDO",
+      "text": "Cliente informa que está sem acesso. Questionado se LED PON estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que a PON está piscando e que não houve nenhum acidente. Verificada que a rota está normal. Reconfigurado e reiniciado modem ONU, após os procedimentos o acesso foi normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSTALAÇÃO MAL SUCEDIDA",
+      "text": "Cliente informa que está sem acesso após a instalação do serviço de internet. Questionado se LED LOS estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que não. Foi realizada a instalação há menos de 48 horas e verificado rota. LOS ATIVA Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON PISCANDO- EXTERNO",
+      "text": "Cliente com PON piscando, foi tentando mais de uma tentativa remota, mas sem sucesso. Foi repassado para o GPON que informou a necessidade do envio da equipe para reparo fisico Por gentileza, passar e verificar",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON APAGADA- RESOLVIDO",
+      "text": "Cliente informa que está sem acesso. Questionado se LED PON estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que não , e ligado em outra tomada de energia. Cliente com acesso normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON APAGADA- EXTERNO",
+      "text": "Cliente informa que está sem acesso. Questionado se LED PON estava ativa e se havia ocorrido acidentes ou alguma remoção de equipamento, o cliente informou que não Verificada que a rota esta normal. Reconfigurado e reiniciado modem ONU, mas sem sucesso. Aberto O.S. para verificação no local. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PON PISCANDO- ABERTO PARA GPON",
+      "text": "Cliente entra em contato informando que está sem acesso, verificado que a LED PON está piscando, dessa forma fol reconfigurado a ONU e o problema persistiu. Foi tentado mais uma vez e problema ainda persiste. O problema foi repassado pela liderança para o GPON verificar. Prazo de 24 horas. Cliente ciente do retorno",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "LOS COM VALOR",
+      "text": "Cliente informa haver um LED vermelho piscando Questionado se LED LOS estava ativa, se havia ocorrido acidentes ou alguma remoção de equipamento e se havia tido quedas de energias recentes, o cliente informou que tem uma luz vermelha acesa e não para as outras perguntas. Verificada que a rota está normal Aberto OS para verificação no local. Cliente ciente do valor de R$20,00 pelo envio da equipe e pode ser gerado mais valores. Realizar",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLANO NO CABO RESOLVIDO",
+      "text": "Cliente informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede cabeada Alterado modo, canal, ativado roteador, reconfigurado ONU e reiniciado computador. Verificado placa gigabyte e cabo de rede CAT 5E realizado o teste novamente no velocimetro que chegou ao contratado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLANO NO CABO- NAO RESOLVIDO",
+      "text": "Cliente informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede cabeada. Alterado modo, canal, ativado roteador, reconfigurado ONU e reiniciado computador. Porém, sem sucesso. Verificado placa gigabyte e cabo de rede CAT. SE Aberto O.S. para verificação. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLANO NO WIFI-- RESOLVIDO",
+      "text": "Cliente informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede Wi-Fi Explicado sobre a garantia do plano, sendo somente garantida pela rede cabeada, mas o cliente alega estar com instabilidade geral. Dessa forma, alterado moda, canal, largura, ativado roteador e reconfigurado ONU. Cliente informa que agora o plano chega ao contratado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLANO NO WI-FI NAO RESOLVIDO",
+      "text": "Cliente informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede Wi-Fi. Explicado sobre a garantia do plano, mas o cliente alega estar com instabilidade geral Dessa forma, alterado modo, canal, largura, ativado roteador e reconfigurado ONU. Cliente informa que o plano ainda não chega ao contratado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLANO NO WI-FI- FICOU DE TESTAR NO CABO",
+      "text": "Cliente informou estar com problemas de instabilidade, pois o plano não chega ao contratado. Verificado que cliente está testando na rede WIFI Explicado sobre a garantia do plano, sendo somente garantida pela rede cabeada, mas o cliente alega estar com instabilidade geral. Dessa forma, alterado modo, canal, largura, ativado roteador e reconfigurado ONU que o plano ainda não chega ao contratado e que não tem como testar na rede cabeada, o mesmo informa que deseja uma equipe técnica para",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLACA DE REDE-FE 100Mlips",
+      "text": "Cliente informou que seu plano não estava chegando ao contratado. Verificado que a placa de rede do seu dispositivo tem a velocidade (Barramento) de 100 Mbps, não sendo possivel chegar ao plano contratado, mas chegando ao que o computador suporta devido à limitação da placa de rede Realizados testes de velocidade com o velocimetro, o plano chegou ao contratado consoante a placa de rede",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PLACA DE REDE- EXTERNO",
+      "text": "Cliente informou que seu plano não estava chegando ao contratado. Foi verificado que a placa de rede do seu dispositivo tem a velocidade (Barramento) de 100 Mbps, não sendo possivel chegar ao plano contratado, mas chegando ao que o computador suporta devido à limitação da placa de rede Realizados testes de velocidade com o velocimetro, o plano chegou ao contratado consoante a placa de rede . O Cliente informa que seu plano não chega ao contratado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CARO DE REDE CATS",
+      "text": "Cliente informa que está com problemas de instabilidade, pois o plano não chega ao contratado Verificado que o cliente estä testando na rede cabeada por meio e um cabo de rede CAT5, informado que essa categoria de cabo não aguenta a velocidade de todo o plano Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ADAPTADOR UBRA PARA RJ45",
+      "text": "Cliente informa que está com problemas de instabilidade, pois o plano não chega ao contratado Verificado que o cliente está testando na rede cabeada por adaptador USB para ethernet (R.145) Informado que não temos como garantir a velocidade da conexão por essa categoria de equipamento. Cliente ciente e informou que irá verificar diretamente pela conexão ethernet sen usar nenhum adaptador",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL IRREGULAR INSTABILIDADE",
+      "text": "Cliente informou estar com problemas de quedas de conexão e lentidão no serviço de internet Verificado que o problema ocorre em todos os aparelhos, independente de distância e/ou horário. Foi verificado que o cliente estar com o sinal irregular e é o único na rota com o sinal irregular. Aberto uma O.S. Realizar contato para agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SINAL IRREGULAR - SEM ACESSO",
+      "text": "Cliente informou estar sem acesso ao serviço de internet. Verificado que o problema ocorre em todos os aparelhos, independente de distância e/ou horário e que não houve manuseio ou acidente com o modem/roteador. Sinal Irregular. Aberto uma O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ROTA COM SINAL IRREGULAR",
+      "text": "Cliente informou estar com problemas de quedas de conexão e lentidão no serviço de internet. Verificado que o problema ocorre em todos os aparelhos, independente de distância e/ou horário. Foi verificado que o cliente estar com o sinal irregular, sendo verificado que vários outros clientes da rota está com sinal irregular. Aberto para o IMOC",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FIBRA ROMPIDA",
+      "text": "Cliente informa que está sem acesso e que algo rompeu o cabo de fibra fora de sua residència. Não foi feita sondagen. Verificado rota normal e que a cliente estar sem sinal, aberto OS. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "REMANEJAMENTO DE FIBRA/FIBRA BAIXA",
+      "text": "Cliente informa que o cabo de fibra está solto fora de sua residência, arriscando ser roto. Aberto OS. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO HDMI DANIFICADO",
+      "text": "Cliente informa que está sem sinal em sua TV Verificado que o problema está ocorrendo devido ao cabo HDMI danificado, Dessa forma foi informado que será enviado uma equipe técnica para verificar, caso seja constatado que o dano foi ocasionado por mau uso, sera gerado o valor de R$20,00 podendo ser gerado maiores valores Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO DE FIBRA RESSECADO",
+      "text": "Cliente informa que o cabo de fibra está ressecado em sua residência, onde ninguém mexeu no mesmo, arriscando ser roto. Aberto OS. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ERRO DE AUTENTICAÇÃO WI-FI",
+      "text": "Cliente informa que està sem acesso, verificado que a rede Wi-Fi do cliente não conecta, com a mensagem de erro de autenticação Dessa forma foi gerada uma nova senha e após o acesso foi normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COMANDO CRM",
+      "text": "Cliente informa que está sem acesso. Verificado comando CRM no sistema, foi reforçado o prazo de 24 horas para o cliente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ROTEADOR NAO CONF. NA INSTALAÇÃO",
+      "text": "Cliente informa que o roteador não foi configurado no ato da instalação. Foi aberto sum chamado de reclamação de instalação para o gestor de instalação da cidade para verificação do ocorrido e caso necessário mandar uma equipe técnica novamente so local. Cliente ciente do prazo de até 24h para efetivação do procedimento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSATISFEITO COM TP-LINK",
+      "text": "Cliente informa que o roteador instalado em sua residência tem as redes unificadas, e isso está impactando o uso de alguns aparelhos. Cliente informa que deseja a troca para um equipamento com as redes separadas. Verificado que o cliente é novo na base, dessa forma foi explicado sobre os beneficios do roteador TP link, porem, cliente ainda deseja a troca para uma ONU 5.8. Cliente ciente que ira perder o TP-link e que a ONU tem somente uma",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "INSATISFEITO COM FIBERHOME",
+      "text": "Cliente informa que o roteador instalado em sua residência não é um dos novos modelos da empresa, e por isso deseja a troca para um Kit TP-link Verificado que o cliente é novo na base, dessa forma explicado sobre os beneficios do roteador TP link e explicado as vantagens do modem ONU, Cliente informa que deseja a troca para o kit TP-link. Aberto chamado para ser verificado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ALTERAÇÃO DE SENHA",
+      "text": "Cliente solicita alteração da seriha da rede Wi-Fi Informado que durante o processo de alteração de senha, certifique-se de estar conectado em outra rede ou utilizando dados móveis para evitar ficar sem acesso à internet e posteriormente, não conseguir receber a senha via chat. Novas senhas das redes Wi-Fi enviadas via CHAT. Cliente com acesso.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ALTERAÇÃO DE SENHA INATIVO",
+      "text": "Cliente solicita alteração da senha da rede Wi-Fi. Informado que durante o processo de alteração de senha, certifique-se de estar conectado em outra rede ou utilizando dados móveis para evitar ficar sem acesso à internet e posteriormente, não conseguir receber a senha via chat. Novas senhas das redes Wi-Fi enviadas via CHAT Cliente ficou inativo por 10 minutos, atendimento encerrado por Inatividade",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO HDMI CONECTADO INCORRETO",
+      "text": "Cliente informa que está sem sinal em sua TV. Verificado que o problema está ocorrendo devido à porta HDMI que está configurado de forma incorreta. Troca para porta HDMI correta e o acesso foi normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CONECTAR A REDE MANUALMENTE",
+      "text": "Cliente informa que um único equipamento não conecta na rede Wi-Fi Dessa forma, foi auxiliado a conectar a rede de forma manual Cliente com acesso",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "IPTV",
+      "text": "Cliente informou estar com problemas de lentidão exclusivamente em um serviço de IPTV, pois quando está assistindo alguma programação, o serviço fica travando. Dessa forma, expliquei ao/a cliente que o uso de servidores piratas não comporta vários acessos em simultâneo. Com isso, pedi para que testasse em outros aplicativos, onde verificou que o serviço está normal, resumindo, a sua conexão estä normal, o único problema é no seu",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PROBLEMA EM EQUIP PARTICULAR",
+      "text": "Cliente informa problema em somente um aparelho de sua residencial Verificado que outros aparelhos estão funcionando normal. Informado ao cliente que é recomendado levar o aparelho em uma assistência técnica particular",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PRIMEIRO ACESSO- QUALQUER APP",
+      "text": "Cliente solicita ajuda para realizar o primeiro acesso ao aplicativo x, ensinado o passo a passo",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "BRISACLIENTE- ESCRITORIO",
+      "text": "Cliente entrou em contato informando não conseguir receber o código do aplicativo brisacliente. Realizado alteração do número cadastrado e informado ao cliente que após duas horas deve se realizar a solicitação do código, caso o problema persistir o mesmo deve procurar um escritório Brisanet próximo de sua residência para identificar o motivo. Cliente ciente,",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "VISUALIZAR SENHA DO WI-FI",
+      "text": "Cliente solicita a senha atual da rede Wi-Fi Informado que pode está visualizando ou gerando um QR code a qualquer momento pela opção Meu Wi-Fi no aplicativo brisacliente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "DESCONTINUAÇÃO DO BRISAPLAY",
+      "text": "(A) próprio(a) titular, entrou em contato informando não conseguir usar caplicativo brisaplay. Dessa forma for informado sobre a descontinuação doaplicativo.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ERRO DE LOGIN DO BEBANCA NO 105",
+      "text": "Cliente informa que não consegue fazer login no IOS. Verificado que a versão atual do Bebanca IOS não tem a opção para de login por estä desatualizada e a desenvolvedora doaplicativo ainda não repassou quando será atualizado oaplicativo na versão de IOS. Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ERRO NO SERVIDOR BRISA APPS",
+      "text": "Cliente informa que não tem acesso aos (APPX) devido a um erro no servidor. Dessa forma foi limpado os dados de cache do aplicativo e o acesso foi normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ASSINATURA DOS CONTRATOS",
+      "text": "Cliente entra em contato informando que não consegue realizar assinatura no brisacliente Verificado que o mesmo realizou aquisição de um novo serviço na empresa, dessa forma sendo necessário assinar os contratos e enviar as fotoe no aplicativo brisacliente Passado o passo a passo",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "WI-FIMAN- APARELHOS CONECTADOS",
+      "text": "Cliente informa que a função de visualizar os aparelhos conectados não funciona. O mesmo fica ciente de que o aparelho oferecido pela Brisanet, como comodato que essa função e as de alterar visibilidade, desativar/ativar rede Wi-Fi estão em desenvolvimento e sem prazo para lançamento. Foi informado do aplicativo de terceiros chamados Wi-Fiman que permite visualizar os aparelhos conectados e mais detalhes da rede",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "BRISACLIENTE- DADOS MOVEIS",
+      "text": "Titular informa que não consegue acessar o aplicativo brisacliente. Verificado que consegue nos dados moveis, dessa forma foi reconfigurado e o acesso foi normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COB DE REPARO NG PRAZD",
+      "text": "Cliente nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra dentro de 24 horas. Repassado a informação ao o(a) cliente e pedida que o mesmo aguarde",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COE DE REPARO FORA DO PRAZO",
+      "text": "Cliente nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra fora das 24 horas, foi agendado no painel 4.1 cobrando o retorno. Informado prazo máximo de 24 horas para que a equipar và em sua residência.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COE DE INSTA MAL 5. NO PRAZO",
+      "text": "(a) cliente nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra dentro de 24 horas. Repassado a informação ao o(a) cliente e pedido que o mesmo aguarde",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COB DE INSTA, MAL S. FORA DO PRAZD",
+      "text": "O(a) cliente nos contata via WhatsApp cobrando visita técnica. Visto que o prazo se encontra fora das 24 horas. Entrado em contato com o gestor responsável e repassado a informação ao o a) cliente e pedido que o mesmo aguarde",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "COB DE ALTERAÇÃO DE PLANO",
+      "text": "O(a) cliente nos contata via WhatsApp cobrando alteração do plano. Assinado contatos. Passado prazo de no máximo 5 dias uteis. Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "NTP V",
+      "text": "Cliente informa fixo sem funcionar Ao realizar ligação informa que a linha não está ativada. Ativada a linha no Revan. Serviço normalizado.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FIXO MUDO",
+      "text": "Cliente com fixo sem funcionar, pois, está mudo e quando liga a pessoa do outro lado da linha não consegue ouvir. Cliente ao realizar ligação informa que não consegue escutar. Verificado cabo e botões laterais Linha ativada, mas o problema continua. Aberto O.S. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FIXO CHIANDO",
+      "text": "Cliente com fixo sem funcionar, pois, está chiando muito e quando liga a pessoa do outro lado da linha não consegue ouvir. Cliente ao realizar ligação informa que não consegue escutar devido ao chiado. Verificado cabo e botões laterais Linha ativada, mas o problema continua Aberto OS. Para verificar. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "FIXO BOTOES LATERAIS",
+      "text": "Cliente com fixo sem funcionar, verificado posição das chaves erradas Foi mudado chaves para Te HI, colocado seta apontando para bolinha vermelha. Cliente com linha funcionando",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "type": "Protocolos",
+      "title": "FIXO AUMENTO DE LIMITE- TELEMASKI",
+      "text": "Cliente informa fixo sem funcionar, o mesmo informa que não consegue ligar do seu telefone fixo Verificada chaves em Pe HI, seta apontando para bolinha vermelha, linha ativada Foi re-ativado a linha, testado com vários números, porem sem sucesso, verificado bloqueio por limite Passado para o TeleSaski",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "HISTORICO DE LIGAÇÃO",
+      "text": "Cliente solicita o histórico de ligação Pedido ao cliente um e-mail e periodo do histórico desejado Enviando e-mail solicitando Cliente ciente de todas informações",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TV SEM SINAL",
+      "text": "Cliente informa que TV Brisa não funciona. Reiniciado STB, deixado em DHCP, conferidos os cabos LAN2 e HDMI, ativada a ONU e reiniciada manualmente, acesso normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TV SEM SINAL EXTERNO",
+      "text": "Cliente informa que TV Brisa não funciona Reiniciado STB, deixado em DHCP, conferidos os cabos LAN2 e HDMI, ativada a ONU e reiniciada manualmente, reconfigurado o sistema de fábrica. Problema continua, por gentileza, passar e verificar Realizar contato agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "RECEPTOR BLOQUEADO",
+      "text": "Cliente informa receptor bloqueado. Solicitado imagem e verificado receptor bloqueado. Solicitado desbloqueio ao setor financeiro/lider, acesso normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CANAIS QUADRICULANDO",
+      "text": "Cliente informa que os canais de seu serviço de TV estão congelando/quadriculando. Verificado cabo de rede, desligado da energia a ONU e receptor, ligado à ONU e após pegar IP ligado receptor, reconfigurado ONU, acesso normalizado",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TROCA DE CONTROLE DO STB",
+      "text": "Cliente solicitou a troca do controle do STB, pois o/a mesmo/a afirmar (Informar o motivo da troca). Cliente ciente do valor a ser pago (R$26,00 reais pela troca do controle) caso seja constatado danos fisicos. Se não, será desconsiderado o valor e realizada a troca do equipamento Cliente ciente das informações e do prazo de 48 h. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CANAIS EM MANUTENÇÃO",
+      "text": "Cliente entra em contato informando que seu serviço TV não está funcionando. Verificado que o problema acontece em canais especificos onde estão passando por manutenção. Informado ao mesmo sobre o problema e passado prazo consoante a URA/SIGA",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ALTERAÇÃO DE COMODO",
+      "text": "Cliente solicita alteração do local do modem. Questionado se é uma alteração de cômodo Informado que em referência ao serviço adicional de Alteração de cômodo existe uma taxa R$30,00 mais metragem de cabo, caso seja utilizado (R$0,60 por metro de cabo de fibra e/ou R$1,30 por metro de cabo de rede). Cliente ciente. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ALTERAÇÃO DE PAREDE",
+      "text": "Cliente solicita alteração do local do modem Verificado se é uma alteração de parede. Informado que em referência ao serviço adicional de Alteração de parede existe uma taxa de apenas R$20,00 mais metragem de cabo, caso seja utilizado (R$0,60 por metro de cabo de fibra e/ou R$1,30 por metro de cabo de rede). Cliente ciente. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TROCA DE KIT- PAGA",
+      "text": "Cliente solicita a troca do equipamento para um modelo mais novo. Verificado que aparelhos particulares são do cliente são compativeis com a rede 5GHz. Informado valor de R$100,00 podendo ser parcelado em até 4x. Cliente ciente dos valores e deseja o serviço. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "TROCA DE KIT- GRATIS",
+      "text": "Cliente solicita a troca do equipamento, pois a sua rede tem somente a frequência 2.4 GHz Verificados aparelhos particulares do cliente, verificado ONU 2.4GHz. Conforme o manual de procedimentos da Brisanet, é liberado a instalação de um roteador TP-link usando a ONU atual em modo Bridge. Aberto O.S. Realizar contato para agendamento",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PING EM JOGOS- RESOLVIDO",
+      "text": "Cliente entrou em contato informando que seu Ping estar alto em jogos. Explicado ao mesmo sobre a importância do uso da rede cabeada para serviços que demanda uma \"melhor conexão\", explicado ao mesmo sobre os testes de velocimetro, sobre a média de Ping que a ANATEL estabelece e sobre as interferências da Rede WI-FI Cliente ciente das informações. Canais alterados, sinal e IP normais ONU ativada. Cliente informa que a conexão melhorou.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "PING ABAIXO DE 80 MS",
+      "text": "Cliente informa que o Ping está alto Verificado Ping abaixo de 80MS e é em vários jogos. Informado que Segundo a ANATEL, o Ping estará nos padrões se o mesmo estiver abaixo de 80ms, isso pode ser conferido no Regulamento de Gestão da Qualidade do Serviço de Comunicação Multimídia (RGQ-SCM), aprovado pela Resolução n 574, de 28 de outubro de 2011. Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "REDE UNIFICADA",
+      "text": "Cliente informa que sua rede 5GHz sumiu. Verificado que cliente tem a rede unificada, passado informações sobre a rede",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "REDE NAO COMPATIVEL COM 5G",
+      "text": "Cliente informa que a rede turbo não aparece Verificado que o aparelho do cliente não é compativel com rede. Cliente ciente",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "REDE PERSONALIZADA",
+      "text": "Cliente entrou em contato solicitando a personalização da senha/rede da rede WiFi, informado que por motivos de segurança e restrição, o Modem não permite a personalização da senha e rede WiFi. Cliente ciente.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "ALCANCE DA REDE WI-FI",
+      "text": "Cliente informa que a rede wi-fi não alcança toda a sua residência. Informado que o alcance médio dos equipamentos da Brisanet é de 8 a 12 metros quadrados dependendo da interferência sofrida pela rede no momento. Ressaltando que a rede 2.4GHz tem um alcance maior. Cliente ficou ciente sendo passada a informação sobre o uso de um roteador particular instalado em um local estratégico da residência para aumentar a cobertura.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CONFIGURAÇÃO ESTRUTURADA",
+      "text": "Cliente informa que deseja uma equipe técnica para configurar equipamento particular. Este tem um custo de R$90,00 podendo ser parcelado em até 3x e disponibiliza até 20 metros de cabo gratuito incluso no serviço, mas vale ressaltar que esse cabo só será entregue se o cliente utilizar, caso passe dos 20 metros deve ser cobrado R$ $1,30 por metro. Após a abertura o prazo para resolução é de até 48 horas. O técnico levará um termo de",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CABO DE REDE",
+      "text": "Cliente solicita cabo de rede Recomendado que verificasse em uma loja de informática de sua cidade ou pode está contratando um dos seguintes serviços adicionais: configuração estruturada ou Conecta+ Cliente ciente e irá verificar em uma loja de sua cidade",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CONECTA+",
+      "text": "Cliente cobra instalação do conecta+ Verificado que equipe técnica na realizou nenhum cabeamento durante a sua instalação. Conecta+ fornece até 30 metros de cabo para cabear até 4 aparelhos do cliente, caso a metragem total ultrapasse dos 30 metros, é gerado o valor de R$1,30 para cada metro adicional. Cliente ciente e no aguardo. Agendamento ativo.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "SISTEMA DE CAMERAS (DVR)",
+      "text": "Cliente entrou em contato informando não conseguir colocar o seu sistema de câmera DVR em nossa rede, pois não reconhece Cliente informado que para realizar tal procedimento, deve ter um roteador particular autenticado em nossa rede (ONU em modo bridge + roteador próprio autenticado PPPoE). Caso 0 sistema DVR necessite de redirecionamento de portas, você precisa de IP Fixo. Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "HOME OFFICE/PORTAS",
+      "text": "Cliente informa que não consegue conectar para trabalhar em home office. Verificado que o TI de sua empresa informou ser necessário a liberação de várias portas. Foi informa que para essas configurações seria necessário o serviço de IP Fixo no valor de R$50,00 mensais sendo preciso que o modem esteja em modo bridge e ter um roteador particular para realizar o direcionamento portas.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CHAMADO NOC",
+      "text": "Cliente entra em contato informando que está sem acesso site(s) especificos onde foi traçado a rota de destino e realizado o envio de pacotes pelo comando Ping dando os seguintes resultados das fotos acima onde foi identificado possivel problema na rede Brisanet. Também foi registrado o IP local obtido no site ao nivel de informações e o destino (DNS ou IP do servidor). Aberto chamado para o setor NOC para verificação. Prazo de 24 horas",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "DMZ",
+      "text": "Cliente entra em contato solicitando a liberação da função DMZ (Demilitarized zone). Informado ao mesmo que para utilizar essa função o mesmo deve adquirir um roteador particular para a solicitação, pois o/a cliente não tem gerência dos dispositivos da provedora por questões de politicas de segurança Cliente ciente das informações.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "type": "Protocolos",
+      "title": "WPS",
+      "text": "Cliente informa que a função WPS não funciona. O mesmo fica ciente de que o aparelho oferecido pela Brisanet, como comodato tem a função WPS desabilitada em nossos equipamentos devido o WPS não ser um protocolo seguro, desta forma poderia causar problemas a rede do cliente. Para você conseguir conectar mais dispositivos, se faz necessário que você adquira um roteador particular (roteador próprio) e utilize o mesmo para conectar demais dispositivos",
+      "isCanceled": true,
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "REMOVER ROTEADOR TP-LINK",
+      "text": "Cliente solicita uma equipe técnica para remover o roteador TP-link da Brisanet para utilizar um roteador particular autenticando o PPPoE Aberto O.S. Para remoção dos equipamentos. Realizar agendamento.",
+      "isFavorite": false,
+      "requiredData": []
+    },
+    {
+      "title": "CAMERAS WI-FI",
+      "text": "Cliente informando que suas câmeras wi-fi não estão funcionando, verificado que nossa rede está normal. Cliente ficou de verificar com a assistência técnica do equipamento.",
+      "isFavorite": false,
+      "requiredData": []
+    }
+  ],
+  "blocks": [
+    {
+      "title": "PROBLEMA - LOS / Luz Vermelha",
+      "text": "Cliente informa que está sem acesso e o modem está piscando vermelho (LOS).",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Sem Acesso (Sinal OK)",
+      "text": "Cliente informa que está sem acesso, porém o sinal da ONU está normal e cabos conectados.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Lentidão/Quedas (Wi-Fi)",
+      "text": "Cliente informa que está com lentidão e quedas na conexão Wi-Fi.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Cabo Rompido",
+      "text": "Cliente informa que o cabo de fibra encontra-se rompido no trajeto.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - BrisaTV (Sem Acesso)",
+      "text": "Cliente informa esta sem acesso na TV da Brisanet.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - FWA (Luz 5G Vermelha)",
+      "text": "O mesmo informa estar sem acesso no seu FWA e que a luz do 5G esta vermelha.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Equipamento Morto",
+      "text": "Cliente informa que o equipamento (ONU/Roteador) está com todos os leds apagados, não liga.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Wi-Fi Desativado",
+      "text": "Cliente informa esta sem acesso, pois a rede WI-FI não mostra nos dispositivos, e a LED do WI-FI está apagada.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Sem Gerência (TP-Link)",
+      "text": "Cliente informa sem acesso. Visto ONU com sinal e roteador sem gerência (TP-Link).",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - PON Piscando",
+      "text": "Cliente informa esta sem acesso, verificado nos equipamentos da brisanet a ONU esta com a LED PON esta piscando.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - PON Apagada",
+      "text": "Cliente informa esta sem acesso, verificado com o mesmo a LED Pon esta apagada.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Roteador Desconfigurado",
+      "text": "Cliente informa esta sem acesso, e sua rede não aparece mais, a única rede que a aparece e uma rede TP-Link.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Ping Alto (Jogos)",
+      "text": "Titular informa que está com o Ping alto para o jogo [JOGO], onde a mesma informa que está em [PING_ATUAL], sendo que seu histórico era de [PING_ANTIGO].",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - TV Box (Particular)",
+      "text": "Cliente entra em contato informando estar sem acesso somente a TV, visto que o mesmo utiliza o aparelho TV box.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Celular/Dispositivo Específico",
+      "text": "Informou falta de acesso apenas em seu [DISPOSITIVO], porém nos outros está normal.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - IPTV (Particular)",
+      "text": "Cliente informa que não está conseguindo conectar o seu IPTV na rede da Brisanet.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Telefonia Muda",
+      "text": "Cliente informa que o telefone chama, porem fica mudo, e o mesmo acontece quando ela faz a ligação.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Telefonia (Não Liga/Recebe)",
+      "text": "Titular, relatou que o telefone fixo estava sem realizar/receber ligações.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Alteração de Senha",
+      "text": "Cliente solicita alteração de senha WI-FI.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Alcance Wi-Fi",
+      "text": "Informa que a rede não está alcançando dois cômodos da residência, informa que fica a uma distância de 10 metros.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "PROBLEMA - Financeiro (Bloqueado)",
+      "text": "Cliente informa esta sem acesso à internet. Verificado em sistema foi identificado que o cliente se encontra bloqueado.",
+      "category": "PROBLEMA"
+    },
+    {
+      "title": "DIAGNÓSTICO - Sinal Normal (Básico)",
+      "text": "Foi visto que o sinal e a rota estão normais. Cabos conectados corretamente. Cliente não pressionou nenhum botão lateral.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - LOS (Verificado)",
+      "text": "Verificado em sistema, ONU está com sinal LOS. Confirmado com o cliente que não houve quedas de energia, chuvas ou rompimento de cabo visível.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Wi-Fi (Sondagem)",
+      "text": "O mesmo informa que mesmo usando próximo ao equipamento ocorre o mesmo problema, notou o problema no acesso em geral, não compartilha sua senha com ninguém, visto que está conectado em sua própria rede.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Sem Gerência (TP-Link)",
+      "text": "Visto ONU com sinal e roteador sem gerência (TP-Link).",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Equipamento Desligado",
+      "text": "Verificado em sistema, equipamento consta como desligado. Cliente confirma que LEDs estão apagados.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Cabo Rompido (Verificado)",
+      "text": "Verificado o cliente e o único do split-ter sem sinal.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - STB (Não Atualiza)",
+      "text": "Verificado o STB brisanet não está atualizando e pegando as configurações da rede.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - PON Piscando",
+      "text": "Verificado nos equipamentos da brisanet a ONU esta com a LED PON esta piscando.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Financeiro (Bloqueado)",
+      "text": "Verificado em sistema foi identificado que o cliente se encontra bloqueado devido a uma pendência financeira.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Telefonia (Muda)",
+      "text": "Telefone registra normal, reconfigurado, porta, mostra registro, porem o problema persiste.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Telefonia (Desativada)",
+      "text": "Verificado no sistema a telefonia estava desativada.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Rota Inoperante",
+      "text": "Visto que sua rota encontra-se inoperante.",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "DIAGNÓSTICO - Sinal Irregular",
+      "text": "Conforme os novos parâmetros de sinal irregular acima de −26.99 o local já se encontra irregular, sendo assim o do cliente está com [SINAL_DBM].",
+      "category": "DIAGNÓSTICO"
+    },
+    {
+      "title": "AÇÃO - Reinício (Normalizado)",
+      "text": "Foi ativada e reiniciada a ONU manualmente, cliente testa e afirma normalização do acesso.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Troca Tomada (Normalizado)",
+      "text": "Solicitado ao cliente trocar o equipamento de tomada, o mesmo trocou e informou que o acesso normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Config. Wi-Fi (Normalizado)",
+      "text": "Foi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Inversão Cabos (Normalizado)",
+      "text": "Foi Realizado as inversões de cabos da ONU para o roteador, ativado roteador e ONU, reiniciado roteador manualmente, acesso normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Alterar Senha (Normalizado)",
+      "text": "Confirmado dados cadastrais, gerado senha WI-FI das Redes, o mesmo anotou a senha, conectou em seus dispositivos, e informou que a conexão deu certo, acesso normalizado.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - DNS TV (Normalizado)",
+      "text": "Feito os procedimentos de alteração de DNS manual na TV do cliente, o mesmo informa que o acesso normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Limpeza Cache SVA (Normalizado)",
+      "text": "Foi auxiliado ao cliente a limpar o cache do aplicativo e os dados, o mesmo realizou o procedimento e informou que normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Recuperar Senha SVA (Normalizado)",
+      "text": "Auxiliado a cliente a recuperar a senha dá [SVA], cliente informa que deu certo, e normalizou o acesso.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Config. FXS Tel (Normalizado)",
+      "text": "Configurado porta FXS, acesso normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Pagamento PIX (Normalizado)",
+      "text": "O mesmo realizou o pagamento da fatura via PIX, reconfigurado ONU, acesso normalizou.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Básico)",
+      "text": "Realizado o pré-agendamento. Próprio titular informa ter disponibilidade para receber a equipe no dia.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Sinal Normal)",
+      "text": "Foi ativada e reiniciada a ONU, cliente testa e afirma que não normalizou o acesso. Aberto O.S. Realizado o pré-agendamento.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Wi-Fi)",
+      "text": "Foi realizado a Troca do canal, modo e área do equipamento, reconfigurado ONU, Cliente testou a conexão e informou que não normalizou. Aberto O.S. Realizado o pré-agendamento.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Equipamento Morto)",
+      "text": "Foi pedido a cliente para realizar o procedimento de pressionar o botão de liga e desliga do equipamento e trocar de tomada, porem sem exito. Aberto O.S. Realizado o pré-agendamento.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Recusa Procedimento)",
+      "text": "Cliente não quis realizar nenhum procedimento remoto de atendimento. Aberto O.S. Realizado o pré-agendamento.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Custo Ciente)",
+      "text": "Informado ao cliente que caso seja constatado normal o sistema será cobrado a visita, cliente ciente. Aberto O.S. Realizado o pré-agendamento.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Cabo Rompido)",
+      "text": "Verificado o cliente e o único do split-ter sem sinal. Aberto OS para verificação. Realizado o pré-agendamento.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Abertura OS (Telefonia)",
+      "text": "Telefone registra normal, reconfigurado, porta, mostra registro, porem o problema persiste, aberto Chamado no saski. Prazo padrão de 24h.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Transferência (Financeiro)",
+      "text": "Verificado o cadastro da cliente, encaminhada ao setor responsável (Financeiro).",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Transferência (Retenção)",
+      "text": "Confirmado todos os dados e feito uma sondagem do motivo do cancelamento. Feito a transferência para o setor de retenção.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Transferência (SAC)",
+      "text": "Verificado com a cliente. Foi transferido ao SAC comercial para verificação.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - Rota Inoperante (Ciente)",
+      "text": "Foi repassado as informações e prazo conforme a URA, cliente fica ciente e no aguardo da normalização.",
+      "category": "AÇÃO"
+    },
+    {
+      "title": "AÇÃO - IPTV (Ciente)",
+      "text": "Repassado informações que a Anatel vem bloqueando esse tipo de transmissão. Cliente ciente das informações.",
+      "category": "AÇÃO"
+    }
+  ],
+  "version": "1.8.1_JSON_Fallback",
+  "exported": "2025-10-25T12:00:00.000Z"
+}
