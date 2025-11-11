@@ -1538,7 +1538,7 @@ const documentExtractor = {
     // ==========================================================
     
     // URL DE LOG (copiada do Iniciar.js)
-    const LOG_URL = 'https://script.google.com/macros/s/AKfycbwIRwR7V6eo2BWFQqtVfnomi5zn-VCFe76ltXLN25eYcAqPn4nakZDxv1QdWPvOXz12vA/exec';
+    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec';
     
     // Esta função envia todos os dados para a planilha
     function sincronizarDadosComPlanilha() {
