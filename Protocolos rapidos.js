@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         PureCloud - Protocolos Rápidos (v1.5.15 - Auto-Fetch Corrigido)
+// @name         PureCloud - Protocolos Rápidos (v1.5.16 - Auto-Fetch Corrigido)
 // @namespace    http://tampermonkey.net/protocolos-rapidos
-// @version      1.5.15
+// @version      1.5.16
 // @description  Popup de protocolos com auto-fetch do JSON do GitHub.
 // @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
@@ -12,15 +12,15 @@
 (function() {
     'use strict';
 
-    const SCRIPT_VERSION = '1.5.15_AutoFetch_Corrigido';
+    const SCRIPT_VERSION = '1.5.16_AutoFetch_Corrigido'; // Versão atualizada
     const DEBUG_MODE = true;
 
     // --- Log Helper ---
     const log = (...args) => { if (DEBUG_MODE) console.log(`[Protocolos Script v${SCRIPT_VERSION}]`, ...args); };
     
-    // --- (V1.5.15): URL para o ficheiro JSON de PROTOCOLOS no GitHub ---
-    // *** CORRIGIDO: Apontando para o JSON de protocolos ***
-    const PROTOCOLOS_JSON_URL = 'https://cdn.jsdelivr.net/gh/kingoffjoss/Meus-Scripts@main/protocolos_brisanet_v1_9.json';
+    // --- CORREÇÃO IMPORTANTE (V1.5.16) ---
+    // Atualizado para o seu NOVO repositório: "scriptgenesys-code/Script-Completo"
+    const PROTOCOLOS_JSON_URL = 'https://cdn.jsdelivr.net/gh/scriptgenesys-code/Script-Completo@main/protocolos_brisanet_v1_9.json';
 
     // --- Lista Padrão Vazia ---
     const initialProtocolos = [];
@@ -39,7 +39,7 @@
     const formatReplyText = (text, name = 'cliente', id = 'protocolo') => { return text; };
     const makeDraggable = (popup, header, popupName) => { let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0; const enforceBounds = (top, left) => { const vh = window.innerHeight, vw = window.innerWidth; const ph = popup.offsetHeight, pw = popup.offsetWidth; const m = 5; let st = Math.max(m, Math.min(vh - ph - m, top)); let sl = Math.max(m, Math.min(vw - pw - m, left)); if (pw > vw - 2 * m) sl = m; if (ph > vh - 2 * m) st = m; return { top: st, left: sl }; }; try { CONFIG.POPUP_POSITIONS = JSON.parse(sessionStorage.getItem('pr_popupPositions') || '{}'); } catch(e) { log("Erro pos:", e); CONFIG.POPUP_POSITIONS = {}; } if (CONFIG.POPUP_POSITIONS[popupName]?.top && CONFIG.POPUP_POSITIONS[popupName]?.left) { try { let ct = parseFloat(CONFIG.POPUP_POSITIONS[popupName].top); let cl = parseFloat(CONFIG.POPUP_POSITIONS[popupName].left); const ir = popup.getBoundingClientRect(); const th = parseFloat(CONFIG.POPUP_POSITIONS[popupName].height) || ir.height || 500; const tw = parseFloat(CONFIG.POPUP_POSITIONS[popupName].width) || ir.width || 850; let st = Math.max(5, Math.min(window.innerHeight - th - 5, ct)); let sl = Math.max(5, Math.min(window.innerWidth - tw - 5, cl)); popup.style.top = st + 'px'; popup.style.left = sl + 'px'; popup.style.width = CONFIG.POPUP_POSITIONS[popupName].width || '850px'; popup.style.height = CONFIG.POPUP_POSITIONS[popupName].height || '75vh'; popup.style.transform = 'none'; popup.style.margin = '0'; } catch(e) { popup.style.top = '10%'; popup.style.left = '10%'; popup.style.width = '850px'; popup.style.height = '75vh'; popup.style.transform = 'none';} } else { popup.style.top = '10%'; popup.style.left = '10%'; popup.style.width = '850px'; popup.style.height = '75vh'; popup.style.margin = '0'; } const saveCurrentPositionAndSize = () => { clearTimeout(popup._savePosTimeout); popup._savePosTimeout = setTimeout(() => { let cut = popup.style.top, cul = popup.style.left; if (popup.style.transform && popup.style.transform !== 'none') { const rect = popup.getBoundingClientRect(); cut = rect.top + 'px'; cul = rect.left + 'px'; popup.style.transform = 'none'; } const sp = enforceBounds(parseFloat(cut), parseFloat(cul)); CONFIG.POPUP_POSITIONS[popupName] = { top: sp.top + 'px', left: sp.left + 'px', width: popup.style.width, height: popup.style.height }; try { sessionStorage.setItem('pr_popupPositions', JSON.stringify(CONFIG.POPUP_POSITIONS)); } catch (e) { log("Erro save pos:", e); } }, 300); }; if (header) { header.onmousedown = e => { if (e.target.closest('button') || e.button !== 0) return; e.preventDefault(); const rect = popup.getBoundingClientRect(); popup.style.top = rect.top + 'px'; popup.style.left = rect.left + 'px'; popup.style.transform = 'none'; pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; saveCurrentPositionAndSize(); }; document.onmousemove = ev => { ev.preventDefault(); pos1 = pos3 - ev.clientX; pos2 = pos4 - ev.clientY; pos3 = ev.clientX; pos4 = ev.clientY; const nt = popup.offsetTop - pos2, nl = popup.offsetLeft - pos1; const sp = enforceBounds(nt, nl); popup.style.top = sp.top + "px"; popup.style.left = sp.left + "px"; }; }; } const ro = new ResizeObserver(saveCurrentPositionAndSize); ro.observe(popup); };
 
-    // --- Lógica de Dados (MODIFICADA V1.5.15) ---
+    // --- Lógica de Dados (MODIFICADA V1.5.16) ---
     const loadData = async () => {
         let protocolsLoaded = false;
         
@@ -58,7 +58,7 @@
                 }
             }
         } catch (e) {
-            log("Erro ao ler protocolos do LocalStorage (será substituído):", e);
+            log("Erro ao ler protocols do LocalStorage (será substituído):", e);
             localStorage.removeItem('pr_protocolos');
         }
 
@@ -75,7 +75,7 @@
 
                 let newProtocolos;
                 if (Array.isArray(data)) {
-                    // Formato de 'respostas_COMPLETAS.json' (embora improvável para este script)
+                    // Formato Array (menos provável para este script, mas seguro)
                     newProtocolos = data; 
                     log("JSON em formato Array detetado.");
                 } else if (data && Array.isArray(data.protocols)) {
@@ -578,7 +578,7 @@
         if (typeof GM_addStyle !== "undefined") GM_addStyle(css); else { let style = document.getElementById('pr-script-injected-style'); if (!style) { style = document.createElement('style'); style.id = 'pr-script-injected-style'; document.head.appendChild(style); } style.textContent = css; }
     };
 
-    // --- Inicialização (MODIFICADA V1.5.15) ---
+    // --- Inicialização (MODIFICADA V1.5.16) ---
     const initialize = async () => { // <-- TORNAR ASYNC
         try {
             log(`Init Protocolos V${SCRIPT_VERSION}`);
