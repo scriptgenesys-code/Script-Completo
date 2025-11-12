@@ -1,11 +1,10 @@
 // =================================================================
-// Parceiro de Programação: SCRIPT FINAL (V48.3 - CORRIGIDO)
+// Parceiro de Programação: SCRIPT FINAL (V48.4 - RELÓGIO HEADER)
 // Mudanças:
-// 1. CORREÇÃO (Logoff): Seletor 'LOGOFF' e função 'executarLogicaLogoff'
-//    atualizados para corresponder ao HTML fornecido pelo usuário.
-// 2. CORREÇÃO (Design Config V48.1): Função 'criarUIConfiguracoes'
-//    agora está com o design moderno correto.
-// 3. MANTIDO (V48.0): Relógio com ponto piscante e nomes de botões.
+// 1. NOVO (Relógio Header): Adicionado relógio no cabeçalho
+//    entre o título e os botões de config/minimizar.
+// 2. MANTIDO (V48.3): Correções de Logoff e Design.
+// 3. MANTIDO (V48.0): Relógio com ponto piscante e nomes.
 // 4. MANTIDO (V46.4): Lógica de cronômetro, 'Voltar' e cliques.
 // =================================================================
 
@@ -13,15 +12,15 @@
 
     // --- INÍCIO: KILL SWITCH (V48.2) ---
     // Remove à força qualquer UI antiga antes de construir a nova
-    console.log("[GERENCIADOR V48.3] Forçando a remoção de UIs antigas...");
+    console.log("[GERENCIADOR V48.4] Forçando a remoção de UIs antigas...");
     try {
         const old_ui = document.getElementById('pausa-script-container');
         if (old_ui) old_ui.remove();
         const old_config = document.getElementById('pausa-script-config-container');
         if (old_config) old_config.remove();
-        console.log("[GERENCIADOR V48.3] UIs antigas removidas com sucesso.");
+        console.log("[GERENCIADOR V48.4] UIs antigas removidas com sucesso.");
     } catch (e) {
-        console.warn("[GERENCIADOR V48.3] Erro ao limpar UI antiga:", e.message);
+        console.warn("[GERENCIADOR V48.4] Erro ao limpar UI antiga:", e.message);
     }
     // --- FIM: KILL SWITCH ---
 
@@ -104,7 +103,7 @@
         if (t) {
             const l = document.querySelectorAll(s); 
             if (l.length === 0) {
-                console.warn(`[AÇÃO V48.3] Nenhum elemento encontrado com o seletor: ${s}`);
+                console.warn(`[AÇÃO V48.4] Nenhum elemento encontrado com o seletor: ${s}`);
             }
             for (const o of l) {
                 if (o.textContent.trim().toLowerCase() === t.toLowerCase()) {
@@ -121,12 +120,12 @@
         }
         
         if (e) {
-            console.log(`[AÇÃO V48.3] Clicando: ${s}` + (t ? ` (Texto: ${t})` : ''));
+            console.log(`[AÇÃO V48.4] Clicando: ${s}` + (t ? ` (Texto: ${t})` : ''));
             const c = new MouseEvent('click', { view: window, bubbles: true, cancelable: true });
             e.dispatchEvent(c);
             return true;
         }
-        console.warn(`[AÇÃO V48.3] Não encontrado: ${s}` + (t ? ` (Texto: ${t})` : ''));
+        console.warn(`[AÇÃO V48.4] Não encontrado: ${s}` + (t ? ` (Texto: ${t})` : ''));
         return false;
     }
     
@@ -175,7 +174,7 @@
     
     // ATUALIZADA V48.0
     function mapearEexecutarAcao(s){
-        console.log(`[AGENDAMENTO V48.3] Mapeando: ${s}`);
+        console.log(`[AGENDAMENTO V48.4] Mapeando: ${s}`);
         const status = s.toLowerCase().trim();
         
         switch(status){
@@ -199,30 +198,30 @@
             case"saude": 
                 iniciarQuestoesSaude(true); break;
             default:
-                console.warn(`[AGENDAMENTO V48.3] Status '${s}' não mapeado.`);
+                console.warn(`[AGENDAMENTO V48.4] Status '${s}' não mapeado.`);
         }
     }
     
     // ATUALIZADA V48.0
-    function verificarEExecutarAgendamentos(){if(!isAgendamentoAtivo||isAutomacaoPausada){if(isAutomacaoPausada)console.log("[AGENDAMENTO CHECK V48.3] Pausado.");return} const a=new Date,h=`${String(a.getHours()).padStart(2,'0')}:${String(a.getMinutes()).padStart(2,'0')}`,s=a.getSeconds(); console.log(`[AGENDAMENTO CHECK V48.3] Verificando ${h}:${String(s).padStart(2,'0')}`); Object.keys(window).forEach(k=>{if(k.startsWith('notif_')){const e=k.split('_')[1];if(e<h){clearTimeout(window[k]);delete window[k];}}}); const eA=PAUSAS_AGENDADAS.find(p=>p.hora===h);if(eA && ultimoEventoProcessado !== h){console.warn(`[AGENDAMENTO DISPARADO V48.3] EXECUTANDO: ${eA.status} às ${eA.hora}`);mapearEexecutarAcao(eA.status);ultimoEventoProcessado = h;if(eA.status.toLowerCase()==='logoff'){setTimeout(()=>{if(isAgendamentoAtivo)toggleAgendamento()},500)}return} if(!eA && ultimoEventoProcessado) { ultimoEventoProcessado = null; } if (s < 15) {const pM=new Date(a.getTime()+6e4),hP=`${String(pM.getHours()).padStart(2,'0')}:${String(pM.getMinutes()).padStart(2,'0')}`;const eP=PAUSAS_AGENDADAS.find(p=>p.hora===hP);if(eP){const antecedencia = configNotificacao.antecedenciaSegundos; const sN=Math.max(0,(60-antecedencia)-s),tId=`notif_${eP.hora}_${eP.status}`;if(sN>0&&!window[tId]){console.log(`[Notif V48.3] Agendando ${eP.status} às ${eP.hora} em ${sN} seg. (Antecedência: ${antecedencia}s)`);window[tId]=setTimeout(()=>{mostrarNotificacao(eP);delete window[tId]},sN*1e3)}}}}
-    function iniciarSchedulerSincronizado(){console.log("[Scheduler V48.3] Sincronizado!");if(!isAgendamentoAtivo){console.log("[Scheduler V48.3] Automação desligada pós-sinc.");return} verificarEExecutarAgendamentos();schedulerInterval=setInterval(verificarEExecutarAgendamentos,60000)}
-    function sincronizarEIniciarScheduler(){if(schedulerInterval)clearInterval(schedulerInterval);if(syncTimeout)clearTimeout(syncTimeout);const sA=new Date().getSeconds();const dMs=(60-sA)*1000;console.log(`[Scheduler V48.3] Aguardando ${dMs/1000}s para sincronizar...`);syncTimeout=setTimeout(iniciarSchedulerSincronizado,dMs)}
+    function verificarEExecutarAgendamentos(){if(!isAgendamentoAtivo||isAutomacaoPausada){if(isAutomacaoPausada)console.log("[AGENDAMENTO CHECK V48.4] Pausado.");return} const a=new Date,h=`${String(a.getHours()).padStart(2,'0')}:${String(a.getMinutes()).padStart(2,'0')}`,s=a.getSeconds(); console.log(`[AGENDAMENTO CHECK V48.4] Verificando ${h}:${String(s).padStart(2,'0')}`); Object.keys(window).forEach(k=>{if(k.startsWith('notif_')){const e=k.split('_')[1];if(e<h){clearTimeout(window[k]);delete window[k];}}}); const eA=PAUSAS_AGENDADAS.find(p=>p.hora===h);if(eA && ultimoEventoProcessado !== h){console.warn(`[AGENDAMENTO DISPARADO V48.4] EXECUTANDO: ${eA.status} às ${eA.hora}`);mapearEexecutarAcao(eA.status);ultimoEventoProcessado = h;if(eA.status.toLowerCase()==='logoff'){setTimeout(()=>{if(isAgendamentoAtivo)toggleAgendamento()},500)}return} if(!eA && ultimoEventoProcessado) { ultimoEventoProcessado = null; } if (s < 15) {const pM=new Date(a.getTime()+6e4),hP=`${String(pM.getHours()).padStart(2,'0')}:${String(pM.getMinutes()).padStart(2,'0')}`;const eP=PAUSAS_AGENDADAS.find(p=>p.hora===hP);if(eP){const antecedencia = configNotificacao.antecedenciaSegundos; const sN=Math.max(0,(60-antecedencia)-s),tId=`notif_${eP.hora}_${eP.status}`;if(sN>0&&!window[tId]){console.log(`[Notif V48.4] Agendando ${eP.status} às ${eP.hora} em ${sN} seg. (Antecedência: ${antecedencia}s)`);window[tId]=setTimeout(()=>{mostrarNotificacao(eP);delete window[tId]},sN*1e3)}}}}
+    function iniciarSchedulerSincronizado(){console.log("[Scheduler V48.4] Sincronizado!");if(!isAgendamentoAtivo){console.log("[Scheduler V48.4] Automação desligada pós-sinc.");return} verificarEExecutarAgendamentos();schedulerInterval=setInterval(verificarEExecutarAgendamentos,60000)}
+    function sincronizarEIniciarScheduler(){if(schedulerInterval)clearInterval(schedulerInterval);if(syncTimeout)clearTimeout(syncTimeout);const sA=new Date().getSeconds();const dMs=(60-sA)*1000;console.log(`[Scheduler V48.4] Aguardando ${dMs/1000}s para sincronizar...`);syncTimeout=setTimeout(iniciarSchedulerSincronizado,dMs)}
     
     // ATUALIZADA V48.0
     function toggleAgendamento(){
-        console.log("[AÇÃO V48.3] toggleAgendamento.");
+        console.log("[AÇÃO V48.4] toggleAgendamento.");
         const b=document.getElementById('btn-toggle-agendamento'),p=document.getElementById('btn-pause-resume-agendamento');
         if(isAgendamentoAtivo){
             if(schedulerInterval)clearInterval(schedulerInterval);if(syncTimeout)clearTimeout(syncTimeout);
             schedulerInterval=null;syncTimeout=null;isAgendamentoAtivo=!1;isAutomacaoPausada=!1;
-            console.warn("[AGENDAMENTO V48.3] OFF.");
+            console.warn("[AGENDAMENTO V48.4] OFF.");
             if(b){b.textContent="Ligar Automação";b.style.background = 'linear-gradient(135deg, #23a745, #2dc24f)';}
             if(p)p.style.display='none';
         }else{
             PAUSAS_AGENDADAS=carregarHorariosLocalStorage();
-            console.log(`[AGENDAMENTO V48.3] ${PAUSAS_AGENDADAS.length} horários carregados.`);
+            console.log(`[AGENDAMENTO V48.4] ${PAUSAS_AGENDADAS.length} horários carregados.`);
             ultimoEventoProcessado=null;isAutomacaoPausada=!1;isAgendamentoAtivo=!0;
-            console.info("[AGENDAMENTO V48.3] ON. Sincronizando...");
+            console.info("[AGENDAMENTO V48.4] ON. Sincronizando...");
             if(b){b.textContent="Desligar Automação";b.style.background = 'linear-gradient(135deg, #dc3545, #e84a5f)';}
             if(p){
                 p.textContent="Pausar ⏸️";
@@ -277,7 +276,7 @@
     
     function exibirModalConfirmacao(statusNome, callbackFuncao) {
         removerModalConfirmacao(); 
-        console.log(`[AÇÃO V48.3] Exibindo confirmação customizada para '${statusNome}'...`);
+        console.log(`[AÇÃO V48.4] Exibindo confirmação customizada para '${statusNome}'...`);
 
         const cId = 'pausa-script-confirm-modal';
         const dialog = document.createElement('div');
@@ -316,18 +315,18 @@
         document.body.appendChild(dialog);
 
         document.getElementById('btn-confirm-permitir').onclick = () => {
-            console.log(`[AÇÃO V48.3] Permissão concedida (custom) para '${statusNome}'.`);
+            console.log(`[AÇÃO V48.4] Permissão concedida (custom) para '${statusNome}'.`);
             if (callbackFuncao) callbackFuncao(); 
             removerModalConfirmacao();
         };
         document.getElementById('btn-confirm-cancelar').onclick = () => {
-            console.warn(`[AÇÃO V48.3] Ação '${statusNome}' automática CANCELADA (custom).`);
+            console.warn(`[AÇÃO V48.4] Ação '${statusNome}' automática CANCELADA (custom).`);
             removerModalConfirmacao();
         };
 
         const autoCloseTime = 30000;
         confirmModalTimeout = setTimeout(() => {
-            console.warn(`[AÇÃO V48.3] Confirmação '${statusNome}' expirou (sem resposta em ${autoCloseTime/1000}s).`);
+            console.warn(`[AÇÃO V48.4] Confirmação '${statusNome}' expirou (sem resposta em ${autoCloseTime/1000}s).`);
             removerModalConfirmacao();
         }, autoCloseTime);
     }
@@ -393,20 +392,20 @@
         let clicado = false; 
         let elDireto = document.querySelector(SELECTORES.NA_FILA_DIRETO);
         if (elDireto && elDireto.offsetHeight !== 0) {
-            console.log("[AÇÃO V48.3] Clicando no botão 'Entrar na fila' (Direto)...");
+            console.log("[AÇÃO V48.4] Clicando no botão 'Entrar na fila' (Direto)...");
             try{ elDireto.click(); clicado = true; }
             catch(e){ clicado = clicarElemento(SELECTORES.NA_FILA_DIRETO); }
         } else {
-            console.log("[AÇÃO V48.3] Tentando clicar no toggle 'Na Fila' (Shadow DOM)...");
+            console.log("[AÇÃO V48.4] Tentando clicar no toggle 'Na Fila' (Shadow DOM)...");
             try {
                 const guxToggle = document.querySelector(SELECTORES.NA_FILA_TOGGLE_HOST);
                 if (guxToggle && guxToggle.shadowRoot) {
                     const shadowContent = guxToggle.shadowRoot;
                     const clickableSlider = shadowContent.querySelector('div[role="checkbox"]'); 
                     if (clickableSlider) { clickableSlider.click(); clicado = true; } 
-                    else { console.warn("[AÇÃO V48.3] 'gux-toggle' interno (div[role=checkbox]) não encontrado."); }
-                } else { console.warn("[AÇÃO V48.3] 'gux-toggle' (host) não encontrado ou sem shadowRoot."); }
-            } catch (e) { console.error("[AÇÃO V48.3] Erro ao tentar clicar no Shadow DOM do 'gux-toggle':", e); }
+                    else { console.warn("[AÇÃO V48.4] 'gux-toggle' interno (div[role=checkbox]) não encontrado."); }
+                } else { console.warn("[AÇÃO V48.4] 'gux-toggle' (host) não encontrado ou sem shadowRoot."); }
+            } catch (e) { console.error("[AÇÃO V48.4] Erro ao tentar clicar no Shadow DOM do 'gux-toggle':", e); }
         }
         
         if(!clicado) console.warn("Ação 'Na Fila' falhou.");
@@ -692,7 +691,7 @@
     function criarUIRelogio(){ /* Removido V44.0 */ }
     function verificarSeletoresEAtualizarUI(){const rD=document.getElementById('seletores-resultados'); if(!rD){console.error("Div resultados não encontrado.");return}console.log("[Diagnóstico] Verificando...");rD.innerHTML='<p style="font-style:italic;color:#bbb;">Verificando...</p>'; let hR='<ul style="list-style:none;padding:0;margin:5px 0 0 0;font-size:11px;">',tO=!0;setTimeout(()=>{Object.keys(SELECTORES).forEach(k=>{const s=SELECTORES[k];if(k==='CLOCK_CONTAINER_PARENT')return; const e=document.querySelector(s);const f=e!==null&&(e.offsetParent!==null||e.tagName==='DIV'); hR+=`<li style="padding:3px 0;border-bottom:1px dashed #ffffff15;display:flex;justify-content:space-between;align-items:center;"><span style="color:#ccc; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${k}">${k}:</span><span><code style="font-size:10px;background-color:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.2);color:#9fefef;padding:1px 3px;border-radius:3px; max-width: 120px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${s}">${s}</code><span style="margin-left:8px;font-weight:700;color:${f?'#50fa7b':'#ff5555'};">${f?'✔️ Ok':'❌ Falha'}</span></span></li>`;if(!f){tO=!1;console.warn(`[Diagnóstico] Falha ${k}: ${s}`)}});hR+='</ul>';if(tO){hR='<p style="color:#50fa7b;font-weight:700;margin:5px 0;">✔️ Todos OK!</p>'+hR;console.log("[Diagnóstico] OK.")}else{hR='<p style="color:#ff5555;font-weight:700;margin:5px 0;">❌ Atenção: Falha em um ou mais seletores!</p>'+hR;console.warn("[Diagnóstico] Falha(s) encontrada(s).")} rD.innerHTML=hR},50)}
 
-    // --- CRIAR UI PRINCIPAL (ATUALIZADA V48.0 - Relógio e Nomes) ---
+    // --- CRIAR UI PRINCIPAL (ATUALIZADA V48.4 - RELÓGIO HEADER) ---
     function criarUI() {
         const cId='pausa-script-container';let cA=document.getElementById(cId);if(cA)cA.remove(); const c=document.createElement('div');c.id=cId;document.body.appendChild(c);
         
@@ -827,13 +826,25 @@
             </div>
             
             <div id="pausa-script-conteudo" style="display:none; padding:0;">
+                
                 <div id="pausa-script-header">
                     <h3 style="">🛠️ Gerenciador</h3>
-                    <div style="flex-shrink:0;padding-left:10px;">
-                        <span id="btn-abrir-config" title="Configurações">⚙️</span>
-                        <span id="btn-minimizar" title="Fechar Painel">[X]</span>
+                    
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span id="pausa-script-header-clock" style="
+                            font-size: 15px; 
+                            font-family: 'Courier New', Courier, monospace; 
+                            color: #f1fa8c; 
+                            text-shadow: 0 0 5px rgba(241, 250, 140, 0.5);
+                            line-height: 1;
+                        ">--:--:--</span>
+                        
+                        <div style="flex-shrink:0;">
+                            <span id="btn-abrir-config" title="Configurações">⚙️</span>
+                            <span id="btn-minimizar" title="Fechar Painel">[X]</span>
+                        </div>
                     </div>
-                </div>
+                    </div>
                 
                 <div id="status-display">Status: <strong id="current-status" style="color:#50fa7b;">${estadoAtual.tipo}</strong></div>
                 
@@ -1041,11 +1052,19 @@
         renderizarAgendamentos();renderizarHistoricoLog();renderizarEstatisticas();
     }
 
-    // ATUALIZADA V48.0 (Controla o ponto piscante)
+    // ATUALIZADA V48.4 (Controla o novo relógio do cabeçalho)
     function atualizarUI() {
         const a=new Date,h=a.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+        
+        // Relógio minimizado
         const tFlutuante=document.getElementById('top-bar-time');
         const tDot=document.getElementById('pausa-script-clock-dot'); // V48.0
+        
+        // --- INÍCIO DA MODIFICAÇÃO V48.4 ---
+        // Novo relógio do cabeçalho
+        const tHeader = document.getElementById('pausa-script-header-clock');
+        // --- FIM DA MODIFICAÇÃO V48.4 ---
+
 
         if(tFlutuante){
             tFlutuante.textContent=h;
@@ -1054,6 +1073,25 @@
             else if (estadoAtual.tipo === 'Logoff') tFlutuante.style.color = '#999';
             else tFlutuante.style.color = '#f1fa8c';
         }
+        
+        // --- INÍCIO DA MODIFICAÇÃO V48.4 ---
+        // Atualiza o novo relógio do cabeçalho e aplica a mesma lógica de cor
+        if(tHeader) {
+            tHeader.textContent = h;
+            if(estadoAtual.tipo==='Disponível'||estadoAtual.tipo==='Na fila') {
+                tHeader.style.color = '#50fa7b';
+                tHeader.style.textShadow = '0 0 5px rgba(80, 250, 123, 0.5)';
+            }
+            else if (estadoAtual.tipo === 'Logoff') {
+                tHeader.style.color = '#999';
+                tHeader.style.textShadow = 'none';
+            }
+            else {
+                tHeader.style.color = '#f1fa8c'; // Cor de pausa
+                tHeader.style.textShadow = '0 0 5px rgba(241, 250, 140, 0.5)';
+            }
+        }
+        // --- FIM DA MODIFICAÇÃO V48.4 ---
         
         // V48.0 - Lógica do Ponto Piscante
         if (tDot) {
@@ -1087,7 +1125,7 @@
     // ----------------------------------------------------
     // INÍCIO DO SCRIPT
     // ----------------------------------------------------
-    console.log("[GERENCIADOR DE PAUSAS V48.2] Aguardando para injetar UI...");
+    console.log("[GERENCIADOR DE PAUSAS V48.4] Aguardando para injetar UI...");
     const delayInicial = 2800;
     
     setTimeout(() => {
