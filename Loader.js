@@ -1,19 +1,20 @@
-// Este é um SCRIPT SIMPLES (V4.5) - NÃO é um UserScript.
+// Este é um SCRIPT SIMPLES (V4.5 MODIFICADO) - NÃO é um UserScript.
 // Este ficheiro foi feito para ser carregado pelo seu FAVORITO (Bookmarklet).
 
 (function() {
     'use strict';
     console.log('[Bookmarklet Loader V4.5] Carregador principal iniciado.');
 
-    // URL base do seu GitHub Pages (O que acabámos de ativar)
+    // URL base do seu GitHub Pages
     const basePath = 'https://scriptgenesys-code.github.io/Script-Completo/';
 
-    // Lista dos 4 scripts que você quer carregar
+    // Lista ATUALIZADA com os 5 scripts que você quer carregar
     const scriptsToLoad = [
         'Cronometros.js',
         'Pausas Automaticas (1).js',
         'Respostas Rapidas.js',   
-        'Protocolos rapidos.js'
+        'Protocolos rapidos.js',
+        'BAR.js' // <-- ADICIONADO AQUI
     ];
     
     // URL DE LOG (Mantido)
@@ -53,7 +54,7 @@
             console.log(`[Bookmarklet Loader V4.5] Carregando: ${scriptName}`);
         });
         
-        console.log('[Bookmarklet Loader V4.5] Todos os 4 scripts foram injetados.');
+        console.log('[Bookmarklet Loader V4.5] Todos os 5 scripts foram injetados.');
         
     } catch(e) {
         console.error('[Bookmarklet Loader V4.5] Erro crítico ao carregar scripts:', e);
