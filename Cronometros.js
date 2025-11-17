@@ -1534,15 +1534,15 @@ const documentExtractor = {
 
 
     // ==========================================================
-    // INÍCIO: NOVO CÓDIGO DE SINCRONIZAÇÃO (ADICIONADO)
+    // INÍCIO: FUNÇÃO DE SINCRONIZAÇÃO (V2.1 - AJUSTADA)
     // ==========================================================
     
     // URL DE LOG (copiada do Iniciar.js)
-    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec';
+    const LOG_URL = 'https://script.google.com/macros/s/AKfycbwIRwR7V6eo2BWFQqtVfnomi5zn-VCFe76ltXLN25eYcAqPn4nakZDxv1QdWPvOXz12vA/exec'; // SUA URL DE IMPLANTAÇÃO
     
     // Esta função envia todos os dados para a planilha
     function sincronizarDadosComPlanilha() {
-        console.log('[Sincronização] Iniciando envio de dados para a planilha...');
+        console.log('[Sincronização V2.1] Iniciando envio de dados para a planilha...');
         try {
             // 1. Verifica se os objetos estão prontos
             if (typeof window.analyticsManager === 'undefined' || typeof window.v4_counters === 'undefined') {
@@ -1550,39 +1550,44 @@ const documentExtractor = {
                 return;
             }
 
-            // 2. Pega o nome do usuário (do mesmo jeito que o Iniciar.js fazia)
+            // 2. Pega o nome do usuário
             let currentUserName = "Usuário Anônimo";
             let userEl = document.querySelector('div.name span.entry-value');
             if (userEl) {
                 currentUserName = userEl.innerText;
             }
 
-            // 3. Envio de Analytics
+            // 3. Envio de Analytics (Os dados de resumo que decidimos IGNORAR no V2.1)
             const stats = window.analyticsManager.calculateStats();
             const analyticsPayload = {
                 conversasUnicas: stats.count,
                 tmaGeral: stats.tma,
                 tmeAtivo: stats.tme,
-                encAgente: stats.baloonClicks, // Métrica MOD_4
+                encAgente: stats.baloonClicks, 
                 inicio: stats.last, 
                 ultima: stats.first, 
                 meta: window.CONFIG ? window.CONFIG.CONVERSATION_TARGET : 45,
                 transferidos: stats.transferClicks,
-                // *** CORREÇÃO APLICADA (Estava faltando) ***
                 tmaGeralSegundos: stats.tmaSeconds || 0,
                 tmeAtivoSegundos: stats.tmeSeconds || 0
             };
+            // Nota: O Cérebro V2.1 vai receber isto e ignorar, como pedimos.
             fetch(LOG_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: 'analytics', user: currentUserName, stats: analyticsPayload }) });
 
-            // 4. Envio de Atendimentos
+            // 4. Envio de Atendimentos (O MAIS IMPORTANTE)
             const atendimentosPayload = window.analyticsManager.getData().conversations.map(conv => ({
                 tipo: conv.interactionType || 'unknown',
                 horaFim: new Date(conv.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
                 cliente: conv.participantName,
+                // TME (Texto)
                 tme: (() => {
                     const s = Math.floor(conv.activeDuration / 1000);
                     return `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`
                 })(),
+                // *** ADIÇÃO IMPORTANTE (V2.1) ***
+                // TME (Segundos) - O dado que faltava para os dashboards
+                tmeSegundos: Math.floor(conv.activeDuration / 1000), 
+                // **********************************
                 recorrencia: conv.isRecurrence ? 'Sim' : 'Não',
                 link: conv.interactionUrl || 'N/A'
             }));
@@ -1602,14 +1607,14 @@ const documentExtractor = {
                 });
             }
 
-            console.log(`[Sincronização] Dados de ${currentUserName} enviados com sucesso.`);
+            console.log(`[Sincronização V2.1] Dados de ${currentUserName} enviados com sucesso.`);
 
         } catch (e) {
-            console.error('[Sincronização] Erro ao enviar dados:', e);
+            console.error('[Sincronização V2.1] Erro ao enviar dados:', e);
         }
     }
     // ==========================================================
-    // FIM: NOVO CÓDIGO DE SINCRONIZAÇÃO
+    // FIM: FUNÇÃO DE SINCRONIZAÇÃO
     // ==========================================================
 
 
