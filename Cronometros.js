@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Gerenciador de Contagem e Produtividade (v1.0.27_MOD_5_FIX_V2.1_Sync)
+// @name         Gerenciador de Contagem e Produtividade (v1.0.27_MOD_5_FIX)
 // @namespace    http://tampermonkey.net/
-// @version      1.0.27.2.1
-// @description  Script focado em Analytics. [V2.1_Sync: Envia tmeSegundos para o Google Script]
+// @version      1.0.27
+// @description  Script focado em Analytics. [v1.0.27_MOD_5_FIX: Corrigido bug de reset diário com ISO Date.]
 // @author       Parceiro de Programação
 // @match        https://apps.mypurecloud.com/*
 // @match        https://apps.mypurecloud.de/*
@@ -24,13 +24,9 @@
     // 8. [MOD] Aba "Encerrados": Layout alterado para tabela padronizada (MOD_4).
     // 9. [FIX] Função de reset diário (initializeDailyCounters) usa ISO Date (YYYY-MM-DD) para robustez.
     //
-    // v2.1_Sync (por Parceiro de Programação):
-    // 1. [MOD] Função 'sincronizarDadosComPlanilha' atualizada para enviar 'tmeSegundos' (activeDuration)
-    //          junto com os dados de 'atendimento', permitindo cálculos de dashboard na planilha.
+    const SCRIPT_VERSION = '1.0.27_MOD_5_FIX'; // Versão Atualizada
     // --- FIM DA ATUALIZAÇÃO ---
-    
-    const SCRIPT_VERSION = '1.0.27_MOD_5_FIX_V2.1_Sync'; // Versão Atualizada
-    
+
     // Flag de Carregamento
     if (window[`PURECLOUD_SCRIPT_LOADED_FLAG_${SCRIPT_VERSION}`]) {
         console.log(`[NOVO SCRIPT] Script V${SCRIPT_VERSION} já está carregado e em execução.`);
@@ -872,7 +868,7 @@ const documentExtractor = {
         }
     }
     function observeCurrentChatMessages(timerData) {
-        if (currentChatObserverInstance) { currentChatObserverInstance.disconnect(); currentChatObserverInstance = null; } if (currentChatInputField) { currentChatInputField.removeEventListener('input', handleOperatorActivity); currentChatInputField.removeEventListener('keypress', handleOperatorActivity); currentChatInputField = null; } let chatMessagesContainer = null; let chatInputField = null; const messagingIframe = document.querySelector(CONFIG.PURECLOUD_SELECTORS.MESSAGING_GADGET_IFRAME); if (messagingIframe && messagingIframe.contentDocument) { try { chatMessagesContainer = findEl('.chat-messages-container', messagingIframe.contentDocument); chatInputField = findEl('textarea[aria-label="Digitar uma mensagem"]', messagingIframe.contentDocument); } catch (e) { log("WARN: Erro ao acessar contentDocument do iframe de mensagens."); } } if (!chatMessagesContainer) { chatMessagesContainer = findEl('.chat-messages-container'); chatInputField = findEl('textarea[aria-label="Digitar uma mensagem"]'); } const handleOperatorActivity = () => { if (timerData.lastOperatorActivityTimestamp !== Date.now()) { timerData.lastOperatorActivityTimestamp = Date.now(); updateTimerDisplay(timerData); } }; if (chatMessagesContainer) { if (chatMessagesContainer.dataset.observedByScript === 'true') { if (chatInputField && currentChatInputField !== chatInputField) { chatInputField.addEventListener('input', handleOperatorActivity); chatInputField.addEventListener('keypress', handleOperatorActivity); currentChatInputField = chatInputField; } return; } currentChatObserverInstance = new MutationObserver((mutations) => { for (const mutation of mutations) { if (mutation.type === 'childList' && mutation.addedNodes.length > 0) { const newClientMessages = Array.from(mutation.addedNodes).filter(node => node.nodeType === 1 && node.matches('.chat-message-group.remote')); if (newClientMessages.length > 0) { timerData.lastCustomerReplyTimestamp = Date.now(); updateTimerDisplay(timerData); } } } } }); currentChatObserverInstance.observe(chatMessagesContainer, { childList: true, subtree: true }); chatMessagesContainer.dataset.observedByScript = 'true'; if (chatInputField) { chatInputField.addEventListener('input', handleOperatorActivity); chatInputField.addEventListener('keypress', handleOperatorActivity); currentChatInputField = chatInputField; } }
+        if (currentChatObserverInstance) { currentChatObserverInstance.disconnect(); currentChatObserverInstance = null; } if (currentChatInputField) { currentChatInputField.removeEventListener('input', handleOperatorActivity); currentChatInputField.removeEventListener('keypress', handleOperatorActivity); currentChatInputField = null; } let chatMessagesContainer = null; let chatInputField = null; const messagingIframe = document.querySelector(CONFIG.PURECLOUD_SELECTORS.MESSAGING_GADGET_IFRAME); if (messagingIframe && messagingIframe.contentDocument) { try { chatMessagesContainer = findEl('.chat-messages-container', messagingIframe.contentDocument); chatInputField = findEl('textarea[aria-label="Digitar uma mensagem"]', messagingIframe.contentDocument); } catch (e) { log("WARN: Erro ao acessar contentDocument do iframe de mensagens."); } } if (!chatMessagesContainer) { chatMessagesContainer = findEl('.chat-messages-container'); chatInputField = findEl('textarea[aria-label="Digitar uma mensagem"]'); } const handleOperatorActivity = () => { if (timerData.lastOperatorActivityTimestamp !== Date.now()) { timerData.lastOperatorActivityTimestamp = Date.now(); updateTimerDisplay(timerData); } }; if (chatMessagesContainer) { if (chatMessagesContainer.dataset.observedByScript === 'true') { if (chatInputField && currentChatInputField !== chatInputField) { chatInputField.addEventListener('input', handleOperatorActivity); chatInputField.addEventListener('keypress', handleOperatorActivity); currentChatInputField = chatInputField; } return; } currentChatObserverInstance = new MutationObserver((mutations) => { for (const mutation of mutations) { if (mutation.type === 'childList' && mutation.addedNodes.length > 0) { const newClientMessages = Array.from(mutation.addedNodes).filter(node => node.nodeType === 1 && node.matches('.chat-message-group.remote')); if (newClientMessages.length > 0) { timerData.lastCustomerReplyTimestamp = Date.now(); updateTimerDisplay(timerData); } } } }); currentChatObserverInstance.observe(chatMessagesContainer, { childList: true, subtree: true }); chatMessagesContainer.dataset.observedByScript = 'true'; if (chatInputField) { chatInputField.addEventListener('input', handleOperatorActivity); chatInputField.addEventListener('keypress', handleOperatorActivity); currentChatInputField = chatInputField; } }
     }
 
     // --- MAIN LOOP ---
@@ -1538,15 +1534,15 @@ const documentExtractor = {
 
 
     // ==========================================================
-    // INÍCIO: CÓDIGO DE SINCRONIZAÇÃO (ATUALIZADO V2.1)
+    // INÍCIO: NOVO CÓDIGO DE SINCRONIZAÇÃO (ADICIONADO)
     // ==========================================================
     
     // URL DE LOG (copiada do Iniciar.js)
-    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec'; // SUA URL DE IMPLANTAÇÃO
+    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec';
     
     // Esta função envia todos os dados para a planilha
     function sincronizarDadosComPlanilha() {
-        console.log('[Sincronização V2.1] Iniciando envio de dados para a planilha...');
+        console.log('[Sincronização] Iniciando envio de dados para a planilha...');
         try {
             // 1. Verifica se os objetos estão prontos
             if (typeof window.analyticsManager === 'undefined' || typeof window.v4_counters === 'undefined') {
@@ -1554,44 +1550,39 @@ const documentExtractor = {
                 return;
             }
 
-            // 2. Pega o nome do usuário
+            // 2. Pega o nome do usuário (do mesmo jeito que o Iniciar.js fazia)
             let currentUserName = "Usuário Anônimo";
             let userEl = document.querySelector('div.name span.entry-value');
             if (userEl) {
                 currentUserName = userEl.innerText;
             }
 
-            // 3. Envio de Analytics (Os dados de resumo que decidimos IGNORAR no V2.1)
+            // 3. Envio de Analytics
             const stats = window.analyticsManager.calculateStats();
             const analyticsPayload = {
                 conversasUnicas: stats.count,
                 tmaGeral: stats.tma,
                 tmeAtivo: stats.tme,
-                encAgente: stats.baloonClicks, 
+                encAgente: stats.baloonClicks, // Métrica MOD_4
                 inicio: stats.last, 
                 ultima: stats.first, 
                 meta: window.CONFIG ? window.CONFIG.CONVERSATION_TARGET : 45,
                 transferidos: stats.transferClicks,
+                // *** CORREÇÃO APLICADA (Estava faltando) ***
                 tmaGeralSegundos: stats.tmaSeconds || 0,
                 tmeAtivoSegundos: stats.tmeSeconds || 0
             };
-            // Nota: O Cérebro V2.1 vai receber isto e ignorar, como pedimos.
             fetch(LOG_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: 'analytics', user: currentUserName, stats: analyticsPayload }) });
 
-            // 4. Envio de Atendimentos (O MAIS IMPORTANTE)
+            // 4. Envio de Atendimentos
             const atendimentosPayload = window.analyticsManager.getData().conversations.map(conv => ({
                 tipo: conv.interactionType || 'unknown',
                 horaFim: new Date(conv.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
                 cliente: conv.participantName,
-                // TME (Texto)
                 tme: (() => {
                     const s = Math.floor(conv.activeDuration / 1000);
                     return `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`
                 })(),
-                // *** ADIÇÃO IMPORTANTE (V2.1) ***
-                // TME (Segundos) - O dado que faltava para os dashboards
-                tmeSegundos: Math.floor(conv.activeDuration / 1000), 
-                // **********************************
                 recorrencia: conv.isRecurrence ? 'Sim' : 'Não',
                 link: conv.interactionUrl || 'N/A'
             }));
@@ -1611,14 +1602,14 @@ const documentExtractor = {
                 });
             }
 
-            console.log(`[Sincronização V2.1] Dados de ${currentUserName} enviados com sucesso.`);
+            console.log(`[Sincronização] Dados de ${currentUserName} enviados com sucesso.`);
 
         } catch (e) {
-            console.error('[Sincronização V2.1] Erro ao enviar dados:', e);
+            console.error('[Sincronização] Erro ao enviar dados:', e);
         }
     }
     // ==========================================================
-    // FIM: CÓDIGO DE SINCRONIZAÇÃO
+    // FIM: NOVO CÓDIGO DE SINCRONIZAÇÃO
     // ==========================================================
 
 
