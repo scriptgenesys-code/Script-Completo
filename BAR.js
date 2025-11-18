@@ -1,66 +1,374 @@
 (function() {
-    'use strict';
-
-    // --- 0. BANCO DE DADOS DE COMANDOS (V19.0 - MANTIDO ORIGINAL) ---
-    // ... (Todo o banco de dados permanece igual) ...
+    // --- 0. BANCO DE DADOS DE COMANDOS (V19.0) ---
     window.commandDatabase = [
-        // ... (Conteúdo original do seu JSON aqui) ...
-        // Vou pular a repetição do JSON para não ocupar espaço, 
-        // mas o código final abaixo inclui tudo.
         {
             "title": "Rede (Diagnóstico e Atalhos)",
             "commands": [
-                { "id": "cmd-ncpa", "label": "Conexões de Rede (Painel de Controle)", "desc": "Abre a pasta \"Conexões de Rede\" (Painel de Controle)", "os": { "win": "ncpa.cpl" } },
-                { "id": "cmd-firewall", "label": "Firewall do Windows", "desc": "Abre o Firewall com Segurança Avançada", "os": { "win": "wf.msc" } },
-                { "id": "cmd-inetcpl", "label": "Propriedades de Internet", "desc": "Abre as Propriedades de Internet (Cache, Segurança, etc)", "os": { "win": "inetcpl.cpl" } },
-                { "id": "cmd-mac-net", "label": "Definições de Rede (GUI)", "desc": "Abre as Preferências de Rede do Sistema", "os": { "mac": "open /System/Library/PreferencePanes/Network.prefPane" } },
-                { "id": "cmd-lin-nm", "label": "Editor de Conexão (GUI)", "desc": "Abre o editor de conexões do NetworkManager", "os": { "linux": "nm-connection-editor" } },
-                { "id": "cmd-getmac", "label": "Ver Endereços MAC", "desc": "Mostra os endereços físicos (MAC) de todas as placas", "os": { "win": "getmac /v", "mac": "ifconfig | grep ether", "linux": "ip link show | grep ether" } },
-                { "id": "cmd-firewall-status", "label": "Verificar Status do Firewall (Terminal)", "desc": "Verifica se o firewall está ativo", "os": { "win": "netsh advfirewall show allprofiles state", "mac": "sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate", "linux": "sudo ufw status" } }
+                {
+                    "id": "cmd-ncpa",
+                    "label": "Conexões de Rede (Painel de Controle)",
+                    "desc": "Abre a pasta \"Conexões de Rede\" (Painel de Controle)",
+                    "os": {
+                        "win": "ncpa.cpl"
+                    }
+                },
+                {
+                    "id": "cmd-firewall",
+                    "label": "Firewall do Windows",
+                    "desc": "Abre o Firewall com Segurança Avançada",
+                    "os": {
+                        "win": "wf.msc"
+                    }
+                },
+                {
+                    "id": "cmd-inetcpl",
+                    "label": "Propriedades de Internet",
+                    "desc": "Abre as Propriedades de Internet (Cache, Segurança, etc)",
+                    "os": {
+                        "win": "inetcpl.cpl"
+                    }
+                },
+                {
+                    "id": "cmd-mac-net",
+                    "label": "Definições de Rede (GUI)",
+                    "desc": "Abre as Preferências de Rede do Sistema",
+                    "os": {
+                        "mac": "open /System/Library/PreferencePanes/Network.prefPane"
+                    }
+                },
+                {
+                    "id": "cmd-lin-nm",
+                    "label": "Editor de Conexão (GUI)",
+                    "desc": "Abre o editor de conexões do NetworkManager",
+                    "os": {
+                        "linux": "nm-connection-editor"
+                    }
+                },
+                {
+                    "id": "cmd-getmac",
+                    "label": "Ver Endereços MAC",
+                    "desc": "Mostra os endereços físicos (MAC) de todas as placas",
+                    "os": {
+                        "win": "getmac /v",
+                        "mac": "ifconfig | grep ether",
+                        "linux": "ip link show | grep ether"
+                    }
+                },
+                {
+                    "id": "cmd-firewall-status",
+                    "label": "Verificar Status do Firewall (Terminal)",
+                    "desc": "Verifica se o firewall está ativo",
+                    "os": {
+                        "win": "netsh advfirewall show allprofiles state",
+                        "mac": "sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate",
+                        "linux": "sudo ufw status"
+                    }
+                }
             ]
         },
         {
             "title": "Rede (Configuração e Admin)",
             "commands": [
-                { "id": "cmd-flushdns", "label": "Limpar Cache DNS (Admin)", "desc": "Força a limpeza do cache de resolução de DNS", "os": { "win": "ipconfig /flushdns", "mac": "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder", "linux": "sudo systemd-resolve --flush-caches" } },
-                { "id": "cmd-releaseip", "label": "Libertar IP (Admin)", "desc": "Liberta o endereço IP atual do DHCP", "os": { "win": "ipconfig /release", "mac": "sudo ipconfig set en0 BOOTP && sudo ipconfig set en0 DHCP", "linux": "sudo dhclient -r" } },
-                { "id": "cmd-renewip", "label": "Renovar IP (Admin)", "desc": "Pede um novo endereço IP ao DHCP", "os": { "win": "ipconfig /renew", "mac": "sudo ipconfig set en0 BOOTP && sudo ipconfig set en0 DHCP", "linux": "sudo dhclient" } },
-                { "id": "cmd-netsh-show-wifi", "label": "Ver Perfis Wi-Fi Guardados (Admin)", "desc": "Mostra todas as redes Wi-Fi que o Windows guardou", "os": { "win": "netsh wlan show profiles" } },
-                { "id": "cmd-netsh-show-wifikey", "label": "Ver Chave Wi-Fi Específica (Admin)", "desc": "Substitua NOME_DA_REDE pelo nome do Wi-Fi", "os": { "win": "netsh wlan show profile name=\"NOME_DA_REDE\" key=clear" } },
-                { "id": "cmd-netsh-reset", "label": "Resetar Catálogo Winsock (Admin)", "desc": "Repara problemas de conectividade de software", "os": { "win": "netsh winsock reset" } },
-                { "id": "cmd-netsh-reset-ip", "label": "Resetar Stack TCP/IP (Admin)", "desc": "Repara problemas de conectividade de IP", "os": { "win": "netsh int ip reset" } },
-                { "id": "cmd-wifi-off", "label": "Desativar Wi-Fi (Admin)", "desc": "Nome \"Wi-Fi\" (Win) ou \"wlan0\" (Lin) pode variar", "os": { "win": "powershell -Command \"Disable-NetAdapter -Name 'Wi-Fi' -Confirm:$false\"", "mac": "sudo networksetup -setnetworkserviceenabled Wi-Fi off", "linux": "sudo ip link set wlan0 down" } },
-                { "id": "cmd-wifi-on", "label": "Ativar Wi-Fi (Admin)", "desc": "Nome \"Wi-Fi\" (Win) ou \"wlan0\" (Lin) pode variar", "os": { "win": "powershell -Command \"Enable-NetAdapter -Name 'Wi-Fi'\"", "mac": "sudo networksetup -setnetworkserviceenabled Wi-Fi on", "linux": "sudo ip link set wlan0 up" } },
-                { "id": "cmd-mac-airport", "label": "Scan Wi-Fi (Terminal)", "desc": "Mostra todas as redes Wi-Fi visíveis e a sua força", "os": { "mac": "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s" } },
-                { "id": "cmd-lin-iwlist", "label": "Scan Wi-Fi (Terminal)", "desc": "Mostra todas as redes Wi-Fi visíveis", "os": { "linux": "sudo iwlist wlan0 scan" } }
+                {
+                    "id": "cmd-flushdns",
+                    "label": "Limpar Cache DNS (Admin)",
+                    "desc": "Força a limpeza do cache de resolução de DNS",
+                    "os": {
+                        "win": "ipconfig /flushdns",
+                        "mac": "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder",
+                        "linux": "sudo systemd-resolve --flush-caches"
+                    }
+                },
+                {
+                    "id": "cmd-releaseip",
+                    "label": "Libertar IP (Admin)",
+                    "desc": "Liberta o endereço IP atual do DHCP",
+                    "os": {
+                        "win": "ipconfig /release",
+                        "mac": "sudo ipconfig set en0 BOOTP && sudo ipconfig set en0 DHCP",
+                        "linux": "sudo dhclient -r"
+                    }
+                },
+                {
+                    "id": "cmd-renewip",
+                    "label": "Renovar IP (Admin)",
+                    "desc": "Pede um novo endereço IP ao DHCP",
+                    "os": {
+                        "win": "ipconfig /renew",
+                        "mac": "sudo ipconfig set en0 BOOTP && sudo ipconfig set en0 DHCP",
+                        "linux": "sudo dhclient"
+                    }
+                },
+                {
+                    "id": "cmd-netsh-show-wifi",
+                    "label": "Ver Perfis Wi-Fi Guardados (Admin)",
+                    "desc": "Mostra todas as redes Wi-Fi que o Windows guardou",
+                    "os": {
+                        "win": "netsh wlan show profiles"
+                    }
+                },
+                {
+                    "id": "cmd-netsh-show-wifikey",
+                    "label": "Ver Chave Wi-Fi Específica (Admin)",
+                    "desc": "Substitua NOME_DA_REDE pelo nome do Wi-Fi",
+                    "os": {
+                        "win": "netsh wlan show profile name=\"NOME_DA_REDE\" key=clear"
+                    }
+                },
+                {
+                    "id": "cmd-netsh-reset",
+                    "label": "Resetar Catálogo Winsock (Admin)",
+                    "desc": "Repara problemas de conectividade de software",
+                    "os": {
+                        "win": "netsh winsock reset"
+                    }
+                },
+                {
+                    "id": "cmd-netsh-reset-ip",
+                    "label": "Resetar Stack TCP/IP (Admin)",
+                    "desc": "Repara problemas de conectividade de IP",
+                    "os": {
+                        "win": "netsh int ip reset"
+                    }
+                },
+                {
+                    "id": "cmd-wifi-off",
+                    "label": "Desativar Wi-Fi (Admin)",
+                    "desc": "Nome \"Wi-Fi\" (Win) ou \"wlan0\" (Lin) pode variar",
+                    "os": {
+                        "win": "powershell -Command \"Disable-NetAdapter -Name 'Wi-Fi' -Confirm:$false\"",
+                        "mac": "sudo networksetup -setnetworkserviceenabled Wi-Fi off",
+                        "linux": "sudo ip link set wlan0 down"
+                    }
+                },
+                {
+                    "id": "cmd-wifi-on",
+                    "label": "Ativar Wi-Fi (Admin)",
+                    "desc": "Nome \"Wi-Fi\" (Win) ou \"wlan0\" (Lin) pode variar",
+                    "os": {
+                        "win": "powershell -Command \"Enable-NetAdapter -Name 'Wi-Fi'\"",
+                        "mac": "sudo networksetup -setnetworkserviceenabled Wi-Fi on",
+                        "linux": "sudo ip link set wlan0 up"
+                    }
+                },
+                {
+                    "id": "cmd-mac-airport",
+                    "label": "Scan Wi-Fi (Terminal)",
+                    "desc": "Mostra todas as redes Wi-Fi visíveis e a sua força",
+                    "os": {
+                        "mac": "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s"
+                    }
+                },
+                {
+                    "id": "cmd-lin-iwlist",
+                    "label": "Scan Wi-Fi (Terminal)",
+                    "desc": "Mostra todas as redes Wi-Fi visíveis",
+                    "os": {
+                        "linux": "sudo iwlist wlan0 scan"
+                    }
+                }
             ]
         },
         {
             "title": "Sistema (Info e Desempenho)",
             "commands": [
-                { "id": "cmd-taskmgr", "label": "Gestor de Tarefas", "desc": null, "os": { "win": "taskmgr" } },
-                { "id": "cmd-services", "label": "Serviços do Windows", "desc": null, "os": { "win": "services.msc" } },
-                { "id": "cmd-msinfo", "label": "Informação do Sistema", "desc": null, "os": { "win": "msinfo32" } },
-                { "id": "cmd-devmgmt", "label": "Gestor de Dispositivos", "desc": "Ver drivers e hardware", "os": { "win": "devmgmt.msc" } },
-                { "id": "cmd-msconfig", "label": "Configuração do Sistema", "desc": "Ver programas de arranque e serviços", "os": { "win": "msconfig" } },
-                { "id": "cmd-dxdiag", "label": "Diagnóstico do DirectX", "desc": "Verificar drivers de vídeo e áudio", "os": { "win": "dxdiag" } },
-                { "id": "cmd-resmon", "label": "Monitor de Recursos", "desc": "Ver uso de CPU, disco, rede e memória em detalhe", "os": { "win": "resmon" } },
-                { "id": "cmd-perfmon", "label": "Monitor de Desempenho", "desc": "Analisar performance e gerar relatórios", "os": { "win": "perfmon" } },
-                { "id": "cmd-powercfg", "label": "Opções de Energia (Avançado)", "desc": "Gerar relatório de saúde da bateria", "os": { "win": "powercfg /batteryreport" } },
-                { "id": "cmd-wmic-cpu", "label": "Info CPU (Terminal)", "desc": null, "os": { "win": "wmic cpu get name, MaxClockSpeed, L3CacheSize", "mac": "sysctl -n machdep.cpu.brand_string", "linux": "lscpu | grep 'Model name'" } },
-                { "id": "cmd-wmic-mem", "label": "Info Memória (Terminal)", "desc": "Lista os módulos de RAM instalados", "os": { "win": "wmic memorychip get Capacity, Speed, Manufacturer", "mac": "sysctl hw.memsize", "linux": "free -h" } },
-                { "id": "cmd-wmic-os", "label": "Info Sistema Operacional (Terminal)", "desc": null, "os": { "win": "wmic os get Caption, Version, OSArchitecture", "mac": "sw_vers", "linux": "lsb_release -a" } },
-                { "id": "cmd-mac-activity", "label": "Monitor de Atividade (GUI)", "desc": "Equivalente ao Gestor de Tarefas", "os": { "mac": "open /System/Applications/Utilities/Activity\\ Monitor.app" } },
-                { "id": "cmd-mac-sysinfo", "label": "Informação do Sistema (GUI)", "desc": null, "os": { "mac": "open /System/Applications/Utilities/System\\ Information.app" } },
-                { "id": "cmd-mac-console", "label": "Logs do Sistema (GUI)", "desc": "Equivalente ao Visualizador de Eventos", "os": { "mac": "open /System/Applications/Utilities/Console.app" } },
-                { "id": "cmd-lin-monitor", "label": "Monitor de Sistema (Terminal)", "desc": "(Requer htop: sudo apt install htop)", "os": { "linux": "htop" } },
-                { "id": "cmd-lin-lshw", "label": "Listar Hardware (Terminal)", "desc": "Lista detalhada de todo o hardware", "os": { "linux": "sudo lshw -short" } },
-                { "id": "cmd-lin-df", "label": "Ver Uso de Disco (Terminal)", "desc": "Mostra espaço livre em disco", "os": { "mac": "df -h", "linux": "df -h" } },
-                { "id": "cmd-lin-du", "label": "Ver Tamanho de Pastas (Terminal)", "desc": "Mostra o tamanho das pastas no diretório atual", "os": { "mac": "du -sh *", "linux": "du -sh *" } },
-                { "id": "cmd-lin-lspci", "label": "Listar Dispositivos PCI (Terminal)", "desc": "Ver placas (vídeo, rede, etc) ligadas", "os": { "linux": "lspci" } },
-                { "id": "cmd-uname", "label": "Ver Info do Sistema (Terminal)", "desc": "Mostra a versão do Kernel e SO", "os": { "mac": "uname -a", "linux": "uname -a" } },
-                { "id": "cmd-whoami", "label": "Ver Username (Terminal)", "desc": "Mostra o utilizador atual", "os": { "win": "whoami", "mac": "whoami", "linux": "whoami" } },
-                { "id": "cmd-uptime", "label": "Tempo de Atividade (Terminal)", "desc": "Há quanto tempo o sistema está ligado", "os": { "win": "systeminfo | find \"Tempo de Arranque\"", "mac": "uptime", "linux": "uptime" } }
+                {
+                    "id": "cmd-taskmgr",
+                    "label": "Gestor de Tarefas",
+                    "desc": null,
+                    "os": {
+                        "win": "taskmgr"
+                    }
+                },
+                {
+                    "id": "cmd-services",
+                    "label": "Serviços do Windows",
+                    "desc": null,
+                    "os": {
+                        "win": "services.msc"
+                    }
+                },
+                {
+                    "id": "cmd-msinfo",
+                    "label": "Informação do Sistema",
+                    "desc": null,
+                    "os": {
+                        "win": "msinfo32"
+                    }
+                },
+                {
+                    "id": "cmd-devmgmt",
+                    "label": "Gestor de Dispositivos",
+                    "desc": "Ver drivers e hardware",
+                    "os": {
+                        "win": "devmgmt.msc"
+                    }
+                },
+                {
+                    "id": "cmd-msconfig",
+                    "label": "Configuração do Sistema",
+                    "desc": "Ver programas de arranque e serviços",
+                    "os": {
+                        "win": "msconfig"
+                    }
+                },
+                {
+                    "id": "cmd-dxdiag",
+                    "label": "Diagnóstico do DirectX",
+                    "desc": "Verificar drivers de vídeo e áudio",
+                    "os": {
+                        "win": "dxdiag"
+                    }
+                },
+                {
+                    "id": "cmd-resmon",
+                    "label": "Monitor de Recursos",
+                    "desc": "Ver uso de CPU, disco, rede e memória em detalhe",
+                    "os": {
+                        "win": "resmon"
+                    }
+                },
+                {
+                    "id": "cmd-perfmon",
+                    "label": "Monitor de Desempenho",
+                    "desc": "Analisar performance e gerar relatórios",
+                    "os": {
+                        "win": "perfmon"
+                    }
+                },
+                {
+                    "id": "cmd-powercfg",
+                    "label": "Opções de Energia (Avançado)",
+                    "desc": "Gerar relatório de saúde da bateria",
+                    "os": {
+                        "win": "powercfg /batteryreport"
+                    }
+                },
+                {
+                    "id": "cmd-wmic-cpu",
+                    "label": "Info CPU (Terminal)",
+                    "desc": null,
+                    "os": {
+                        "win": "wmic cpu get name, MaxClockSpeed, L3CacheSize",
+                        "mac": "sysctl -n machdep.cpu.brand_string",
+                        "linux": "lscpu | grep 'Model name'"
+                    }
+                },
+                {
+                    "id": "cmd-wmic-mem",
+                    "label": "Info Memória (Terminal)",
+                    "desc": "Lista os módulos de RAM instalados",
+                    "os": {
+                        "win": "wmic memorychip get Capacity, Speed, Manufacturer",
+                        "mac": "sysctl hw.memsize",
+                        "linux": "free -h"
+                    }
+                },
+                {
+                    "id": "cmd-wmic-os",
+                    "label": "Info Sistema Operacional (Terminal)",
+                    "desc": null,
+                    "os": {
+                        "win": "wmic os get Caption, Version, OSArchitecture",
+                        "mac": "sw_vers",
+                        "linux": "lsb_release -a"
+                    }
+                },
+                {
+                    "id": "cmd-mac-activity",
+                    "label": "Monitor de Atividade (GUI)",
+                    "desc": "Equivalente ao Gestor de Tarefas",
+                    "os": {
+                        "mac": "open /System/Applications/Utilities/Activity\\ Monitor.app"
+                    }
+                },
+                {
+                    "id": "cmd-mac-sysinfo",
+                    "label": "Informação do Sistema (GUI)",
+                    "desc": null,
+                    "os": {
+                        "mac": "open /System/Applications/Utilities/System\\ Information.app"
+                    }
+                },
+                {
+                    "id": "cmd-mac-console",
+                    "label": "Logs do Sistema (GUI)",
+                    "desc": "Equivalente ao Visualizador de Eventos",
+                    "os": {
+                        "mac": "open /System/Applications/Utilities/Console.app"
+                    }
+                },
+                {
+                    "id": "cmd-lin-monitor",
+                    "label": "Monitor de Sistema (Terminal)",
+                    "desc": "(Requer htop: sudo apt install htop)",
+                    "os": {
+                        "linux": "htop"
+                    }
+                },
+                {
+                    "id": "cmd-lin-lshw",
+                    "label": "Listar Hardware (Terminal)",
+                    "desc": "Lista detalhada de todo o hardware",
+                    "os": {
+                        "linux": "sudo lshw -short"
+                    }
+                },
+                {
+                    "id": "cmd-lin-df",
+                    "label": "Ver Uso de Disco (Terminal)",
+                    "desc": "Mostra espaço livre em disco",
+                    "os": {
+                        "mac": "df -h",
+                        "linux": "df -h"
+                    }
+                },
+                {
+                    "id": "cmd-lin-du",
+                    "label": "Ver Tamanho de Pastas (Terminal)",
+                    "desc": "Mostra o tamanho das pastas no diretório atual",
+                    "os": {
+                        "mac": "du -sh *",
+                        "linux": "du -sh *"
+                    }
+                },
+                {
+                    "id": "cmd-lin-lspci",
+                    "label": "Listar Dispositivos PCI (Terminal)",
+                    "desc": "Ver placas (vídeo, rede, etc) ligadas",
+                    "os": {
+                        "linux": "lspci"
+                    }
+                },
+                {
+                    "id": "cmd-uname",
+                    "label": "Ver Info do Sistema (Terminal)",
+                    "desc": "Mostra a versão do Kernel e SO",
+                    "os": {
+                        "mac": "uname -a",
+                        "linux": "uname -a"
+                    }
+                },
+                {
+                    "id": "cmd-whoami",
+                    "label": "Ver Username (Terminal)",
+                    "desc": "Mostra o utilizador atual",
+                    "os": {
+                        "win": "whoami",
+                        "mac": "whoami",
+                        "linux": "whoami"
+                    }
+                },
+                {
+                    "id": "cmd-uptime",
+                    "label": "Tempo de Atividade (Terminal)",
+                    "desc": "Há quanto tempo o sistema está ligado",
+                    "os": {
+                        "win": "systeminfo | find \"Tempo de Arranque\"",
+                        "mac": "uptime",
+                        "linux": "uptime"
+                    }
+                }
             ]
         },
         {
@@ -629,7 +937,7 @@
     contentArea.className = 'bau-content-area';
     
     // *** ALÇA DE REDIMENSIONAMENTO (Handle) ***
-    resizeHandle = document.createElement('div'); // <<< USADO A VARIÁVEL DECLARADA NO INÍCIO
+    resizeHandle = document.createElement('div'); 
     resizeHandle.className = 'bau-resizer-handle bau-resizer-se';
     bauElement.appendChild(resizeHandle);
     // *** FIM DA ALÇA DE REDIMENSIONAMENTO ***
@@ -962,13 +1270,19 @@
     bauElement.appendChild(resizeHandle);
     // *** FIM DA ALÇA DE REDIMENSIONAMENTO ***
     
-    // --- 4. INJETAR O BAÚ ---
+    // --- 4. INJETAR O BAÚ E O BOTÃO ---
     const styleSheet = document.createElement("style");
     styleSheet.id = "bau-rede-styles";
     styleSheet.innerText = styles;
     document.head.appendChild(styleSheet);
     document.body.appendChild(bauElement);
 
+    const triggerButton = document.createElement('button');
+    triggerButton.id = 'bau-trigger-button';
+    triggerButton.innerHTML = ICONS.COMPUTER;
+    triggerButton.title = 'Abrir Baú de Acesso Remoto';
+    document.body.appendChild(triggerButton);
+    
     // --- 5. ATIVAR A LÓGICA V20.1 ---
     
     applyThemeColors(DESIGN_COLORS);
@@ -978,15 +1292,18 @@
         if (bauElement.style.display === 'none' || !bauElement.style.display) {
             bauElement.style.display = 'flex';
             bauElement.style.flexDirection = 'column';
-            triggerBtn.style.display = 'none';
+            triggerButton.style.display = 'none';
         } else {
             bauElement.style.display = 'none';
-            triggerBtn.style.display = 'flex';
+            triggerButton.style.display = 'flex';
         }
     };
 
     // 2. Torna a janela principal arrastável
     makeDraggable(bauElement, header); 
+    
+    // 3. Torna o botão flutuante arrastável E clicável (passando o callback)
+    makeDraggable(triggerButton, triggerButton, toggleBau); 
     
     // 4. Torna a janela redimensionável (usando a nova alça)
     makeResizable(bauElement, resizeHandle);
@@ -994,7 +1311,7 @@
     // O closeBtn ainda precisa da sua própria função para fechar diretamente.
     closeBtn.onclick = function() {
         bauElement.style.display = 'none';
-        triggerBtn.style.display = 'flex';
+        triggerButton.style.display = 'flex';
     };
     
     // Event Listener Único para todos os botões "Copiar"
@@ -1395,85 +1712,6 @@
     document.getElementById('btn-tab-info').click();
     updateAllCommands(); // Função unificada
 
-    console.log("Baú de Acesso Remoto (V22.0) carregado!");
-
-    // --- 6. BOTÃO FLUTUANTE (CORREÇÃO DEFINITIVA) ---
-    
-    // 1. Verifica se já existe para não duplicar
-    let triggerBtn = document.getElementById('bau-trigger-button');
-    if (!triggerBtn) {
-        triggerBtn = document.createElement('button');
-        triggerBtn.id = 'bau-trigger-button'; // O Menu Unificado procura este ID
-        triggerBtn.innerHTML = ICONS.COMPUTER;
-        triggerBtn.title = "Abrir BAR";
-        document.body.appendChild(triggerBtn);
-    }
-
-    // 2. Lógica de Abrir/Fechar (Simples e Direta)
-    // Esta função funciona tanto com clique do mouse quanto com o clique simulado do Menu
-    triggerBtn.onclick = function() {
-        const janela = document.getElementById('bau-rede');
-        if (janela.style.display === 'none' || !janela.style.display) {
-            janela.style.display = 'flex'; // Abre
-            // Se estiver sendo usado pelo Menu Unificado, esconde o botão flutuante para não atrapalhar
-            if (getComputedStyle(triggerBtn).opacity === '0') {
-                 // Não faz nada, o CSS do menu já trata
-            }
-        } else {
-            janela.style.display = 'none'; // Fecha
-        }
-    };
-
-    // 3. Lógica de Arrasto (Drag) - Só ativa se clicar e segurar
-    let isBtnDragging = false;
-    let btnStartX, btnStartY, btnInitLeft, btnInitTop;
-
-    triggerBtn.onmousedown = (e) => {
-        if (e.button !== 0) return;
-        isBtnDragging = false;
-        btnStartX = e.clientX; btnStartY = e.clientY;
-        const r = triggerBtn.getBoundingClientRect();
-        btnInitLeft = r.left; btnInitTop = r.top;
-        
-        const onMove = (me) => {
-            const dx = me.clientX - btnStartX;
-            const dy = me.clientY - btnStartY;
-            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-                isBtnDragging = true; // Confirmou que é arrasto, não clique
-                triggerBtn.style.left = (btnInitLeft + dx) + 'px';
-                triggerBtn.style.top = (btnInitTop + dy) + 'px';
-                triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto';
-                triggerBtn.onclick = null; // Desativa clique temporariamente
-            }
-        };
-        
-        const onUp = () => {
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onUp);
-            if (isBtnDragging) {
-                // Salva posição
-                localStorage.setItem('bauTriggerPos', JSON.stringify({left: triggerBtn.style.left, top: triggerBtn.style.top}));
-                // Restaura o clique após um breve delay
-                setTimeout(() => { 
-                    triggerBtn.onclick = function() {
-                         const j = document.getElementById('bau-rede');
-                         j.style.display = (j.style.display === 'none' || !j.style.display) ? 'flex' : 'none';
-                    };
-                }, 100);
-            }
-        };
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-    };
-
-    // 4. Restaurar posição salva
-    const savedBtnPos = localStorage.getItem('bauTriggerPos');
-    if(savedBtnPos) { 
-        const p = JSON.parse(savedBtnPos); 
-        triggerBtn.style.left = p.left; 
-        triggerBtn.style.top = p.top; 
-        triggerBtn.style.right = 'auto'; 
-        triggerBtn.style.bottom = 'auto'; 
-    }
+    console.log("Baú de Acesso Remoto (V20.1) carregado!");
 
 })();
