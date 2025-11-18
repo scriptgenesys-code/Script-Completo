@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Carregador Principal de Scripts (Iniciador Unificado V4.4)
+// @name         Carregador Principal de Scripts (Iniciador Unificado V4.5)
 // @namespace    http://tampermonkey.net/
-// @version      4.4
+// @version      4.5
 // @description  Carrega automaticamente TODOS os scripts (Pausas, Cronômetros, Respostas, Protocolos e BAR)
 // @author       (Adaptado por Parceiro de Programacao)
 // @match        https://*.mypurecloud.*/*
@@ -12,7 +12,7 @@
 
 (function() {
     'use strict';
-    console.log('[Bootloader V4.4 Unificado] Iniciador principal carregado.');
+    console.log('[Bootloader V4.5 Unificado] Iniciador principal carregado.');
 
     // --- Repositório ---
     const basePath = 'https://cdn.jsdelivr.net/gh/scriptgenesys-code/Script-Completo@main/';
@@ -23,11 +23,12 @@
         'Pausas Automaticas (1).js',
         'Respostas Rapidas.js',
         'Protocolos rapidos.js',
-        'BAR.js' // <-- ADICIONADO AQUI
+        'BAR.js'
     ];
     
-    // URL DE LOG (Mantido)
-    const LOG_URL = 'https://script.google.com/macros/s/AKfycbwIRwR7V6eo2BWFQqtVfnomi5zn-VCFe76ltXLN25eYcAqPn4nakZDxv1QdWPvOXz12vA/exec';
+    // --- CORREÇÃO (V4.5) ---
+    // URL DE LOG ATUALIZADA para corresponder ao Cronometros.js
+    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec';
 
     /* --- Log de Acesso (Mantido) --- */
     let userName = "Usuário Anônimo";
@@ -47,29 +48,25 @@
                     page: window.location.href
                 })
             });
-            console.log('[Bootloader V4.4] Log de acesso enviado.');
+            console.log('[Bootloader V4.5] Log de acesso enviado.');
         }, 5000); 
     } catch (err) {
-        console.log('[Bootloader V4.4] Falha ao registrar log:', err);
+        console.log('[Bootloader V4.5] Falha ao registrar log:', err);
     }
 
     /* --- Carregador de Scripts --- */
     try {
         scriptsToLoad.forEach(scriptName => {
             var scriptElement = document.createElement('script');
-            
-            // IMPORTANTE: Adicionado 'encodeURIComponent' para garantir que nomes
-            // com espaços ou (1) funcionem corretamente.
             scriptElement.src = basePath + encodeURIComponent(scriptName) + '?v=' + Date.now();
-            
             document.body.appendChild(scriptElement);
-            console.log(`[Bootloader V4.4] Carregando: ${scriptName}`);
+            console.log(`[Bootloader V4.5] Carregando: ${scriptName}`);
         });
         
-        console.log('[Bootloader V4.4] Todos os 5 scripts foram injetados.');
+        console.log('[Bootloader V4.5] Todos os 5 scripts foram injetados.');
         
     } catch(e) {
-        console.error('[Bootloader V4.4] Erro crítico ao carregar scripts:', e);
+        console.error('[Bootloader V4.5] Erro crítico ao carregar scripts:', e);
     }
 
 })();
