@@ -1,4 +1,4 @@
-// Este é um SCRIPT SIMPLES (V4.5 MODIFICADO) - NÃO é um UserScript.
+// Este é um SCRIPT SIMPLES (V4.5 CORRIGIDO) - NÃO é um UserScript.
 // Este ficheiro foi feito para ser carregado pelo seu FAVORITO (Bookmarklet).
 
 (function() {
@@ -14,11 +14,12 @@
         'Pausas Automaticas (1).js',
         'Respostas Rapidas.js',   
         'Protocolos rapidos.js',
-        'BAR.js' // <-- ADICIONADO AQUI
+        'BAR.js'
     ];
     
-    // URL DE LOG (Mantido)
-    const LOG_URL = 'https://script.google.com/macros/s/AKfycbwIRwR7V6eo2BWFQqtVfnomi5zn-VCFe76ltXLN25eYcAqPn4nakZDxv1QdWPvOXz12vA/exec';
+    // --- CORREÇÃO (V4.5) ---
+    // URL DE LOG ATUALIZADA para corresponder ao Cronometros.js
+    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec';
 
     /* --- Log de Acesso (Mantido) --- */
     let userName = "Usuário Anônimo";
@@ -48,7 +49,6 @@
     try {
         scriptsToLoad.forEach(scriptName => {
             var scriptElement = document.createElement('script');
-            // encodeURIComponent trata nomes com espaços como "Pausas Automaticas (1).js"
             scriptElement.src = basePath + encodeURIComponent(scriptName) + '?v=' + Date.now();
             document.body.appendChild(scriptElement);
             console.log(`[Bookmarklet Loader V4.5] Carregando: ${scriptName}`);
