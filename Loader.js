@@ -1,25 +1,26 @@
-// Este é um SCRIPT SIMPLES (V4.5 CORRIGIDO) - NÃO é um UserScript.
+// Este é um SCRIPT SIMPLES (V4.6 MODIFICADO) - NÃO é um UserScript.
 // Este ficheiro foi feito para ser carregado pelo seu FAVORITO (Bookmarklet).
 
 (function() {
     'use strict';
-    console.log('[Bookmarklet Loader V4.5] Carregador principal iniciado.');
+    console.log('[Bookmarklet Loader V4.6] Carregador principal iniciado.');
 
-    // URL base do seu GitHub Pages
+    // URL base do seu GitHub Pages (Mantido)
     const basePath = 'https://scriptgenesys-code.github.io/Script-Completo/';
 
-    // Lista ATUALIZADA com os 5 scripts que você quer carregar
+    // Lista ATUALIZADA com os 7 scripts (Incluindo o novo Extrator)
     const scriptsToLoad = [
         'Cronometros.js',
         'Pausas Automaticas (1).js',
         'Respostas Rapidas.js',   
         'Protocolos rapidos.js',
-        'BAR.js'
+        'BAR.js',
+        'Menu Unificado.js',       // O seu menu flutuante
+        'Extrator_Documentos.js'   // <-- NOVO: Extrator de CPF/CNPJ
     ];
     
-    // --- CORREÇÃO (V4.5) ---
-    // URL DE LOG ATUALIZADA para corresponder ao Cronometros.js
-    const LOG_URL = 'https://script.google.com/macros/s/AKfycbyBkz1XED-bMLDrPX19VMPoHmMB2_WovBb-Pn2HN1MG0P3lQOl6MkVCkcI6_Yo6WiGsEg/exec';
+    // URL DE LOG (Mantido)
+    const LOG_URL = 'https://script.google.com/macros/s/AKfycbwIRwR7V6eo2BWFQqtVfnomi5zn-VCFe76ltXLN25eYcAqPn4nakZDxv1QdWPvOXz12vA/exec';
 
     /* --- Log de Acesso (Mantido) --- */
     let userName = "Usuário Anônimo";
@@ -39,25 +40,26 @@
                     page: window.location.href
                 })
             });
-            console.log('[Bookmarklet Loader V4.5] Log de acesso enviado.');
+            console.log('[Bookmarklet Loader V4.6] Log de acesso enviado.');
         }, 5000); 
     } catch (err) {
-        console.log('[Bookmarklet Loader V4.5] Falha ao registrar log:', err);
+        console.log('[Bookmarklet Loader V4.6] Falha ao registrar log:', err);
     }
 
     /* --- Carregador de Scripts --- */
     try {
         scriptsToLoad.forEach(scriptName => {
             var scriptElement = document.createElement('script');
+            // encodeURIComponent garante que nomes com espaços carreguem corretamente
             scriptElement.src = basePath + encodeURIComponent(scriptName) + '?v=' + Date.now();
             document.body.appendChild(scriptElement);
-            console.log(`[Bookmarklet Loader V4.5] Carregando: ${scriptName}`);
+            console.log(`[Bookmarklet Loader V4.6] Carregando: ${scriptName}`);
         });
         
-        console.log('[Bookmarklet Loader V4.5] Todos os 5 scripts foram injetados.');
+        console.log('[Bookmarklet Loader V4.6] Todos os scripts foram injetados.');
         
     } catch(e) {
-        console.error('[Bookmarklet Loader V4.5] Erro crítico ao carregar scripts:', e);
+        console.error('[Bookmarklet Loader V4.6] Erro crítico ao carregar scripts:', e);
     }
 
 })();
