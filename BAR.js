@@ -1287,45 +1287,34 @@
     
     applyThemeColors(DESIGN_COLORS);
     
-    // 1. Lógica de Abrir/Fechar (Toggle)
+    // 1. Define a lógica de abertura/fecho para o callback
     const toggleBau = function() {
-        const janela = document.getElementById('bau-rede');
-        // Tenta pegar o botão pelo ID para garantir
-        let btn = document.getElementById('bau-trigger-button');
-
-        if (janela.style.display === 'none' || !janela.style.display) {
-            janela.style.display = 'flex';
-            janela.style.flexDirection = 'column';
-            
-            // Se o botão estiver visível (uso normal), esconde ele. 
-            // Se estiver invisível (uso com Menu Unificado), mantém invisível.
-            if (btn && getComputedStyle(btn).opacity !== '0' && getComputedStyle(btn).display !== 'none') {
-                btn.style.display = 'none';
-            }
+        if (bauElement.style.display === 'none' || !bauElement.style.display) {
+            bauElement.style.display = 'flex';
+            bauElement.style.flexDirection = 'column';
+            triggerButton.style.display = 'none';
         } else {
-            janela.style.display = 'none';
-            // Só mostra o botão de volta se ele não estiver sendo controlado pelo Menu Unificado
-            if (btn && getComputedStyle(btn).opacity !== '0') {
-                btn.style.display = 'flex';
-            }
+            bauElement.style.display = 'none';
+            triggerButton.style.display = 'flex';
         }
     };
 
-    // 2. Configurar Janela (Arrastar e Redimensionar)
-    // (Usa as variáveis bauElement, header, resizeHandle que já foram criadas acima no seu arquivo)
-    makeDraggable(bauElement, header);
+    // 2. Torna a janela principal arrastável
+    makeDraggable(bauElement, header); 
+    
+    // 3. Torna o botão flutuante arrastável E clicável (passando o callback)
+    makeDraggable(triggerButton, triggerButton, toggleBau); 
+    
+    // 4. Torna a janela redimensionável (usando a nova alça)
     makeResizable(bauElement, resizeHandle);
-
-    // 3. Botão Fechar (X) da Janela
+    
+    // O closeBtn ainda precisa da sua própria função para fechar diretamente.
     closeBtn.onclick = function() {
-        document.getElementById('bau-rede').style.display = 'none';
-        let btn = document.getElementById('bau-trigger-button');
-        if (btn && getComputedStyle(btn).opacity !== '0') {
-            btn.style.display = 'flex';
-        }
+        bauElement.style.display = 'none';
+        triggerButton.style.display = 'flex';
     };
-
-    // 4. Eventos dos botões "Copiar" dentro do BAÚ
+    
+    // Event Listener Único para todos os botões "Copiar"
     bauElement.addEventListener('click', function(e) {
         if (e.target.classList.contains('bau-copy-btn')) {
             const inputId = e.target.getAttribute('data-input-id');
@@ -1334,81 +1323,395 @@
             }
         }
     });
-
-    // --- 6. CONFIGURAÇÃO FINAL DO BOTÃO FLUTUANTE (FIX) ---
     
-    // Nota: A variável 'triggerButton' já foi criada nas linhas anteriores do seu arquivo.
-    // Aqui vamos apenas definir como ela se comporta.
-
-    // A) CLIQUE SIMPLES (Essencial para o Menu Unificado funcionar)
-    triggerButton.onclick = function() {
-        toggleBau();
+    // --- Lógica dos Testes Internos ---
+    document.getElementById('btn-descobrir-ip-publico').onclick = async function() {
+        const btn = document.getElementById('btn-descobrir-ip-publico');
+        const output = document.getElementById('meu-ip-publico-output');
+        btn.disabled = true; btn.textContent = 'Aguarde...';
+        output.textContent = 'A contactar api.ipify.org...';
+        try {
+            const response = await fetch('https://api.ipify.org');
+            if (!response.ok) throw new Error(`Status da resposta: ${response.status}`);
+            const ip = await response.text();
+            output.textContent = `Seu IP Público é: ${ip}`;
+        } catch (e) {
+            output.textContent = `Erro ao encontrar IP: ${e.message}`;
+        } finally {
+            btn.disabled = false; btn.textContent = 'Descobrir IP Público';
+        }
     };
 
-    // B) ARRASTAR (Lógica separada para não bloquear o clique)
-    let isBtnDragging = false;
-    let btnStartX, btnStartY, btnInitLeft, btnInitTop;
-
-    triggerButton.onmousedown = function(e) {
-        if (e.button !== 0) return; // Apenas botão esquerdo
-        
-        isBtnDragging = false;
-        btnStartX = e.clientX;
-        btnStartY = e.clientY;
-        
-        const rect = triggerButton.getBoundingClientRect();
-        btnInitLeft = rect.left;
-        btnInitTop = rect.top;
-        
-        triggerButton.style.transition = 'none'; // Remove animação para arrasto suave
-
-        function onMove(me) {
-            const dx = me.clientX - btnStartX;
-            const dy = me.clientY - btnStartY;
-            
-            // Só ativa o modo "arrastar" se mover mais de 5 pixels
-            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-                isBtnDragging = true;
-                triggerButton.onclick = null; // Desativa o clique temporariamente
-                
-                triggerButton.style.left = (btnInitLeft + dx) + 'px';
-                triggerButton.style.top = (btnInitTop + dy) + 'px';
-                triggerButton.style.right = 'auto';
-                triggerButton.style.bottom = 'auto';
-            }
+    document.getElementById('btn-teste-velocidade').onclick = async function() {
+        const btn = document.getElementById('btn-teste-velocidade');
+        const output = document.getElementById('velocidade-output');
+        btn.disabled = true; btn.textContent = 'A testar...';
+        const sizeValue = document.querySelector('input[name="speedtest-size"]:checked').value;
+        let testUrl, fileSizeInBytes;
+        switch(sizeValue) {
+            case '10': testUrl = 'https://cachefly.cachefly.net/10mb.test'; fileSizeInBytes = 10 * 1024 * 1024; break;
+            case '100': testUrl = 'https://cachefly.cachefly.net/100mb.test'; fileSizeInBytes = 100 * 1024 * 1024; break;
+            case '50': default: testUrl = 'https://cachefly.cachefly.net/50mb.test'; fileSizeInBytes = 50 * 1024 * 1024;
         }
-        
-        function onUp() {
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onUp);
-            triggerButton.style.transition = '';
-
-            if (isBtnDragging) {
-                // Salva posição se houve arrasto
-                localStorage.setItem('bauTriggerPos', JSON.stringify({
-                    left: triggerButton.style.left, 
-                    top: triggerButton.style.top
-                }));
-                
-                // Restaura o clique após um instante
-                setTimeout(function() {
-                    triggerButton.onclick = function() { toggleBau(); };
-                }, 100);
-            }
+        output.textContent = `A iniciar download de ${fileSizeInBytes / 1024 / 1024}MB...`;
+        try {
+            const startTime = performance.now();
+            const response = await fetch(testUrl + '?t=' + new Date().getTime());
+            if (!response.ok) throw new Error(`Erro no servidor: ${response.status}`);
+            await response.blob();
+            const endTime = performance.now();
+            const durationInSeconds = (endTime - startTime) / 1000;
+            const bitsPerSecond = (fileSizeInBytes * 8) / durationInSeconds;
+            const mbps = (bitsPerSecond / 1000000).toFixed(2);
+            output.textContent = `Velocidade de Download: ${mbps} Mbps\n(Tamanho: ${sizeValue}MB / Tempo: ${durationInSeconds.toFixed(2)}s)`;
+        } catch (e) {
+            output.textContent = `Erro no teste: ${e.message}. Tente novamente.`;
+        } finally {
+            btn.disabled = false; btn.textContent = 'Iniciar Teste de Velocidade';
         }
-        
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
     };
 
-    // C) Restaurar Posição ao Carregar
-    const savedPos = localStorage.getItem('bauTriggerPos');
-    if(savedPos) { 
-        const p = JSON.parse(savedPos); 
-        triggerButton.style.left = p.left; 
-        triggerButton.style.top = p.top; 
-        triggerButton.style.right = 'auto'; 
-        triggerButton.style.bottom = 'auto'; 
+    // --- Lógica dos Comandos (Funções de Atualização) ---
+    const placaRedeCmdOutput = document.getElementById('placa-rede-command-output');
+    const placaNomeInput = document.getElementById('placa-nome-input');
+    const placaForce1gCmd = document.getElementById('placa-force-1g-cmd');
+    const placaForceAutoCmd = document.getElementById('placa-force-auto-cmd');
+    function updatePlacaRedeCmd() {
+        const os = getActiveOS();
+        if (os === 'win') {
+            placaRedeCmdOutput.value = "powershell -Command \"Get-NetAdapter -Physical | Where-Object Status -eq 'Up' | Format-Table Name, LinkSpeed, MediaType -AutoSize\"";
+        } else if (os === 'mac') {
+            placaRedeCmdOutput.value = "system_profiler SPNetworkDataType | grep -E 'Interfaces:|Ethernet:|Type:|Speed:|Media Subtype:'";
+        } else { // linux
+            placaRedeCmdOutput.value = "ip a | grep 'state UP' -A 2 && echo \"--- Velocidade Ethernet (1000=1Gbs) ---\" && cat /sys/class/net/e*/speed 2>/dev/null && echo \"--- Info Wi-Fi ---\" && iwconfig 2>/dev/null";
+        }
     }
+    function updatePlacaForceCmds() {
+        const os = getActiveOS();
+        const adapterName = placaNomeInput.value || 'NOME_DA_PLACA';
+        if (os === 'win') {
+            placaForce1gCmd.value = `powershell -ExecutionPolicy Bypass -Command "Set-NetAdapter -Name '${adapterName}' -SpeedDuplex '1.0 Gbps Full Duplex'"`;
+            placaForceAutoCmd.value = `powershell -ExecutionPolicy Bypass -Command "Set-NetAdapter -Name '${adapterName}' -SpeedDuplex 'AutoNegotiation'"`;
+        } else if (os === 'mac') {
+            placaForce1gCmd.value = `sudo networksetup -setmedia '${adapterName}' 1000baseT`;
+            placaForceAutoCmd.value = `sudo networksetup -setmedia '${adapterName}' autoselect`;
+        } else { // linux
+            placaForce1gCmd.value = `sudo ethtool -s ${adapterName} speed 1000 duplex full autoneg off`;
+            placaForceAutoCmd.value = `sudo ethtool -s ${adapterName} autoneg on`;
+        }
+    }
+    placaNomeInput.onkeyup = updatePlacaForceCmds;
+
+    const pingHostInput = document.getElementById('ping-host-input');
+    const pingCmdOutput = document.getElementById('ping-command-output');
+    function updatePingCmd() { const os = getActiveOS(); pingCmdOutput.value = (os === 'win') ? `ping -n 4 ${pingHostInput.value}` : `ping -c 4 ${pingHostInput.value}`; }
+    pingHostInput.onkeyup = updatePingCmd;
+    
+    const trHostInput = document.getElementById('tr-host-input');
+    const trCmdOutput = document.getElementById('tr-command-output');
+    function updateTrCmd() { const os = getActiveOS(); trCmdOutput.value = (os === 'win') ? `tracert ${trHostInput.value}` : `traceroute ${trHostInput.value}`; }
+    trHostInput.onkeyup = updateTrCmd;
+    
+    const ppHostInput = document.getElementById('pp-host-input');
+    const ppCmdOutput = document.getElementById('pp-command-output');
+    const ppInstallerBox = document.getElementById('pp-installer-box');
+    const ppInstallerDesc = document.getElementById('pp-installer-desc');
+    const ppInstallCommand = document.getElementById('pp-install-command');
+    function updatePpCmd() {
+        const os = getActiveOS();
+        const host = ppHostInput.value;
+        if (os === 'win') {
+            ppCmdOutput.value = `pathping ${host}`;
+            ppInstallerBox.style.display = 'block';
+            ppInstallerDesc.textContent = "O 'pathping' já vem instalado por padrão no Windows.";
+            document.getElementById('copy-pp-install-btn').style.display = 'none';
+        } else {
+            ppCmdOutput.value = `mtr -r -c 10 ${host}`;
+            ppInstallerBox.style.display = 'block';
+            document.getElementById('copy-pp-install-btn').style.display = 'block';
+            if (os === 'mac') {
+                ppInstallerDesc.textContent = "Se o 'mtr' não for encontrado, instale-o com Homebrew:";
+                ppInstallCommand.value = "brew install mtr";
+            } else { // linux
+                ppInstallerDesc.textContent = "Se o 'mtr' não for encontrado (Ubuntu/Debian):";
+                ppInstallCommand.value = "sudo apt update && sudo apt install mtr";
+            }
+        }
+    }
+    ppHostInput.onkeyup = updatePpCmd;
+    
+    const nmapHostInput = document.getElementById('nmap-host-input');
+    const nmapCmdOutput = document.getElementById('nmap-command-output');
+    const nmapInstallerDesc = document.getElementById('nmap-installer-desc');
+    const nmapInstallCommand = document.getElementById('nmap-install-command');
+    function updateNmapCmd() {
+        const os = getActiveOS();
+        nmapCmdOutput.value = `nmap -sT ${nmapHostInput.value}`;
+        if (os === 'win') {
+            nmapInstallerDesc.textContent = "O Nmap precisa de ser instalado. Use o Winget (Windows 10/11):";
+            nmapInstallCommand.value = "winget install Insecure.Nmap";
+        } else if (os === 'mac') {
+            nmapInstallerDesc.textContent = "Instale o Nmap com Homebrew:";
+            nmapInstallCommand.value = "brew install nmap";
+        } else { // linux
+            nmapInstallerDesc.textContent = "Instale o Nmap (Ubuntu/Debian):";
+            nmapInstallCommand.value = "sudo apt update && sudo apt install nmap";
+        }
+    }
+    nmapHostInput.onkeyup = updateNmapCmd;
+    
+    const portHostInput = document.getElementById('port-host-input');
+    const portNumInput = document.getElementById('port-num-input');
+    const portCmdOutput = document.getElementById('port-command-output');
+    function updatePortCmd() {
+        const os = getActiveOS();
+        const host = portHostInput.value || 'HOST';
+        const port = portNumInput.value || 'PORTA';
+        if (os === 'win') {
+            portCmdOutput.value = `powershell -Command "Test-NetConnection -ComputerName ${host} -Port ${port}"`;
+        } else { // mac/linux
+            portCmdOutput.value = `nc -vz ${host} ${port}`;
+        }
+    }
+    portHostInput.onkeyup = updatePortCmd;
+    portNumInput.onkeyup = updatePortCmd;
+
+    const dnsHostInput = document.getElementById('dns-host-input');
+    const dnsCmdOutput = document.getElementById('dns-command-output');
+    function updateDnsCmd() { dnsCmdOutput.value = `nslookup ${dnsHostInput.value}`; }
+    dnsHostInput.onkeyup = updateDnsCmd;
+    
+    const arpCmdOutput = document.getElementById('arp-command-output');
+    function updateArpCmd() { arpCmdOutput.value = "arp -a"; }
+    
+    const routeCmdOutput = document.getElementById('route-command-output');
+    function updateRouteCmd() {
+        const os = getActiveOS();
+        routeCmdOutput.value = (os === 'win') ? "route print" : "netstat -r";
+    }
+
+    const speedtestCmdOutput = document.getElementById('speedtest-command-output');
+    const speedtestInstallerDesc = document.getElementById('speedtest-installer-desc');
+    const speedtestInstallCommand = document.getElementById('speedtest-install-command');
+    function updateSpeedtestCmd() {
+        const os = getActiveOS();
+        speedtestCmdOutput.value = "speedtest.exe"; // Comando para Ookla
+        if (os === 'win') {
+            speedtestInstallerDesc.textContent = "Instale com Winget (Windows 10/11):";
+            speedtestInstallCommand.value = "winget install Ookla.Speedtest.CLI"; 
+        } else if (os === 'mac') {
+            speedtestInstallerDesc.textContent = "Instale com Homebrew:";
+            speedtestInstallCommand.value = "brew install speedtest"; 
+            speedtestCmdOutput.value = "speedtest";
+        } else { // linux
+            speedtestInstallerDesc.textContent = "Instale com apt (Ubuntu/Debian):";
+            speedtestInstallCommand.value = "sudo apt update && sudo apt install speedtest-cli";
+            speedtestCmdOutput.value = "speedtest-cli";
+        }
+    }
+    
+    const winUp1 = document.getElementById('win-updates1-cmd');
+    const winUp2 = document.getElementById('win-updates2-cmd');
+    const nixUp = document.getElementById('nix-updates-cmd');
+    const nixUpCmd = document.getElementById('nix-update-cmd');
+    function updateAtualizacoesCmd() {
+        const os = getActiveOS();
+        if (os === 'win') {
+            winUp1.style.display = 'block';
+            winUp2.style.display = 'block';
+            nixUp.style.display = 'none';
+            document.getElementById('win-update-cmd').value = "UsoClient.exe StartScan";
+            document.getElementById('win-pkg-cmd').value = "winget upgrade --all";
+        } else {
+            winUp1.style.display = 'none';
+            winUp2.style.display = 'none';
+            nixUp.style.display = 'block';
+            if (os === 'mac') {
+                nixUpCmd.value = "brew update && brew upgrade";
+            } else { // linux
+                nixUpCmd.value = "sudo apt update && sudo apt upgrade -y";
+            }
+        }
+    }
+
+    // Lógica para a aba Comandos
+    const tabComandosContainer = document.getElementById('tab-comandos');
+    function populateCommandsTab() {
+        const os = getActiveOS();
+        while (tabComandosContainer.children.length > 2) { // Limpa mantendo o Título e P
+            tabComandosContainer.removeChild(tabComandosContainer.lastChild);
+        }
+
+        window.commandDatabase.forEach(category => {
+            const commandsForOS = category.commands.filter(cmd => cmd.os[os]);
+            if (commandsForOS.length > 0) {
+                tabComandosContainer.appendChild(createH4(category.title));
+                commandsForOS.forEach(cmd => {
+                    tabComandosContainer.appendChild(
+                        createCommandEntry(os, cmd.label, cmd.desc, cmd.os[os], cmd.id)
+                    );
+                });
+            }
+        });
+    }
+    
+    // Lógica da Aba de Registro
+    document.getElementById('print-registro-btn').onclick = function() {
+        // Coletar dados
+        const ipResult = document.getElementById('registro-ip-publico-input').value;
+        const velResult = document.getElementById('registro-velocidade-input').value;
+        const placaResult = document.getElementById('registro-placa-rede-input').value;
+        const pingResult = document.getElementById('registro-ping-input').value;
+        const trResult = document.getElementById('registro-tr-input').value;
+        const ppResult = document.getElementById('registro-pp-input').value;
+        const nmapResult = document.getElementById('registro-nmap-input').value;
+        const portResult = document.getElementById('registro-test-port-input').value;
+        const netstatResult = document.getElementById('registro-netstat-input').value;
+        const dnsResult = document.getElementById('registro-dns-input').value;
+        const arpResult = document.getElementById('registro-arp-input').value;
+        const routeResult = document.getElementById('registro-route-input').value;
+        const speedCliResult = document.getElementById('registro-speedtest-cli-input').value;
+        const updatesResult = document.getElementById('registro-updates-input').value;
+        const comandosResult = document.getElementById('registro-comandos-input').value;
+        
+        const reportWindow = window.open('', 'PrintWindow', 'width=800,height=600');
+        reportWindow.document.write('<html><head><title>Relatório de Testes de Rede</title>');
+        reportWindow.document.write(`
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 20px; background: #fff; color: #000; }
+                pre { font-family: "Courier New", monospace; background: #f4f4f4; padding: 15px; border: 1px solid #ccc; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+                h1 { border-bottom: 2px solid #666; padding-bottom: 5px; color: #333; }
+                h2 { background-color: #e0e0e0; padding: 5px 10px; border-radius: 5px; color: #000; margin-top: 10px; }
+                button { background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+                #report-container { display: flex; flex-wrap: wrap; justify-content: space-between; }
+                .test-block { width: 48%; margin-bottom: 20px; vertical-align: top; display: inline-block; page-break-inside: avoid; }
+                @media print { .no-print { display: none; } h1, h2 { page-break-after: avoid; } pre { page-break-inside: avoid; } }
+            </style>
+        `);
+        reportWindow.document.write('</head><body>');
+        reportWindow.document.write('<h1>Relatório de Testes de Rede</h1>');
+        reportWindow.document.write('<p class="no-print">Resultados colados do terminal. Use Ctrl+P para imprimir ou salvar como PDF.</p>');
+        reportWindow.document.write('<button class="no-print" onclick="window.print()">Imprimir Relatório / Salvar como PDF</button>');
+        reportWindow.document.write('<div id="report-container">');
+
+        if (ipResult) { reportWindow.document.write('<div class="test-block"><h2>Resultado do IP Público</h2><pre>' + escapeHTML(ipResult) + '</pre></div>'); }
+        if (velResult) { reportWindow.document.write('<div class="test-block"><h2>Velocidade (Navegador)</h2><pre>' + escapeHTML(velResult) + '</pre></div>'); }
+        if (placaResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados da Placa de Rede</h2><pre>' + escapeHTML(placaResult) + '</pre></div>'); }
+        if (pingResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do Ping</h2><pre>' + escapeHTML(pingResult) + '</pre></div>'); }
+        if (trResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do Traceroute</h2><pre>' + escapeHTML(trResult) + '</pre></div>'); }
+        if (ppResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do PathPing / MTR</h2><pre>' + escapeHTML(ppResult) + '</pre></div>'); }
+        if (nmapResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do Nmap</h2><pre>' + escapeHTML(nmapResult) + '</pre></div>'); }
+        if (portResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do Teste de Porta</h2><pre>' + escapeHTML(portResult) + '</pre></div>'); }
+        if (netstatResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do Netstat</h2><pre>' + escapeHTML(netstatResult) + '</pre></div>'); }
+        if (dnsResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados do DNS (nslookup)</h2><pre>' + escapeHTML(dnsResult) + '</pre></div>'); }
+        if (arpResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados da Tabela ARP</h2><pre>' + escapeHTML(arpResult) + '</pre></div>'); }
+        if (routeResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados da Tabela de Roteamento</h2><pre>' + escapeHTML(routeResult) + '</pre></div>'); }
+        if (speedCliResult) { reportWindow.document.write('<div class="test-block"><h2>Speedtest-CLI (Terminal)</h2><pre>' + escapeHTML(speedCliResult) + '</pre></div>'); }
+        if (updatesResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados das Atualizações</h2><pre>' + escapeHTML(updatesResult) + '</pre></div>'); }
+        if (comandosResult) { reportWindow.document.write('<div class="test-block"><h2>Resultados dos Comandos</h2><pre>' + escapeHTML(comandosResult) + '</pre></div>'); }
+        
+        reportWindow.document.write('</div>'); // Fecha o container principal
+        reportWindow.document.write('</body></html>');
+        reportWindow.document.close();
+    };
+    
+    // --- Lógica de Import/Export ---
+    document.getElementById('btn-export-json').onclick = function() {
+        try {
+            const jsonString = JSON.stringify(window.commandDatabase, null, 2);
+            const reportWindow = window.open('', 'PrintWindow', 'width=800,height=600');
+            reportWindow.document.write('<html><head><title>Banco de Dados de Comandos JSON</title></head><body>');
+            reportWindow.document.write('<p>Copie este conteúdo ou use Ctrl+S para salvar como comandos.json</p>');
+            reportWindow.document.write('<pre>' + escapeHTML(jsonString) + '</pre>');
+            reportWindow.document.write('</body></html>');
+            reportWindow.document.close();
+        } catch (e) {
+            alert('Erro ao exportar: ' + e.message);
+        }
+    };
+    
+    document.getElementById('btn-import-json').onclick = function() {
+        const btn = document.getElementById('btn-import-json');
+        const area = document.getElementById('import-json-area');
+        
+        if (area.style.display === 'none') {
+            area.style.display = 'block';
+            btn.textContent = 'Salvar Importação';
+            btn.style.backgroundColor = 'var(--cor-sucesso)';
+        } else {
+            try {
+                const newDB = JSON.parse(area.value);
+                if (Array.isArray(newDB)) {
+                    window.commandDatabase = newDB;
+                    alert('Sucesso! Banco de dados de comandos importado.');
+                    area.value = '';
+                    area.style.display = 'none';
+                    btn.textContent = 'Importar JSON';
+                    btn.style.backgroundColor = 'var(--cor-sucesso)';
+                    updateAllCommands();
+                    document.getElementById('btn-tab-comandos').click();
+                } else {
+                    throw new Error('O JSON não é um array.');
+                }
+            } catch (e) {
+                alert('Erro na importação: O JSON é inválido. ' + e.message);
+            }
+        }
+    };
+
+
+    // --- Lógica das Abas (Inicialização) ---
+    function updateAllCommands() {
+        updatePlacaRedeCmd();
+        updatePlacaForceCmds();
+        updatePingCmd();
+        updateTrCmd();
+        updatePpCmd();
+        updateNmapCmd();
+        updatePortCmd();
+        updateDnsCmd();
+        updateArpCmd();
+        updateRouteCmd();
+        updateSpeedtestCmd();
+        updateAtualizacoesCmd();
+        populateCommandsTab();
+    }
+    
+    function setOS(os) {
+        currentOS = os;
+        document.getElementById('os-auto').classList.toggle('active', os === 'auto');
+        document.getElementById('os-win').classList.toggle('active', os === 'win');
+        document.getElementById('os-mac').classList.toggle('active', os === 'mac');
+        document.getElementById('os-lin').classList.toggle('active', os === 'linux');
+        updateAllCommands();
+    }
+
+    document.getElementById('os-auto').onclick = () => setOS('auto');
+    document.getElementById('os-win').onclick = () => setOS('win');
+    document.getElementById('os-mac').onclick = () => setOS('mac');
+    document.getElementById('os-lin').onclick = () => setOS('linux');
+
+    document.getElementById('btn-tab-info').onclick = (e) => openBauTab(e, 'tab-info');
+    document.getElementById('btn-tab-ip-publico').onclick = (e) => openBauTab(e, 'tab-ip-publico');
+    document.getElementById('btn-tab-velocidade').onclick = (e) => openBauTab(e, 'tab-velocidade');
+    document.getElementById('btn-tab-placa-rede').onclick = (e) => openBauTab(e, 'tab-placa-rede');
+    document.getElementById('btn-tab-ping').onclick = (e) => openBauTab(e, 'tab-ping');
+    document.getElementById('btn-tab-traceroute').onclick = (e) => openBauTab(e, 'tab-traceroute');
+    document.getElementById('btn-tab-pathping').onclick = (e) => openBauTab(e, 'tab-pathping');
+    document.getElementById('btn-tab-nmap').onclick = (e) => openBauTab(e, 'tab-nmap');
+    document.getElementById('btn-tab-test-port').onclick = (e) => openBauTab(e, 'tab-test-port');
+    document.getElementById('btn-tab-netstat').onclick = (e) => openBauTab(e, 'tab-netstat');
+    document.getElementById('btn-tab-dns').onclick = (e) => openBauTab(e, 'tab-dns');
+    document.getElementById('btn-tab-arp').onclick = (e) => openBauTab(e, 'tab-arp');
+    document.getElementById('btn-tab-route').onclick = (e) => openBauTab(e, 'tab-route');
+    document.getElementById('btn-tab-atualizacoes').onclick = (e) => openBauTab(e, 'tab-atualizacoes');
+    document.getElementById('btn-tab-comandos').onclick = (e) => openBauTab(e, 'tab-comandos');
+    document.getElementById('btn-tab-registro').onclick = (e) => openBauTab(e, 'tab-registro');
+    
+    // Abre a primeira aba (Info) e preenche todos os comandos
+    document.getElementById('btn-tab-info').click();
+    updateAllCommands(); // Função unificada
+
+    console.log("Baú de Acesso Remoto (V20.1) carregado!");
 
 })();
