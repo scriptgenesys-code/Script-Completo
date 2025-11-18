@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Baú de Acesso Remoto (BAR) V21.0 (Completo)
+// @name         PureCloud - Baú de Acesso Remoto (BAR) V21.1 (Restaurado)
 // @namespace    http://tampermonkey.net/bau-acesso-remoto
-// @version      21.0
-// @description  Ferramentas de Rede, Diagnóstico e Registro (Versão Completa + Fix Botão).
+// @version      21.1
+// @description  Ferramenta Completa: Nmap, Portas, DNS, ARP, Route, etc. + Fix Botão.
 // @author       Parceiro de Programacao
 // @match        https://*.mypurecloud.*/*
 // @grant        none
@@ -11,12 +11,12 @@
 (function() {
     'use strict';
 
-    // --- 0. BANCO DE DADOS COMPLETO (RESTAURADO) ---
+    // --- 0. BANCO DE DADOS COMPLETO (V21.1) ---
     window.commandDatabase = [
         {
             "title": "Rede (Diagnóstico e Atalhos)",
             "commands": [
-                { "id": "cmd-ncpa", "label": "Conexões de Rede (Painel)", "desc": "ncpa.cpl", "os": { "win": "ncpa.cpl" } },
+                { "id": "cmd-ncpa", "label": "Conexões de Rede", "desc": "ncpa.cpl", "os": { "win": "ncpa.cpl" } },
                 { "id": "cmd-firewall", "label": "Firewall Avançado", "desc": "wf.msc", "os": { "win": "wf.msc" } },
                 { "id": "cmd-inetcpl", "label": "Propriedades de Internet", "desc": "inetcpl.cpl", "os": { "win": "inetcpl.cpl" } },
                 { "id": "cmd-getmac", "label": "Ver Endereços MAC", "desc": "Lista endereços físicos", "os": { "win": "getmac /v", "mac": "ifconfig | grep ether", "linux": "ip link show | grep ether" } },
@@ -40,6 +40,7 @@
             "commands": [
                 { "id": "cmd-taskmgr", "label": "Gestor de Tarefas", "desc": "Monitorar processos", "os": { "win": "taskmgr" } },
                 { "id": "cmd-devmgmt", "label": "Gestor de Dispositivos", "desc": "Drivers", "os": { "win": "devmgmt.msc" } },
+                { "id": "cmd-control", "label": "Painel de Controle", "desc": "Configurações gerais", "os": { "win": "control" } },
                 { "id": "cmd-msinfo", "label": "Info do Sistema", "desc": "Hardware/Software", "os": { "win": "msinfo32" } },
                 { "id": "cmd-dxdiag", "label": "DirectX (Vídeo/Áudio)", "desc": "Diagnóstico Multimídia", "os": { "win": "dxdiag" } },
                 { "id": "cmd-uptime", "label": "Tempo de Atividade", "desc": "Tempo ligado", "os": { "win": "systeminfo | find \"Tempo de Arranque\"", "mac": "uptime", "linux": "uptime" } },
@@ -55,6 +56,19 @@
                 { "id": "cmd-cleanmgr", "label": "Limpeza de Disco", "desc": "Libera espaço", "os": { "win": "cleanmgr" } },
                 { "id": "cmd-shutdown", "label": "Reiniciar PC", "desc": "Força reinício", "os": { "win": "shutdown /r /t 0", "mac": "sudo shutdown -r now", "linux": "reboot" } }
             ]
+        },
+        {
+            "title": "Comandos Rápidos (Executar)",
+            "commands": [
+                 { "id": "run-appwiz", "label": "Adicionar/Remover Programas", "desc": "appwiz.cpl", "os": { "win": "appwiz.cpl" } },
+                 { "id": "run-desk", "label": "Resolução de Tela", "desc": "desk.cpl", "os": { "win": "desk.cpl" } },
+                 { "id": "run-power", "label": "Opções de Energia", "desc": "powercfg.cpl", "os": { "win": "powercfg.cpl" } },
+                 { "id": "run-sysdm", "label": "Propriedades do Sistema", "desc": "sysdm.cpl", "os": { "win": "sysdm.cpl" } },
+                 { "id": "run-calc", "label": "Calculadora", "desc": "calc", "os": { "win": "calc" } },
+                 { "id": "run-notepad", "label": "Bloco de Notas", "desc": "notepad", "os": { "win": "notepad" } },
+                 { "id": "run-osk", "label": "Teclado Virtual", "desc": "osk", "os": { "win": "osk" } },
+                 { "id": "run-snipping", "label": "Ferramenta de Recorte", "desc": "snippingtool", "os": { "win": "snippingtool" } }
+            ]
         }
     ];
 
@@ -65,42 +79,52 @@
         CLOSE: `<svg class="bau-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>`
     };
 
+    const DESIGN_COLORS = {
+        '--cor-acento-primario': '#00BFFF', '--cor-acento-hover': '#40E0D0', 
+        '--cor-fundo-primario': '#0D1117', '--cor-fundo-secundario': '#161B22', 
+        '--cor-borda': '#30363D', '--cor-texto-primario': '#C9D1D9', 
+        '--cor-texto-secundario': '#8B949E', '--cor-sucesso': '#3FB950', 
+        '--cor-perigo': '#F47067', '--sombra-popup': '0 8px 24px rgba(0,0,0,0.5)'
+    };
+
     const styles = `
-        :root { --cor-acento: #00BFFF; --cor-bg: #0D1117; --cor-bg-sec: #161B22; --cor-texto: #C9D1D9; --cor-borda: #30363D; }
-        #bau-rede { position: fixed; z-index: 2147483646; background: var(--cor-bg); border: 1px solid var(--cor-borda); top: 10%; left: 10%; width: 800px; height: 600px; font-family: 'Segoe UI', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 8px; color: var(--cor-texto); display: none; flex-direction: column; overflow: hidden; }
-        #bau-rede-header { padding: 10px 15px; cursor: move; background: var(--cor-bg-sec); border-bottom: 1px solid var(--cor-borda); display: flex; justify-content: space-between; align-items: center; height: 40px; flex-shrink: 0; user-select: none; }
-        #bau-rede-header h1 { font-size: 16px; margin: 0; color: var(--cor-acento); font-weight: 600; }
+        :root { --raio-borda: 6px; --transicao: all 0.2s; }
+        #bau-rede { position: fixed; z-index: 2147483646; background: var(--cor-fundo-primario); border: 1px solid var(--cor-borda); top: 10%; left: 10%; width: 800px; height: 600px; font-family: 'Segoe UI', sans-serif; box-shadow: var(--sombra-popup); border-radius: 8px; color: var(--cor-texto-primario); display: none; flex-direction: column; overflow: hidden; }
+        #bau-rede-header { padding: 10px 15px; cursor: move; background: var(--cor-fundo-secundario); border-bottom: 1px solid var(--cor-borda); display: flex; justify-content: space-between; align-items: center; height: 40px; flex-shrink: 0; user-select: none; }
+        #bau-rede-header h1 { font-size: 16px; margin: 0; font-weight: 600; color: var(--cor-acento-primario); }
         #bau-rede-body { display: flex; flex-grow: 1; overflow: hidden; }
-        .bau-sidebar { width: 180px; background: var(--cor-bg-sec); border-right: 1px solid var(--cor-borda); overflow-y: auto; flex-shrink: 0; }
-        .bau-sidebar-btn { width: 100%; background: transparent; border: none; color: #8b949e; padding: 12px 15px; text-align: left; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; transition: 0.2s; }
-        .bau-sidebar-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
-        .bau-sidebar-btn.active { background: var(--cor-bg); color: var(--cor-acento); border-left-color: var(--cor-acento); font-weight: 600; }
-        .bau-content-area { flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--cor-bg); }
-        .bau-tab-content { display: none; }
-        .bau-tab-content h3 { margin-top: 0; border-bottom: 1px solid var(--cor-borda); padding-bottom: 10px; color: var(--cor-acento); }
-        .command-block { background: var(--cor-bg-sec); padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid var(--cor-borda); }
-        .command-block label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 5px; color: #fff; }
-        .command-block input, .command-block textarea { width: 100%; background: #0d1117; border: 1px solid var(--cor-borda); color: #58a6ff; font-family: monospace; padding: 8px; border-radius: 4px; margin-bottom: 8px; box-sizing: border-box; }
-        .bau-btn { background: var(--cor-acento); color: #000; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; transition: 0.2s; }
-        .bau-btn:hover { filter: brightness(1.1); }
+        .bau-sidebar { width: 180px; background: var(--cor-fundo-secundario); border-right: 1px solid var(--cor-borda); overflow-y: auto; flex-shrink: 0; }
+        .bau-sidebar-btn { width: 100%; background: transparent; border: none; color: var(--cor-texto-secundario); padding: 12px 15px; text-align: left; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; transition: var(--transicao); }
+        .bau-sidebar-btn:hover { background: rgba(255,255,255,0.05); color: var(--cor-texto-primario); }
+        .bau-sidebar-btn.active { background: var(--cor-fundo-primario); color: var(--cor-acento-primario); border-left-color: var(--cor-acento-primario); font-weight: 600; }
+        .bau-content-area { flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--cor-fundo-primario); }
+        .bau-tab-content { display: none; animation: fadeIn 0.2s; }
+        .bau-tab-content h3 { margin-top: 0; border-bottom: 1px solid var(--cor-borda); padding-bottom: 10px; color: var(--cor-acento-primario); }
+        .command-block { background: var(--cor-fundo-secundario); padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid var(--cor-borda); }
+        .command-block label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 5px; color: var(--cor-texto-primario); }
+        .command-block p { font-size: 12px; color: var(--cor-texto-secundario); margin: 0 0 8px 0; }
+        .command-block input { width: 100%; background: #000; border: 1px solid var(--cor-borda); color: #0f0; font-family: monospace; padding: 8px; border-radius: 4px; margin-bottom: 8px; box-sizing: border-box; }
+        .bau-copy-btn { background: var(--cor-acento-primario); color: #000; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; width: 100%; transition: var(--transicao); }
+        .bau-copy-btn:hover { filter: brightness(1.1); }
+        .bau-btn { background: var(--cor-acento-primario); color: #000; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; transition: 0.2s; }
         .bau-svg-icon { width: 20px; height: 20px; }
-        .os-switcher button { background: transparent; border: 1px solid var(--cor-borda); color: #8b949e; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 2px; }
-        .os-switcher button.active { background: var(--cor-acento); color: #000; border-color: var(--cor-acento); }
+        .os-switcher button { background: transparent; border: 1px solid var(--cor-borda); color: var(--cor-texto-secundario); padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 2px; }
+        .os-switcher button.active { background: var(--cor-acento-primario); color: #000; border-color: var(--cor-acento-primario); }
         
-        /* Estilo do Botão Flutuante Próprio */
-        #bau-trigger-button { position: fixed; width: 48px; height: 48px; bottom: 20px; right: 80px; background: #21262D; color: var(--cor-acento); border: 1px solid var(--cor-borda); border-radius: 50%; font-size: 24px; cursor: grab; z-index: 2147483645; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s; }
-        #bau-trigger-button:hover { border-color: #fff; transform: scale(1.1); }
-        
-        /* Utilitários */
+        #bau-trigger-button { position: fixed; width: 48px; height: 48px; bottom: 20px; right: 80px; background: #21262D; color: var(--cor-acento-primario); border: 1px solid var(--cor-borda); border-radius: 50%; font-size: 24px; cursor: grab; z-index: 2147483645; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: transform 0.2s; }
+        #bau-trigger-button:hover { border-color: var(--cor-acento-hover); transform: scale(1.1); }
         .input-group { display: flex; gap: 10px; margin-bottom: 10px; }
-        .input-group input { flex: 1; }
+        .input-group input { flex: 1; background: #0d1117; border: 1px solid var(--cor-borda); color: #fff; padding: 8px; border-radius: 4px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     `;
 
-    const styleTag = document.createElement('style');
-    styleTag.textContent = styles;
-    document.head.appendChild(styleTag);
+    function applyTheme() {
+        const style = document.createElement('style');
+        style.textContent = styles;
+        for (const [k, v] of Object.entries(DESIGN_COLORS)) document.documentElement.style.setProperty(k, v);
+        document.head.appendChild(style);
+    }
 
-    // --- 2. FUNÇÕES DE UTILIDADE ---
     function getActiveOS() {
         if (currentOS !== 'auto') return currentOS;
         if (navigator.platform.toLowerCase().includes('win')) return 'win';
@@ -112,10 +136,10 @@
         navigator.clipboard.writeText(text).then(() => {
             const orig = btn.textContent;
             btn.textContent = "Copiado!";
-            btn.style.backgroundColor = "#3FB950";
+            btn.style.backgroundColor = "var(--cor-sucesso)";
             setTimeout(() => {
                 btn.textContent = orig;
-                btn.style.backgroundColor = "";
+                btn.style.backgroundColor = "var(--cor-acento-primario)";
             }, 1500);
         });
     }
@@ -160,12 +184,12 @@
         return btn;
     }
 
-    // --- 4. CONTEÚDO DAS ABAS (TODAS AS FUNÇÕES DE VOLTA) ---
-    
+    // --- 4. CONTEÚDO DAS ABAS ---
+
     // Aba 1: Info
     const tabInfo = createTab("Info", () => {
         const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
-        d.innerHTML = `<h3>Bem-vindo ao BAR</h3><p>O Baú de Acesso Remoto reúne comandos essenciais de rede e sistema.</p><p>Selecione uma categoria à esquerda.</p>`;
+        d.innerHTML = `<h3>Bem-vindo ao BAR</h3><p>O Baú de Acesso Remoto reúne comandos essenciais de rede e sistema.</p><p>Use o menu lateral para navegar.</p>`;
         return d;
     });
 
@@ -176,11 +200,7 @@
         setTimeout(() => {
             d.querySelector('#btn-ip').onclick = async () => {
                 d.querySelector('#res-ip').textContent = "Verificando...";
-                try {
-                    const req = await fetch('https://api.ipify.org');
-                    const ip = await req.text();
-                    d.querySelector('#res-ip').textContent = `IP: ${ip}`;
-                } catch(e) { d.querySelector('#res-ip').textContent = "Erro ao verificar."; }
+                try { const req = await fetch('https://api.ipify.org'); const ip = await req.text(); d.querySelector('#res-ip').textContent = `IP: ${ip}`; } catch(e) { d.querySelector('#res-ip').textContent = "Erro ao verificar."; }
             };
         }, 0);
         return d;
@@ -189,19 +209,12 @@
     // Aba 3: Velocidade
     createTab("Velocidade", () => {
         const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
-        d.innerHTML = `<h3>Teste de Velocidade (Download)</h3><p>Baixa um arquivo temporário para estimar a velocidade.</p><button class="bau-btn" id="btn-speed">Iniciar Teste</button><pre id="res-speed" style="margin-top:10px; background:#000; padding:10px;">Aguardando...</pre><div class="command-block"><label>Comando Terminal (Speedtest CLI)</label><input type="text" value="speedtest-cli" readonly><button class="bau-btn copy-cmd">Copiar</button></div>`;
+        d.innerHTML = `<h3>Teste de Velocidade (Download)</h3><p>Baixa arquivo de 10MB para teste.</p><button class="bau-btn" id="btn-speed">Iniciar</button><pre id="res-speed" style="margin-top:10px; background:#000; padding:10px;">Aguardando...</pre><div class="command-block"><label>Comando Terminal (Speedtest CLI)</label><input type="text" value="speedtest-cli" readonly><button class="bau-btn copy-cmd">Copiar</button></div>`;
         setTimeout(() => {
             d.querySelector('.copy-cmd').onclick = (e) => copyToClipboard("speedtest-cli", e.target);
             d.querySelector('#btn-speed').onclick = async () => {
-                const out = d.querySelector('#res-speed');
-                out.textContent = "Baixando arquivo de teste (10MB)...";
-                const start = Date.now();
-                try {
-                    await fetch('https://cachefly.cachefly.net/10mb.test?t='+start);
-                    const duration = (Date.now() - start) / 1000;
-                    const speedMbps = ((10 * 8) / duration).toFixed(2);
-                    out.textContent = `Velocidade Estimada: ${speedMbps} Mbps\nTempo: ${duration.toFixed(2)}s`;
-                } catch(e) { out.textContent = "Erro no teste."; }
+                const out = d.querySelector('#res-speed'); out.textContent = "Baixando..."; const start = Date.now();
+                try { await fetch('https://cachefly.cachefly.net/10mb.test?t='+start); const duration = (Date.now() - start) / 1000; const speed = ((10 * 8) / duration).toFixed(2); out.textContent = `Velocidade: ${speed} Mbps\nTempo: ${duration.toFixed(2)}s`; } catch(e) { out.textContent = "Erro."; }
             };
         }, 0);
         return d;
@@ -210,64 +223,103 @@
     // Aba 4: Placa de Rede
     createTab("Placa de Rede", () => {
         const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
-        d.innerHTML = `<h3>Diagnóstico de Placa de Rede</h3><p>Verifique se a placa é Gigabit (1000/1000) ou Fast (100/100).</p>`;
-        
-        const cmds = {
-            win: "powershell \"Get-NetAdapter | Select Name, InterfaceDescription, LinkSpeed\"",
-            mac: "system_profiler SPNetworkDataType | grep 'Speed'",
-            linux: "ethtool eth0 | grep Speed"
-        };
-        
+        d.innerHTML = `<h3>Diagnóstico de Placa</h3>`;
+        const cmds = { win: "powershell \"Get-NetAdapter | Select Name, InterfaceDescription, LinkSpeed\"", mac: "system_profiler SPNetworkDataType | grep 'Speed'", linux: "ethtool eth0 | grep Speed" };
         const os = getActiveOS();
-        const block = document.createElement('div');
-        block.className = 'command-block';
-        block.innerHTML = `<label>Comando (${os})</label><input type="text" value="${cmds[os] || 'N/A'}" readonly><button class="bau-btn">Copiar</button>`;
-        block.querySelector('button').onclick = (e) => copyToClipboard(cmds[os], e.target);
-        d.appendChild(block);
+        d.innerHTML += `<div class="command-block"><label>Comando (${os})</label><input type="text" value="${cmds[os]||'N/A'}" readonly><button class="bau-btn copy-net">Copiar</button></div>`;
+        setTimeout(() => { d.querySelector('.copy-net').onclick = (e) => copyToClipboard(cmds[os], e.target); }, 0);
         return d;
     });
 
     // Aba 5: Ping
     createTab("Ping", () => {
         const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
-        d.innerHTML = `<h3>Teste de Latência (Ping)</h3><div class="input-group"><input type="text" id="ping-host" value="8.8.8.8" placeholder="IP ou Host"></div><div class="command-block"><label>Comando Gerado</label><input type="text" id="ping-cmd" readonly><button class="bau-btn" id="btn-copy-ping">Copiar</button></div>`;
-        
-        const update = () => {
-            const host = d.querySelector('#ping-host').value;
-            const os = getActiveOS();
-            const cmd = os === 'win' ? `ping -n 10 ${host}` : `ping -c 10 ${host}`;
-            d.querySelector('#ping-cmd').value = cmd;
-        };
-        
-        setTimeout(() => {
-            d.querySelector('#ping-host').oninput = update;
-            d.querySelector('#btn-copy-ping').onclick = (e) => copyToClipboard(d.querySelector('#ping-cmd').value, e.target);
-            update();
-        }, 0);
+        d.innerHTML = `<h3>Teste de Ping</h3><div class="input-group"><input type="text" id="ping-host" value="8.8.8.8"></div><div class="command-block"><input type="text" id="ping-cmd" readonly><button class="bau-btn copy-ping">Copiar</button></div>`;
+        const update = () => { const os = getActiveOS(); d.querySelector('#ping-cmd').value = os === 'win' ? `ping -n 10 ${d.querySelector('#ping-host').value}` : `ping -c 10 ${d.querySelector('#ping-host').value}`; };
+        setTimeout(() => { d.querySelector('#ping-host').oninput = update; d.querySelector('.copy-ping').onclick = (e) => copyToClipboard(d.querySelector('#ping-cmd').value, e.target); update(); }, 0);
         return d;
     });
 
     // Aba 6: Traceroute
     createTab("Traceroute", () => {
         const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
-        d.innerHTML = `<h3>Rastrear Rota</h3><div class="input-group"><input type="text" id="tr-host" value="google.com"></div><div class="command-block"><label>Comando</label><input type="text" id="tr-cmd" readonly><button class="bau-btn" id="btn-copy-tr">Copiar</button></div>`;
-        
-        const update = () => {
-            const host = d.querySelector('#tr-host').value;
-            const os = getActiveOS();
-            const cmd = os === 'win' ? `tracert ${host}` : `traceroute ${host}`;
-            d.querySelector('#tr-cmd').value = cmd;
-        };
-        
-        setTimeout(() => {
-            d.querySelector('#tr-host').oninput = update;
-            d.querySelector('#btn-copy-tr').onclick = (e) => copyToClipboard(d.querySelector('#tr-cmd').value, e.target);
-            update();
-        }, 0);
+        d.innerHTML = `<h3>Traceroute</h3><div class="input-group"><input type="text" id="tr-host" value="google.com"></div><div class="command-block"><input type="text" id="tr-cmd" readonly><button class="bau-btn copy-tr">Copiar</button></div>`;
+        const update = () => { const os = getActiveOS(); d.querySelector('#tr-cmd').value = os === 'win' ? `tracert ${d.querySelector('#tr-host').value}` : `traceroute ${d.querySelector('#tr-host').value}`; };
+        setTimeout(() => { d.querySelector('#tr-host').oninput = update; d.querySelector('.copy-tr').onclick = (e) => copyToClipboard(d.querySelector('#tr-cmd').value, e.target); update(); }, 0);
         return d;
     });
 
-    // Abas Dinâmicas do Banco de Dados (Comandos Estáticos)
+    // Aba 7: PathPing (Win) / MTR (Linux)
+    createTab("PathPing/MTR", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>PathPing / MTR</h3><div class="input-group"><input type="text" id="pp-host" value="google.com"></div><div class="command-block"><input type="text" id="pp-cmd" readonly><button class="bau-btn copy-pp">Copiar</button></div>`;
+        const update = () => { const os = getActiveOS(); d.querySelector('#pp-cmd').value = os === 'win' ? `pathping ${d.querySelector('#pp-host').value}` : `mtr -r -c 10 ${d.querySelector('#pp-host').value}`; };
+        setTimeout(() => { d.querySelector('#pp-host').oninput = update; d.querySelector('.copy-pp').onclick = (e) => copyToClipboard(d.querySelector('#pp-cmd').value, e.target); update(); }, 0);
+        return d;
+    });
+
+    // Aba 8: DNS (Nslookup)
+    createTab("DNS", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Consulta DNS</h3><div class="input-group"><input type="text" id="dns-host" value="google.com"></div><div class="command-block"><input type="text" id="dns-cmd" readonly><button class="bau-btn copy-dns">Copiar</button></div>`;
+        const update = () => { d.querySelector('#dns-cmd').value = `nslookup ${d.querySelector('#dns-host').value}`; };
+        setTimeout(() => { d.querySelector('#dns-host').oninput = update; d.querySelector('.copy-dns').onclick = (e) => copyToClipboard(d.querySelector('#dns-cmd').value, e.target); update(); }, 0);
+        return d;
+    });
+
+    // Aba 9: Nmap
+    createTab("Nmap", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Nmap Scan</h3><div class="input-group"><input type="text" id="nmap-host" value="127.0.0.1"></div><div class="command-block"><input type="text" id="nmap-cmd" readonly><button class="bau-btn copy-nmap">Copiar</button></div>`;
+        const update = () => { d.querySelector('#nmap-cmd').value = `nmap -sT ${d.querySelector('#nmap-host').value}`; };
+        setTimeout(() => { d.querySelector('#nmap-host').oninput = update; d.querySelector('.copy-nmap').onclick = (e) => copyToClipboard(d.querySelector('#nmap-cmd').value, e.target); update(); }, 0);
+        return d;
+    });
+
+    // Aba 10: Testar Porta
+    createTab("Testar Porta", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Testar Porta</h3><div class="input-group"><input type="text" id="port-host" value="google.com"><input type="text" id="port-num" value="443" style="width:60px; flex:none;"></div><div class="command-block"><input type="text" id="port-cmd" readonly><button class="bau-btn copy-port">Copiar</button></div>`;
+        const update = () => { const os = getActiveOS(); const h = d.querySelector('#port-host').value; const p = d.querySelector('#port-num').value; d.querySelector('#port-cmd').value = os === 'win' ? `powershell "Test-NetConnection ${h} -Port ${p}"` : `nc -vz ${h} ${p}`; };
+        setTimeout(() => { d.querySelector('#port-host').oninput = update; d.querySelector('#port-num').oninput = update; d.querySelector('.copy-port').onclick = (e) => copyToClipboard(d.querySelector('#port-cmd').value, e.target); update(); }, 0);
+        return d;
+    });
+
+    // Aba 11: ARP
+    createTab("ARP", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Tabela ARP</h3><div class="command-block"><input type="text" value="arp -a" readonly><button class="bau-btn copy-arp">Copiar</button></div>`;
+        setTimeout(() => { d.querySelector('.copy-arp').onclick = (e) => copyToClipboard("arp -a", e.target); }, 0);
+        return d;
+    });
+
+    // Aba 12: Route
+    createTab("Route", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Rotas</h3><div class="command-block"><input type="text" id="route-cmd" readonly><button class="bau-btn copy-route">Copiar</button></div>`;
+        const update = () => { d.querySelector('#route-cmd').value = getActiveOS() === 'win' ? "route print" : "netstat -r"; };
+        setTimeout(() => { d.querySelector('.copy-route').onclick = (e) => copyToClipboard(d.querySelector('#route-cmd').value, e.target); update(); }, 0);
+        return d;
+    });
+
+    // Aba 13: Netstat
+    createTab("Netstat", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Conexões Ativas</h3><div class="command-block"><input type="text" value="netstat -an" readonly><button class="bau-btn copy-netstat">Copiar</button></div>`;
+        setTimeout(() => { d.querySelector('.copy-netstat').onclick = (e) => copyToClipboard("netstat -an", e.target); }, 0);
+        return d;
+    });
+
+    // Aba 14: Atualizações
+    createTab("Atualizações", () => {
+        const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
+        d.innerHTML = `<h3>Atualizar Sistema</h3><div class="command-block"><input type="text" id="up-cmd" readonly><button class="bau-btn copy-up">Copiar</button></div>`;
+        const update = () => { const os = getActiveOS(); if (os === 'win') d.querySelector('#up-cmd').value = "winget upgrade --all"; else if (os === 'mac') d.querySelector('#up-cmd').value = "brew update && brew upgrade"; else d.querySelector('#up-cmd').value = "sudo apt update && sudo apt upgrade -y"; };
+        setTimeout(() => { d.querySelector('.copy-up').onclick = (e) => copyToClipboard(d.querySelector('#up-cmd').value, e.target); update(); }, 0);
+        return d;
+    });
+
+    // Aba 15: Comandos (Banco de Dados)
     window.commandDatabase.forEach(cat => {
         createTab(cat.title, () => {
             const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
@@ -276,7 +328,7 @@
             cat.commands.forEach(c => {
                 if(!c.os[os]) return;
                 const b = document.createElement('div'); b.className = 'command-block';
-                b.innerHTML = `<label>${c.label}</label><p>${c.desc}</p><input type="text" value="${c.os[os]}" readonly><button class="bau-btn">Copiar Comando</button>`;
+                b.innerHTML = `<label>${c.label}</label><p>${c.desc}</p><input type="text" value="${c.os[os]}" readonly><button class="bau-btn">Copiar</button>`;
                 b.querySelector('button').onclick = (e) => copyToClipboard(c.os[os], e.target);
                 d.appendChild(b);
             });
@@ -284,7 +336,7 @@
         });
     });
 
-    // Aba Registro
+    // Aba 16: Registro
     createTab("Registro", () => {
         const d = document.createElement('div'); d.className = 'bau-tab-content'; d.style.display = 'block';
         d.innerHTML = `<h3>Registro de Testes</h3><p>Cole aqui os resultados para gerar um relatório.</p><textarea id="reg-area" style="width:100%; height:300px; background:#000; color:#0f0; border:1px solid #333; padding:10px;" placeholder="Cole os resultados do terminal aqui..."></textarea><br><button class="bau-btn" id="btn-print">Gerar Relatório (Imprimir)</button>`;
@@ -299,9 +351,9 @@
         return d;
     });
 
-    tabInfo.click(); // Abre na info
+    tabInfo.click(); // Abrir primeira aba
 
-    // --- 5. LÓGICA DE CONTROLE E ARRASTO ---
+    // --- 5. CONTROLE E EVENTOS ---
     
     // OS Switcher
     ['auto', 'win', 'mac', 'lin'].forEach(os => {
@@ -309,88 +361,53 @@
             currentOS = os === 'lin' ? 'linux' : os;
             document.querySelectorAll('.os-switcher button').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
-            // Recarrega a aba ativa para atualizar comandos
             const activeTab = sidebar.querySelector('.active');
             if (activeTab) activeTab.click();
         };
     });
 
-    // Fechar
     document.getElementById('bau-close').onclick = () => { bau.style.display = 'none'; };
 
-    // Função Global Toggle
     window.toggleBau = () => {
         bau.style.display = (bau.style.display === 'none' || !bau.style.display) ? 'flex' : 'none';
     };
 
-    // Header Drag (Simples)
+    // Header Drag
     const header = document.getElementById('bau-rede-header');
     let isDragging = false, startX, startY, initialLeft, initialTop;
 
     header.onmousedown = (e) => {
         if (e.target.tagName === 'BUTTON' || e.target.id === 'bau-close') return;
-        isDragging = true;
-        startX = e.clientX; startY = e.clientY;
-        const rect = bau.getBoundingClientRect();
-        initialLeft = rect.left; initialTop = rect.top;
-        document.onmousemove = (me) => {
-            if (!isDragging) return;
-            bau.style.left = (initialLeft + me.clientX - startX) + 'px';
-            bau.style.top = (initialTop + me.clientY - startY) + 'px';
-        };
+        isDragging = true; startX = e.clientX; startY = e.clientY;
+        const rect = bau.getBoundingClientRect(); initialLeft = rect.left; initialTop = rect.top;
+        document.onmousemove = (me) => { if (!isDragging) return; bau.style.left = (initialLeft + me.clientX - startX) + 'px'; bau.style.top = (initialTop + me.clientY - startY) + 'px'; };
         document.onmouseup = () => { isDragging = false; document.onmousemove = null; document.onmouseup = null; };
     };
 
-    // --- 6. BOTÃO FLUTUANTE (COMPATÍVEL COM MENU UNIFICADO) ---
+    // --- 6. BOTÃO FLUTUANTE ---
     const triggerBtn = document.createElement('button');
-    triggerBtn.id = 'bau-trigger-button'; // ID Essencial para o Menu Unificado achar
+    triggerBtn.id = 'bau-trigger-button';
     triggerBtn.innerHTML = ICONS.COMPUTER;
     triggerBtn.title = "Abrir BAR";
     document.body.appendChild(triggerBtn);
 
-    // Lógica Inteligente: Arrasta OU Clica
     let btnDragging = false;
     let bStartX, bStartY, bInitLeft, bInitTop;
 
     triggerBtn.onmousedown = (e) => {
         if(e.button !== 0) return;
-        btnDragging = false;
-        bStartX = e.clientX; bStartY = e.clientY;
-        const r = triggerBtn.getBoundingClientRect();
-        bInitLeft = r.left; bInitTop = r.top;
-        
+        btnDragging = false; bStartX = e.clientX; bStartY = e.clientY;
+        const r = triggerBtn.getBoundingClientRect(); bInitLeft = r.left; bInitTop = r.top;
         document.onmousemove = (me) => {
-            const dx = me.clientX - bStartX;
-            const dy = me.clientY - bStartY;
-            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-                btnDragging = true; // Se moveu mais de 5px, é arrasto
-                triggerBtn.style.left = (bInitLeft + dx) + 'px';
-                triggerBtn.style.top = (bInitTop + dy) + 'px';
-                triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto';
-            }
+            const dx = me.clientX - bStartX; const dy = me.clientY - bStartY;
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) { btnDragging = true; triggerBtn.style.left = (bInitLeft + dx) + 'px'; triggerBtn.style.top = (bInitTop + dy) + 'px'; triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto'; }
         };
-        
-        document.onmouseup = () => {
-            document.onmousemove = null; document.onmouseup = null;
-            if (btnDragging) { // Salva posição se arrastou
-                 localStorage.setItem('bauTriggerPos', JSON.stringify({left: triggerBtn.style.left, top: triggerBtn.style.top}));
-            }
-            // Pequeno delay para evitar conflito de clique
-            setTimeout(() => btnDragging = false, 50);
-        };
+        document.onmouseup = () => { document.onmousemove = null; document.onmouseup = null; if (btnDragging) localStorage.setItem('bauTriggerPos', JSON.stringify({left: triggerBtn.style.left, top: triggerBtn.style.top})); setTimeout(() => btnDragging = false, 50); };
     };
 
-    // O clique só funciona se NÃO estiver arrastando
-    triggerBtn.onclick = () => {
-        if (!btnDragging) window.toggleBau();
-    };
+    triggerBtn.onclick = () => { if (!btnDragging) window.toggleBau(); };
 
-    // Restaurar posição do botão
     const savedPos = localStorage.getItem('bauTriggerPos');
-    if(savedPos) {
-        const p = JSON.parse(savedPos);
-        triggerBtn.style.left = p.left; triggerBtn.style.top = p.top;
-        triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto';
-    }
+    if(savedPos) { const p = JSON.parse(savedPos); triggerBtn.style.left = p.left; triggerBtn.style.top = p.top; triggerBtn.style.right = 'auto'; triggerBtn.style.bottom = 'auto'; }
 
 })();
