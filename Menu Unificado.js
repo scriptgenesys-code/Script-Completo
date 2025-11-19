@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Menu Unificado (V4.2 - Integração Total)
+// @name         PureCloud - Menu Unificado (V4.3 - Correção Fantasma)
 // @namespace    http://tampermonkey.net/
-// @version      4.2
-// @description  Menu FAB com integração direta (Sem botões fantasmas).
+// @version      4.3
+// @description  Menu FAB com ocultação forçada de botões fantasmas.
 // @author       Parceiro de Programacao
 // @match        https://*.mypurecloud.*/*
 // @match        https://*.genesys.cloud/*
@@ -14,9 +14,15 @@
 
     // 1. CSS
     const css = `
-        /* Esconde tudo que possa ser fantasma */
+        /* Ocultação com especificidade máxima para evitar conflitos */
         #qr-trigger-button, #pr-trigger-button, #bau-trigger-button, [id^="btn-extrator"] { 
-            display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; 
+            display: none !important; 
+            visibility: hidden !important; 
+            opacity: 0 !important; 
+            pointer-events: none !important; 
+            position: fixed !important;
+            z-index: -9999 !important;
+            top: -1000px !important;
         }
 
         .uni-fab-container {
@@ -82,21 +88,21 @@
     function clickFallback(id) { const b = document.getElementById(id); if(b) b.click(); else alert("Ferramenta não carregada."); }
 
     // --- AÇÕES INTEGRADAS ---
-    document.getElementById('uni-btn-qr').onclick = () => clickFallback('qr-trigger-button'); // Respostas ainda usa botão (por enquanto)
+    document.getElementById('uni-btn-qr').onclick = () => clickFallback('qr-trigger-button'); 
     
-    // Protocolos (Global)
+    // Protocolos
     document.getElementById('uni-btn-pr').onclick = () => {
         if(typeof window.toggleProtocolos === 'function') window.toggleProtocolos();
         else clickFallback('pr-trigger-button');
     };
 
-    // BAR (Global)
+    // BAR
     document.getElementById('uni-btn-bar').onclick = () => {
         if(typeof window.toggleBau === 'function') window.toggleBau();
         else clickFallback('bau-trigger-button');
     };
 
-    // ID (Global)
+    // ID
     document.getElementById('uni-btn-id').onclick = () => {
         if(typeof window.executarExtracaoDocumento === 'function') window.executarExtracaoDocumento();
         else alert("Script Extrator não carregado.");
@@ -131,11 +137,20 @@
     const saved = localStorage.getItem('uniMenuPos');
     if(saved) { const p=JSON.parse(saved); container.style.left=p.left; container.style.top=p.top; container.style.bottom='auto'; container.style.right='auto'; }
 
-    // 6. CLEANER
+    // 6. CLEANER (AGRESSIVO V4.3)
+    // Esta função força os estilos diretamente no elemento, vencendo qualquer CSS externo
     setInterval(() => {
-        document.querySelectorAll('#qr-trigger-button, #pr-trigger-button, #bau-trigger-button, [id^="btn-extrator"]').forEach(el => {
-            if(el && el.style.display!=='none') { el.style.display='none'; el.style.visibility='hidden'; }
+        const ghosts = document.querySelectorAll('#qr-trigger-button, #pr-trigger-button, #bau-trigger-button, [id^="btn-extrator"]');
+        ghosts.forEach(el => {
+            // Aplica o estilo inline com !important para garantir a ocultação
+            el.style.setProperty('display', 'none', 'important');
+            el.style.setProperty('visibility', 'hidden', 'important');
+            el.style.setProperty('opacity', '0', 'important');
+            el.style.setProperty('pointer-events', 'none', 'important');
+            // Move para fora da tela por precaução
+            el.style.setProperty('position', 'fixed', 'important');
+            el.style.setProperty('top', '-9999px', 'important');
         });
-    }, 1000);
+    }, 500); // Executa a cada 0.5s para garantir que novos botões sejam capturados rápido
 
 })();
