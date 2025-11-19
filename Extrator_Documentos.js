@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Extrator Rápido de CPF/CNPJ (V5.0 - Integrado ao Menu)
+// @name         Extrator Rápido de CPF/CNPJ (V6.0 - Injeção Dupla)
 // @namespace    http://tampermonkey.net/
-// @version      5.0
-// @description  Motor de busca de documentos (Modo Invisível para integração).
+// @version      6.0
+// @description  Lê documentos em todos os iframes e contextos.
 // @author       Parceiro de Programacao
 // @match        https://*.mypurecloud.*/*
 // @match        https://*.genesys.cloud/*
@@ -15,96 +15,107 @@
 
     // --- CONFIGURAÇÃO ---
     const ABRIR_SISTEMA_AUTO = false;
-    const URL_SISTEMA = ""; 
+    const URL_SISTEMA = ""; // Ex: "https://crm.brisanet.com.br/busca/"
 
-    // --- FUNÇÃO 1: VARREDURA PROFUNDA ---
-    function coletarTextoProfundo(node, listaTextos) {
-        if (!node) return;
-        if (node.nodeType === Node.TEXT_NODE) {
-            const val = node.nodeValue.trim();
-            if (val.length > 0) listaTextos.push(val);
-        }
-        if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') {
-            if (node.value) listaTextos.push(node.value);
-        }
-        if (node.shadowRoot) {
-            coletarTextoProfundo(node.shadowRoot, listaTextos);
-        }
-        if (node.childNodes) {
-            node.childNodes.forEach(child => coletarTextoProfundo(child, listaTextos));
-        }
-        if (node.tagName === 'IFRAME') {
-            try {
-                if (node.contentDocument && node.contentDocument.body) {
-                    coletarTextoProfundo(node.contentDocument.body, listaTextos);
-                }
-            } catch(e) {}
-        }
-    }
-
-    // --- FUNÇÃO 2: PROCESSAMENTO E CONTEXTO ---
-    // Tornamos esta função global para o Menu Unificado chamar
-    window.executarExtracaoDocumento = function() {
-        
-        // 1. Prioridade: Texto Selecionado
-        const sel = window.getSelection().toString().trim();
+    // --- FUNÇÃO 1: MOTOR DE BUSCA (Roda em qualquer contexto) ---
+    function buscarDocumentoNoContexto(contextoDocument) {
+        // 1. Prioridade: Texto Selecionado pelo usuário
+        const sel = contextoDocument.getSelection().toString().trim();
         if (sel) {
             const docSel = sel.replace(/\D/g, '');
             if (docSel.length === 11 || docSel.length === 14) {
-                acaoSucesso(docSel, "Seleção");
-                return;
+                return { doc: docSel, metodo: "Seleção Manual" };
             }
         }
 
-        // 2. Varredura Automática
-        let blocosDeTexto = [];
-        coletarTextoProfundo(document.body, blocosDeTexto);
+        // 2. Coleta todo o texto visível (Corpo + Inputs)
+        let textoTotal = contextoDocument.body.innerText + " ";
+        contextoDocument.querySelectorAll('input, textarea').forEach(el => {
+            if (el.value) textoTotal += el.value + " ";
+        });
 
-        let candidatoMelhor = null;
-        let candidatoSecundario = null;
+        // 3. Regex Inteligente (CPF 11 ou CNPJ 14)
+        // Aceita: 12345678901, 123.456.789-01, 12.345.678/0001-90
+        const regexDoc = /(?<!\d)(\d{3}\.?\d{3}\.?\d{3}-?\d{2})(?!\d)|(?<!\d)(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2})(?!\d)/g;
+        
+        const encontrados = textoTotal.match(regexDoc);
+        if (!encontrados) return null;
 
-        const regexEstrito = /(?<!\d)(\d{3}\.?\d{3}\.?\d{3}[-.]?\d{2})(?!\d)|(?<!\d)(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}[-.]?\d{2})(?!\d)/;
+        let melhorCandidato = null;
+        let maiorPontuacao = -1;
 
-        for (let i = 0; i < blocosDeTexto.length; i++) {
-            let textoAtual = blocosDeTexto[i];
-            const match = textoAtual.match(regexEstrito);
+        // 4. Análise de Contexto (Pontuação)
+        encontrados.forEach(rawDoc => {
+            const docLimpo = rawDoc.replace(/\D/g, '');
+            if (docLimpo.length !== 11 && docLimpo.length !== 14) return;
+
+            // Pontuação base
+            let pontos = 0;
+
+            // Pega os 50 caracteres antes do número para ver o contexto
+            const index = textoTotal.indexOf(rawDoc);
+            const contextoAnterior = textoTotal.substring(Math.max(0, index - 50), index).toLowerCase();
             
-            if (match) {
-                let docLimpo = match[0].replace(/\D/g, '');
-                if (docLimpo.length !== 11 && docLimpo.length !== 14) continue;
+            // Aumenta pontos se tiver palavras-chave perto
+            if (contextoAnterior.includes('cpf') || contextoAnterior.includes('cnpj') || contextoAnterior.includes('doc')) {
+                pontos += 100;
+            }
+            
+            // Penaliza se parecer telefone
+            if (contextoAnterior.includes('tel') || contextoAnterior.includes('cel') || contextoAnterior.includes('zap')) {
+                pontos -= 500;
+            }
 
-                let contexto = "";
-                if (i > 1) contexto += blocosDeTexto[i-2] + " ";
-                if (i > 0) contexto += blocosDeTexto[i-1] + " ";
-                contexto += textoAtual + " ";
-                if (i < blocosDeTexto.length - 1) contexto += blocosDeTexto[i+1] + " ";
+            // Prefere números formatados (com pontos) pois raramente são telefones
+            if (rawDoc.includes('.') || rawDoc.includes('-')) {
+                pontos += 20;
+            }
 
-                if (/Documento|CPF|CNPJ|Doc:/i.test(contexto)) {
-                    candidatoMelhor = docLimpo;
-                    break; 
-                }
+            // O último da página (mais recente no chat) ganha um bônus pequeno
+            pontos += 1;
 
-                if (/Telefone|Celular|Zap|Whatsapp|Contato/i.test(contexto)) {
-                    continue; 
-                }
-                
-                // Preferência por números formatados se não achar contexto claro
-                if (!candidatoSecundario || (match[0].includes('.') || match[0].includes('-'))) {
-                    candidatoSecundario = docLimpo;
+            if (pontos > maiorPontuacao) {
+                maiorPontuacao = pontos;
+                melhorCandidato = docLimpo;
+            }
+        });
+
+        if (melhorCandidato && maiorPontuacao > -100) {
+            return { doc: melhorCandidato, metodo: "Automático" };
+        }
+        return null;
+    }
+
+    // --- FUNÇÃO 2: ORQUESTRADOR (Varre janela principal e iframes) ---
+    window.executarExtracaoDocumento = function() {
+        let resultado = buscarDocumentoNoContexto(document);
+
+        // Se não achou na página principal, procura nos iframes (scripts laterais)
+        if (!resultado) {
+            const iframes = document.querySelectorAll('iframe');
+            for (let iframe of iframes) {
+                try {
+                    if (iframe.contentDocument) {
+                        const resIframe = buscarDocumentoNoContexto(iframe.contentDocument);
+                        if (resIframe) {
+                            resultado = resIframe;
+                            break; // Achou, para de procurar
+                        }
+                    }
+                } catch (e) {
+                    // Bloqueio de segurança do navegador em iframes de outros domínios (normal)
                 }
             }
         }
 
-        const documentoFinal = candidatoMelhor || candidatoSecundario;
-
-        if (documentoFinal) {
-            acaoSucesso(documentoFinal, "Auto");
+        if (resultado) {
+            acaoSucesso(resultado.doc, resultado.metodo);
         } else {
-            mostrarNotificacao("Nenhum Documento encontrado.", "erro");
+            mostrarNotificacao("Nenhum CPF/CNPJ encontrado na tela.", "erro");
         }
     };
 
-    // --- AÇÕES ---
+    // --- FUNÇÕES AUXILIARES ---
     function acaoSucesso(doc, metodo) {
         if (typeof GM_setClipboard !== 'undefined') {
             GM_setClipboard(doc);
@@ -112,7 +123,7 @@
             navigator.clipboard.writeText(doc);
         }
 
-        const msg = metodo === "Seleção" ? "Seleção Copiada!" : `Copiado: ${doc}`;
+        const msg = metodo === "Seleção Manual" ? "Seleção Copiada!" : `Copiado: ${doc}`;
         mostrarNotificacao(msg, 'sucesso');
 
         if (ABRIR_SISTEMA_AUTO && URL_SISTEMA) {
@@ -121,36 +132,47 @@
     }
 
     function mostrarNotificacao(msg, tipo) {
-        // Remove anterior se existir
         const old = document.getElementById('doc-notif');
         if (old) old.remove();
 
         let box = document.createElement('div');
         box.id = 'doc-notif';
         box.innerText = msg;
-        let cor = tipo === 'erro' ? '#e74c3c' : '#2ecc71';
+        let cor = tipo === 'erro' ? '#ff4d4d' : '#2ecc71'; // Vermelho ou Verde
         box.style.cssText = `
-            position: fixed; bottom: 90px; right: 80px;
-            padding: 10px 20px; background: ${cor};
-            color: white; border-radius: 8px; z-index: 2147483648;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: sans-serif; font-weight: bold;
-            animation: slideIn 0.3s; font-size: 14px; pointer-events: none;
+            position: fixed; bottom: 90px; right: 90px;
+            padding: 12px 24px; background: ${cor};
+            color: white; border-radius: 50px; z-index: 2147483648;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: 'Segoe UI', sans-serif; font-weight: bold;
+            font-size: 16px; pointer-events: none; text-align: center;
+            animation: slideUpFade 0.3s ease-out;
         `;
         document.body.appendChild(box);
         
-        const style = document.createElement('style');
-        style.innerHTML = `@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`;
-        document.head.appendChild(style);
+        // Injeta animação se não existir
+        if (!document.getElementById('doc-anim-style')) {
+            const style = document.createElement('style');
+            style.id = 'doc-anim-style';
+            style.innerHTML = `@keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }`;
+            document.head.appendChild(style);
+        }
 
-        setTimeout(() => { box.remove(); }, 3000);
+        setTimeout(() => { 
+            box.style.opacity = '0';
+            box.style.transition = 'opacity 0.5s';
+            setTimeout(() => box.remove(), 500);
+        }, 2500);
     }
 
-    // Mantém atalho de teclado (Alt + D)
+    // Atalho de Teclado (Alt + D)
     document.addEventListener('keydown', (e) => {
         if (e.altKey && (e.key === 'd' || e.key === 'D')) {
             e.preventDefault();
             window.executarExtracaoDocumento();
         }
     });
+
+    // Log para confirmar carregamento
+    console.log("[Extrator V6.0] Carregado e pronto (Modo Global).");
 
 })();
