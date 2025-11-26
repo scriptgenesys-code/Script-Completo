@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "Genesys Unified Master",
+  "version": "6.2",
+  "description": "Suite completa com IA integrada.",
+  "permissions": [
+    "storage",
+    "clipboardWrite",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://*.mypurecloud.com/*",
+    "https://*.genesys.cloud/*",
+    "https://*.pure.cloud/*",
+    "https://script.google.com/*",
+    "https://api.github.com/*",
+    "https://scriptgenesys-code.github.io/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Abrir Painel Admin"
+  },
+  "options_page": "admin.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.mypurecloud.com/*",
+        "https://*.genesys.cloud/*",
+        "https://*.pure.cloud/*"
+      ],
+      "js": [
+        "compatibility.js",
+        "bar.js",
+        "extrator.js",
+        "protocolos.js",
+        "respostas.js",
+        "pausas.js",
+        "cronometros.js",
+        "ia.js",
+        "menu.js",
+        "gerente.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "admin.html",
+        "style.css"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

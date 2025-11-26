@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-icon">🔒</div>
+            <h2>Acesso Restrito</h2>
+            <p>Painel de Gestão</p>
+            <input type="text" id="login-user" placeholder="Usuário" autofocus>
+            <input type="password" id="login-pass" placeholder="Senha">
+            <button id="btn-login">Acessar Painel</button>
+            <p id="login-msg"></p>
+        </div>
+    </div>
+
+    <div id="app-content" style="display: none;">
+        <div class="top-bar">
+            <div class="logo-area">
+                <span class="icon">📊</span> <span>Genesys Admin</span>
+            </div>
+            <div class="actions-area">
+                <button id="btn-modulos" title="Gerenciar Ferramentas">🧩 Módulos</button>
+                <button id="btn-popout" title="Abrir em Janela">↗️</button>
+                <button id="btn-gestao" class="btn-gold" style="display:none;">🔑 Gestão</button>
+                <button id="btn-logout" class="btn-red">Sair</button>
+            </div>
+        </div>
+
+        <div class="header-controls">
+            <div class="filter-row">
+                <div class="date-group">
+                    <div class="input-wrapper">
+                        <label>De:</label>
+                        <input type="date" id="data-inicio" class="date-picker">
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Até:</label>
+                        <input type="date" id="data-fim" class="date-picker">
+                    </div>
+                </div>
+                <button id="btn-search-manual" class="btn-search">🔎 Pesquisar</button>
+            </div>
+            
+            <div class="tools-row">
+                <label class="switch-label" style="font-weight:bold; color:#fff;">Status do Sistema:</label>
+                <span id="system-status" style="font-size:11px; color:#4caf50;">Online ●</span>
+                <button id="btn-refresh" title="Recarregar Dados" style="background:none; border:none; color:#666; cursor:pointer;">🔄</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card blue clickable-card" id="card-logados">
+                <span class="kpi-label">Logados</span>
+                <strong id="total-logados">0</strong>
+                <div class="kpi-icon">👥</div>
+                <div class="hover-hint">Ver lista</div>
+            </div>
+            <div class="kpi-card green clickable-card" id="card-atendimentos">
+                <span class="kpi-label">Atendimentos</span>
+                <strong id="total-conversas">0</strong>
+                <div class="kpi-icon">✅</div>
+                <div class="hover-hint">Detalhes</div>
+            </div>
+            <div class="kpi-card red clickable-card" id="card-encerrados">
+                <span class="kpi-label">Encerrados</span>
+                <strong id="total-encerrados">0</strong>
+                <div class="kpi-icon">⛔</div>
+                <div class="hover-hint">Ver lista</div>
+            </div>
+            <div class="kpi-card yellow clickable-card" id="card-tma">
+                <span class="kpi-label">TMA Geral</span>
+                <strong id="media-tma">00:00</strong>
+                <div class="kpi-icon">⏱️</div>
+                <div class="hover-hint">Ranking</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h3>🏆 Top Produtividade</h3>
+            <div id="chart-container" class="chart-bars">
+                <div class="loading-chart">Aguardando dados...</div>
+            </div>
+        </div>
+
+        <div class="list-section">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search" placeholder="Buscar agente...">
+            </div>
+            <div id="lista-agentes" class="agents-list">
+                <div class="loading">Carregando...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-detalhes" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Detalhes</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div id="modal-lista-container" class="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="modal-gestao" class="modal">
+        <div class="modal-content small-modal">
+            <div class="modal-header gold-header">
+                <h3>🔑 Alterar Senhas</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label>Usuário Alvo</label>
+                <select id="gestao-user-select"></select>
+                <label>Nova Senha</label>
+                <input type="text" id="gestao-new-pass" placeholder="Digite a nova senha">
+                <button id="btn-save-pass">💾 Salvar Alteração</button>
+                <p id="gestao-msg"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-modulos" class="modal">
+        <div class="modal-content small-modal">
+            <div class="modal-header" style="background: var(--bg-card); border-bottom: 1px solid var(--primary);">
+                <h3 style="color: var(--primary);">🧩 Ativar Ferramentas</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:11px; color:#888; margin-bottom:15px;">Escolha o que aparece na tela do agente. É necessário recarregar a página do Genesys após alterar.</p>
+                
+                <div class="module-item">
+                    <label>⏱️ Cronômetros & Analytics</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-cronometros" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+                
+                <div class="module-item">
+                    <label>☕ Gerenciador de Pausas</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-pausas" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <div class="module-item">
+                    <label>📋 Protocolos Rápidos</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-protocolos" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <div class="module-item">
+                    <label>💬 Respostas Rápidas</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-respostas" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <div class="module-item">
+                    <label>💻 Baú (Diagnósticos)</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-bar" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <div class="module-item">
+                    <label>🤖 Assistente IA</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-ia" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <div class="module-item">
+                    <label>🆔 Copiar ID</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-id" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <div class="module-item">
+                    <label>🍔 Menu Flutuante</label>
+                    <label class="switch-admin">
+                        <input type="checkbox" id="mod-menu" checked>
+                        <span class="slider-admin"></span>
+                    </label>
+                </div>
+
+                <button id="btn-save-modules" style="background: var(--primary); color: white; margin-top: 15px;">💾 Salvar Configuração</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
