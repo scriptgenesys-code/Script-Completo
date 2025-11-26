@@ -1,6 +1,6 @@
-/* --- ESTILO GLOBAL DO SISTEMA GENESYS V13 --- */
+/* --- ESTILO GLOBAL DO SISTEMA GENESYS V13.2 --- */
 
-/* 1. NOTIFICAÇÕES (A Caixa Azul/Verde) */
+/* 1. NOTIFICAÇÕES (Fixas, não arrastáveis) */
 #purecloud-script-notification-container, 
 #qr-script-notification-container {
     position: fixed !important;
@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    pointer-events: none; /* Deixa clicar através */
+    pointer-events: none;
 }
 
 .purecloud-script-notification, 
@@ -23,34 +23,34 @@
     font-family: 'Segoe UI', sans-serif;
     font-size: 13px;
     font-weight: 600;
-    border-left: 4px solid #3b82f6; /* Azul Padrão */
+    border-left: 4px solid #3b82f6;
     animation: slideIn 0.3s ease-out;
     pointer-events: auto;
     min-width: 250px;
 }
 
-.purecloud-script-notification-success { border-left-color: #10b981; } /* Verde */
-.purecloud-script-notification-error { border-left-color: #ef4444; } /* Vermelho */
-.purecloud-script-notification-warn { border-left-color: #f59e0b; } /* Amarelo */
+.purecloud-script-notification-success { border-left-color: #10b981; }
+.purecloud-script-notification-error { border-left-color: #ef4444; }
+.purecloud-script-notification-warn { border-left-color: #f59e0b; }
 
 @keyframes slideIn {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
 
-/* 2. MENU UNIFICADO (O Botão Laranja) */
+/* 2. MENU UNIFICADO (Botão Laranja) - ARRASTÁVEL */
 #uni-menu-container {
-    position: fixed !important;
-    bottom: 30px !important;
-    right: 30px !important;
+    position: fixed; /* Sem !important na posição para permitir arrasto */
     z-index: 2147483646 !important;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
     gap: 15px;
+    /* Posição Inicial Padrão (Se o JS não definir outra) */
+    bottom: 30px;
+    right: 30px;
 }
 
-/* Se estiver no meio da tela, isto força-o para o canto */
 .uni-fab-main {
     width: 56px;
     height: 56px;
@@ -70,11 +70,9 @@
 .uni-fab-main:hover { transform: scale(1.1); }
 .uni-fab-main:active { transform: scale(0.95); }
 
-/* 3. MINI DASHBOARD (O Contador Preto) */
+/* 3. MINI DASHBOARD (Contador Preto) - ARRASTÁVEL */
 #purecloud-script-mini-dashboard {
-    position: fixed !important;
-    bottom: 30px !important;
-    left: 30px !important; /* Canto Esquerdo */
+    position: fixed; /* Sem !important na posição */
     z-index: 2147483645 !important;
     background: #1e293b;
     color: white;
@@ -83,9 +81,11 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     font-family: 'Segoe UI', sans-serif;
     border: 1px solid #334155;
+    /* Posição Inicial Padrão */
+    bottom: 30px;
+    left: 30px;
 }
 
-/* Estilo quando recolhido (Pílula) */
 #purecloud-script-mini-dashboard.collapsed {
     border-radius: 30px;
     padding: 5px 15px;
@@ -95,22 +95,29 @@
     justify-content: center;
 }
 
-/* 4. PAINÉIS FLUTUANTES (Protocolos, Respostas, Config) */
+/* 4. PAINÉIS FLUTUANTES (Janelas) - ARRASTÁVEIS */
 .pr-script-base-popup, 
 .qr-script-popup,
 .purecloud-script-popup {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important; /* Centraliza por padrão */
+    position: fixed; /* Sem !important */
+    z-index: 2147483647 !important;
     background: #0f172a;
     border: 1px solid #334155;
     box-shadow: 0 20px 50px rgba(0,0,0,0.7);
     border-radius: 10px;
-    z-index: 2147483647 !important;
+    /* Posição Inicial (Centralizada) - JS pode sobrescrever */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-/* Remove fundo branco estranho se houver */
+/* Remove a transformação quando o JS estiver arrastando */
+.pr-script-base-popup[style*="top"],
+.qr-script-popup[style*="top"],
+.purecloud-script-popup[style*="top"] {
+    transform: none !important;
+}
+
 .injected-bubbles-container {
     background: transparent !important;
 }
