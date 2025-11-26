@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v8.3 - Humanizado)
-// @description  Assistente com relatórios naturais e fluidos (sem tópicos robóticos).
+// @name         PureCloud - Assistente IA (v13.3 - Dinâmico)
+// @description  Assistente com relatórios naturais e nome do atendente dinâmico.
 // @author       Parceiro de Programacao
 // ==/UserScript==
 
@@ -20,8 +20,28 @@
         initIA();
     }
 
+    // Função auxiliar para pegar o nome do atendente na tela
+    function getAgentName() {
+        // Tenta vários seletores onde o nome costuma aparecer no Genesys
+        const selectors = [
+            '.user-info-name', // Seletor comum
+            'div.name span.entry-value', // Outro comum
+            '#current-user-name', // Padrão em alguns scripts
+            '.avatar-name', 
+            'div[data-qa="header-user-name"]'
+        ];
+
+        for (let sel of selectors) {
+            const el = document.querySelector(sel);
+            if (el && el.innerText.trim().length > 0) {
+                return el.innerText.trim();
+            }
+        }
+        return "Atendente"; // Fallback se não achar
+    }
+
     function initIA() {
-        console.log("[IA] Iniciando Assistente (v8.3)...");
+        console.log("[IA] Iniciando Assistente (v13.3)...");
 
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
@@ -421,18 +441,21 @@
             return div.id;
         }
 
-        // --- RELATÓRIO HUMANIZADO (PROMPT CORRIGIDO) ---
+        // --- RELATÓRIO HUMANIZADO (DINÂMICO) ---
         btnSummarize.onclick = async () => {
             const text = reportInput.value.trim(); if (!text) return alert('Cola o protocolo primeiro!');
             btnSummarize.innerHTML = "<span>⏳</span> A gerar..."; btnSummarize.disabled = true; resultDiv.style.display = 'none';
             
+            // PEGA O NOME DO ATENDENTE NA TELA
+            const agentName = getAgentName(); 
+
             const prompt = `
-            Aja como o atendente de suporte técnico Josias.
+            Aja como o atendente de suporte técnico ${agentName}.
             Escreva um relatório técnico em PRIMEIRA PESSOA, em texto corrido (narrativo).
             NÃO USE tópicos numerados ou listas como "1. Cabeçalho". Use parágrafos.
             
             ESTRUTURA NARRATIVA:
-            1º Parágrafo: "Eu, Josias [Sobrenome], prestei assistência a [Nome Cliente] (titular), contato [Tel]. O atendimento foi sobre [Motivo]."
+            1º Parágrafo: "Eu, ${agentName}, prestei assistência a [Nome Cliente] (titular), contato [Tel]. O atendimento foi sobre [Motivo]."
             2º Parágrafo: Descreva o relato do cliente com as palavras dele (ex: "Ele relatou lentidão... ameaçou cancelar...").
             3º Parágrafo: Descreva o que foi feito. "O Bot tentou X. Eu realizei Y e Z."
             4º Parágrafo: Conclusão. Se funcionou ou se o cliente disse que voltou a falhar logo em seguida (recorrência imediata). Se agendou visita, coloque o endereço no final.
