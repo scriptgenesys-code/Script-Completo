@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v15.1 - Chave Pessoal)
-// @description  Cada utilizador insere a sua própria chave.
+// @name         PureCloud - Assistente IA (v15.2 - Login Fix)
+// @description  Correção do fluxo de login e validação de chave.
 // @author       Parceiro de Programacao
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    // Se estiver desativado pelo Gerente, não inicia
+    // Verifica se o módulo está ativo
     if (typeof chrome !== 'undefined' && chrome.storage) {
         chrome.storage.local.get(['MOD_IA'], function(result) {
             if (result.MOD_IA !== false) initIA();
@@ -21,29 +21,38 @@
         get: (keys, cb) => {
             if (typeof chrome !== 'undefined' && chrome.storage) chrome.storage.local.get(keys, cb);
             else {
-                let r = {}; keys.forEach(k => { const v = localStorage.getItem(k); if(v) r[k] = v.startsWith('{')||v.startsWith('[') ? JSON.parse(v) : (v==='true'?true:(v==='false'?false:v)); }); cb(r);
+                let r = {}; 
+                (Array.isArray(keys) ? keys : [keys]).forEach(k => { 
+                    const v = localStorage.getItem(k); 
+                    if(v) r[k] = v; 
+                }); 
+                if(cb) cb(r);
             }
         },
         set: (d, cb) => {
             if (typeof chrome !== 'undefined' && chrome.storage) chrome.storage.local.set(d, cb);
-            else { Object.keys(d).forEach(k => localStorage.setItem(k, typeof d[k]==='object'?JSON.stringify(d[k]):d[k])); if(cb) cb(); }
+            else { 
+                Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); 
+                if(cb) cb(); 
+            }
         },
         remove: (keys, cb) => {
             if (typeof chrome !== 'undefined' && chrome.storage) chrome.storage.local.remove(keys, cb);
-            else { keys.forEach(k => localStorage.removeItem(k)); if(cb) cb(); }
+            else { 
+                (Array.isArray(keys) ? keys : [keys]).forEach(k => localStorage.removeItem(k)); 
+                if(cb) cb(); 
+            }
         }
     };
 
     function initIA() {
-        console.log("[IA] Iniciando Modo Pessoal (Chave do Utilizador)...");
+        console.log("[IA] Iniciando v15.2...");
         
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let chatHistoryContext = []; 
 
-        // MANTER O MESMO CSS E HTML DA VERSÃO ANTERIOR (V14/V15)
-        // Apenas recriando a estrutura para garantir que funciona:
-        
+        // CSS Mantido
         const css = `
             #gemini-wrapper { --ia-bg:#0f172a; --ia-card:#1e293b; --ia-text:#f8fafc; --ia-primary:#3b82f6; --ia-border:#334155; font-family:'Segoe UI',sans-serif; box-sizing:border-box; color-scheme:dark; }
             #gemini-wrapper.light-mode { --ia-bg:#ffffff; --ia-card:#f8fafc; --ia-text:#334155; --ia-primary:#2563eb; --ia-border:#e2e8f0; color-scheme:light; }
@@ -91,6 +100,7 @@
                     <p style="font-size:12px; opacity:0.7; margin-bottom:15px;">Insira a SUA chave API do Google Gemini.</p>
                     <input type="password" id="input-api-key" class="gemini-input" placeholder="Cole a chave aqui...">
                     <button id="btn-save-key" class="gemini-btn btn-primary">Entrar</button>
+                    <p id="login-error-msg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></p>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-top:15px; font-size:11px; color:var(--ia-primary);">Gerar Chave Gratuita</a>
                 </div>
               </div>
@@ -131,30 +141,57 @@
         const resultDiv = document.getElementById('gemini-result');
         const chatContainer = document.getElementById('simple-chat-container');
         
-        // --- FUNÇÕES DE LÓGICA ---
+        // --- FUNÇÕES DE LOGIN (CORRIGIDAS) ---
+        
+        function forceShowApp(key) {
+            userApiKey = key;
+            document.getElementById('screen-login').classList.remove('active');
+            document.getElementById('screen-report').classList.add('active');
+            document.getElementById('ia-nav-tabs').style.display = 'flex';
+        }
+
         function checkLogin() {
             SafeStorage.get(['geminiKey'], r => {
-                if (r.geminiKey) {
-                    userApiKey = r.geminiKey;
-                    document.getElementById('screen-login').classList.remove('active');
-                    document.getElementById('screen-report').classList.add('active');
-                    document.getElementById('ia-nav-tabs').style.display = 'flex';
+                if (r.geminiKey && r.geminiKey.length > 10) {
+                    forceShowApp(r.geminiKey);
                 }
             });
         }
         
         document.getElementById('btn-save-key').onclick = () => {
             const k = inputKey.value.trim();
-            if(k.length < 10) return alert("Chave muito curta.");
-            SafeStorage.set({geminiKey: k}, checkLogin);
+            const errorMsg = document.getElementById('login-error-msg');
+            const btn = document.getElementById('btn-save-key');
+            
+            errorMsg.style.display = 'none';
+
+            if(k.length < 10) {
+                errorMsg.innerText = "Chave inválida (muito curta).";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            SafeStorage.set({geminiKey: k}, () => {
+                console.log("[IA] Chave salva. Entrando...");
+                forceShowApp(k); // Força a entrada imediata sem esperar ler do disco
+                btn.innerText = "Entrar";
+                btn.disabled = false;
+            });
         };
 
         document.getElementById('btn-logout').onclick = () => {
-            if(confirm("Remover chave deste computador?")) {
-                SafeStorage.remove(['geminiKey'], () => location.reload());
+            if(confirm("Remover chave e sair?")) {
+                SafeStorage.remove(['geminiKey'], () => {
+                    userApiKey = '';
+                    location.reload(); // Recarrega para limpar memória
+                });
             }
         };
 
+        // --- API GEMINI ---
         async function callGemini(prompt) {
             try {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:generateContent?key=${userApiKey}`;
@@ -164,9 +201,16 @@
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
                 const json = await response.json();
-                if(json.error) return "Erro API: " + json.error.message;
+                
+                if(json.error) {
+                    console.error("[IA] Erro API:", json.error);
+                    return "Erro API: " + json.error.message;
+                }
                 return json.candidates[0].content.parts[0].text;
-            } catch(e) { return "Erro de conexão."; }
+            } catch(e) { 
+                console.error("[IA] Erro Conexão:", e);
+                return "Erro de conexão. Verifique a internet ou a chave."; 
+            }
         }
 
         // --- RELATÓRIO ---
@@ -188,7 +232,17 @@
 
         document.getElementById('btn-copy').onclick = () => {
             navigator.clipboard.writeText(resultDiv.innerText);
-            alert("Copiado!");
+            const b = document.getElementById('btn-copy');
+            const old = b.innerText;
+            b.innerText = "Copiado!";
+            setTimeout(()=>b.innerText=old, 1000);
+        };
+
+        document.getElementById('btn-reset-report').onclick = () => {
+            document.getElementById('report-input').value = '';
+            resultDiv.style.display = 'none';
+            resultDiv.innerText = '';
+            document.getElementById('btn-copy').style.display = 'none';
         };
 
         // --- CHAT ---
@@ -220,11 +274,10 @@
         // --- UI GERAL ---
         floatBtn.onclick = () => { 
             modal.style.display = modal.style.display === 'none' ? 'flex' : 'none'; 
-            checkLogin();
+            if(modal.style.display === 'flex') checkLogin();
         };
         closeBtn.onclick = () => modal.style.display = 'none';
         
-        // Tabs
         document.querySelectorAll('.nav-tab').forEach(t => t.onclick = () => {
             document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
             t.classList.add('active');
