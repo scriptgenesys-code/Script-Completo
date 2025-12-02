@@ -1,17 +1,23 @@
 {
   "manifest_version": 3,
   "name": "Genesys Unified Master",
-  "version": "6.2",
-  "description": "Suite completa com IA integrada.",
+  "version": "7.1",
+  "description": "Suite completa: Monitoramento, IA, Base de Conhecimento e Produtividade.",
   "permissions": [
     "storage",
     "clipboardWrite",
+    "clipboardRead",
     "notifications"
   ],
   "host_permissions": [
     "https://*.mypurecloud.com/*",
+    "https://*.mypurecloud.ie/*",
+    "https://*.mypurecloud.de/*",
+    "https://*.mypurecloud.jp/*",
+    "https://*.mypurecloud.com.au/*",
     "https://*.genesys.cloud/*",
     "https://*.pure.cloud/*",
+    "https://*.brisanet.com.br/*",
     "https://script.google.com/*",
     "https://api.github.com/*",
     "https://scriptgenesys-code.github.io/*",
@@ -19,15 +25,20 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Abrir Painel Admin"
+    "default_title": "Painel de Gestão"
   },
   "options_page": "admin.html",
   "content_scripts": [
     {
       "matches": [
         "https://*.mypurecloud.com/*",
+        "https://*.mypurecloud.ie/*",
+        "https://*.mypurecloud.de/*",
+        "https://*.mypurecloud.jp/*",
+        "https://*.mypurecloud.com.au/*",
         "https://*.genesys.cloud/*",
-        "https://*.pure.cloud/*"
+        "https://*.pure.cloud/*",
+        "https://*.brisanet.com.br/*"
       ],
       "js": [
         "compatibility.js",
@@ -38,6 +49,8 @@
         "pausas.js",
         "cronometros.js",
         "ia.js",
+        "monitor.js",
+        "central.js",
         "menu.js",
         "gerente.js"
       ],
@@ -48,7 +61,8 @@
     {
       "resources": [
         "admin.html",
-        "style.css"
+        "style.css",
+        "compatibility.js"
       ],
       "matches": [
         "<all_urls>"
