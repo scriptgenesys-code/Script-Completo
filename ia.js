@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v19.0 - Definitive)
-// @description  Organização do v16 + Correção de API do v18 + Histórico.
+// @name         PureCloud - Assistente IA (v21.0 - UI Premium)
+// @description  Visual limpo: Ícones no cabeçalho, Abas simplificadas e Relatórios privados.
 // @author       Parceiro de Programacao
 // @match        *://*/*
 // @grant        none
@@ -10,7 +10,7 @@
     'use strict';
 
     // --- 1. CONFIGURAÇÃO E STORAGE ---
-    const APP_PREFIX = "IA_DEFINITIVE_";
+    const APP_PREFIX = "IA_V21_UI_";
     
     const store = {
         get: (keys, cb) => {
@@ -49,15 +49,15 @@
     });
 
     function initIA() {
-        console.log("[IA] Assistente v19.0 Iniciado...");
+        console.log("[IA] Assistente v21.0 Iniciado...");
 
-        // --- VARIÁVEIS DE ESTADO ---
+        // --- VARIÁVEIS ---
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let agentName = 'Atendente';
         let chatHistoryContext = []; 
 
-        // --- 2. CSS (VISUAL MODERNO) ---
+        // --- 2. CSS ---
         const css = `
             #gemini-wrapper {
                 --ia-bg: rgba(15, 23, 42, 0.98);
@@ -66,7 +66,7 @@
                 --ia-input: #0f172a; 
                 --ia-primary: #3b82f6; --ia-primary-hover: #2563eb;
                 --ia-danger: #ef4444; --ia-success: #10b981;
-                --ia-shadow: 0 20px 50px rgba(0,0,0,0.5);
+                --ia-shadow: 0 20px 50px rgba(0,0,0,0.6);
                 --ia-radius: 12px;
                 font-family: 'Segoe UI', Roboto, sans-serif;
                 box-sizing: border-box; color-scheme: dark; font-size: 14px;
@@ -88,37 +88,50 @@
                 background: linear-gradient(135deg, var(--ia-primary), var(--ia-primary-hover)); 
                 color: white; border-radius: 50%; border: none; 
                 box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); 
-                cursor: pointer; font-size: 26px; z-index: 999999;
+                cursor: pointer; font-size: 24px; z-index: 999999;
                 display: flex; align-items: center; justify-content: center;
                 transition: transform 0.2s;
             }
-            #gemini-float-btn:hover { transform: scale(1.1) rotate(10deg); }
+            #gemini-float-btn:hover { transform: scale(1.1); }
 
             /* Modal */
             #gemini-modal {
                 display: none; position: fixed; z-index: 999999;
-                width: 420px; height: 680px; left: 50%; top: 50%; transform: translate(-50%, -50%);
+                width: 400px; height: 650px; left: 50%; top: 50%; transform: translate(-50%, -50%);
                 background-color: var(--ia-bg); color: var(--ia-text);
                 border-radius: var(--ia-radius); border: 1px solid var(--ia-border);
                 box-shadow: var(--ia-shadow); backdrop-filter: blur(12px);
                 flex-direction: column; overflow: hidden;
             }
 
-            /* Header e Tabs */
-            .gemini-header { padding: 15px; border-bottom: 1px solid var(--ia-border); display: flex; justify-content: space-between; align-items: center; cursor: move; user-select: none; background: rgba(0,0,0,0.1); }
-            .gemini-header h3 { margin: 0; font-size: 15px; font-weight: 700; }
-            .icon-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; color: var(--ia-text-muted); padding: 4px; border-radius: 4px; }
+            /* Header */
+            .gemini-header { 
+                padding: 12px 16px; border-bottom: 1px solid var(--ia-border); 
+                display: flex; justify-content: space-between; align-items: center; 
+                cursor: move; user-select: none; background: rgba(0,0,0,0.15); 
+            }
+            .gemini-header h3 { margin: 0; font-size: 15px; font-weight: 600; display:flex; gap:8px; align-items:center;}
+            
+            .gh-actions { display: flex; gap: 4px; align-items: center; }
+            .icon-btn { 
+                background: transparent; border: none; cursor: pointer; font-size: 15px; 
+                color: var(--ia-text-muted); padding: 6px; border-radius: 6px; 
+                display: flex; align-items: center; justify-content: center;
+                transition: all 0.2s;
+            }
             .icon-btn:hover { color: var(--ia-text); background: rgba(255,255,255,0.1); }
 
-            .nav-tabs { display: flex; border-bottom: 1px solid var(--ia-border); background: rgba(0,0,0,0.05); }
-            .nav-tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--ia-text-muted); border-bottom: 2px solid transparent; }
-            .nav-tab.active { color: var(--ia-primary); border-bottom-color: var(--ia-primary); }
+            /* Abas */
+            .nav-tabs { display: flex; border-bottom: 1px solid var(--ia-border); background: rgba(0,0,0,0.02); }
+            .nav-tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--ia-text-muted); border-bottom: 2px solid transparent; }
+            .nav-tab:hover { color: var(--ia-text); background: rgba(255,255,255,0.03); }
+            .nav-tab.active { color: var(--ia-primary); border-bottom-color: var(--ia-primary); font-weight: 600; }
 
             /* Screens */
             .screen { padding: 20px; display: none; flex-direction: column; flex: 1; overflow-y: auto; }
             .screen.active { display: flex; }
 
-            /* Elementos UI */
+            /* UI Elements */
             .gemini-input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--ia-border); background: var(--ia-input); color: var(--ia-text); font-size: 13px; font-family: inherit; resize: none; }
             .gemini-input:focus { outline: none; border-color: var(--ia-primary); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
             .gemini-label { font-size: 11px; font-weight: 700; color: var(--ia-text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -131,11 +144,11 @@
             .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
             .btn-outline { background: transparent; border: 1px solid var(--ia-border); color: var(--ia-text); }
 
-            /* Resultados */
+            /* Result */
             #gemini-result { margin-top: 15px; padding: 15px; background: var(--ia-card); border: 1px solid var(--ia-border); border-left: 4px solid var(--ia-primary); border-radius: 8px; font-size: 13px; line-height: 1.6; display:none; white-space: pre-wrap; word-wrap: break-word; }
             #gemini-result strong { color: var(--ia-primary); font-weight: 700; }
             
-            /* Histórico */
+            /* History */
             .history-item { background: var(--ia-card); border: 1px solid var(--ia-border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
             .history-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--ia-text-muted); margin-bottom: 6px; border-bottom: 1px dashed var(--ia-border); padding-bottom: 4px; }
             .history-preview { font-size: 12px; color: var(--ia-text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; }
@@ -150,30 +163,31 @@
         
         const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
-        // --- 3. HTML ---
+        // --- 3. HTML (LAYOUT ATUALIZADO) ---
         const widgetHTML = `
           <div id="gemini-wrapper">
             <button id="gemini-float-btn" title="Abrir Assistente">✨</button>
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>🤖 Assistente <span style="font-size:10px; opacity:0.6; font-weight:400;">v19.0</span></h3>
-                <div>
-                   <button id="btn-theme" class="icon-btn">🌗</button>
-                   <button id="btn-close" class="icon-btn">✖</button>
+                <h3>✨ Assistente IA <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v21.0</span></h3>
+                <div class="gh-actions">
+                   <button id="btn-head-history" class="icon-btn" title="Histórico">🕒</button>
+                   <button id="btn-head-config" class="icon-btn" title="Configurações">⚙️</button>
+                   <div style="width:1px; height:16px; background:var(--ia-border); margin:0 4px;"></div>
+                   <button id="btn-theme" class="icon-btn" title="Mudar Tema">🌗</button>
+                   <button id="btn-close" class="icon-btn" title="Fechar">✖</button>
                 </div>
               </div>
 
               <div id="ia-nav-tabs" class="nav-tabs" style="display:none;">
                   <div class="nav-tab active" data-target="report">📝 Relatório</div>
-                  <div class="nav-tab" data-target="history">🕒 Histórico</div>
                   <div class="nav-tab" data-target="chat">💬 Chat</div>
-                  <div class="nav-tab" data-target="config">⚙️ Config</div>
               </div>
 
               <div id="screen-login" class="screen active">
                 <div style="flex:1; display:flex; flex-direction:column; justify-content:center; text-align:center;">
-                    <div style="font-size: 40px; margin-bottom: 15px;">👋</div>
+                    <div style="font-size: 42px; margin-bottom: 15px;">✨</div>
                     <h4 style="margin: 0 0 5px 0;">Bem-vindo</h4>
                     <p style="font-size:12px; color:var(--ia-text-muted); margin-bottom:20px;">Insira sua chave para começar.</p>
                     
@@ -185,7 +199,7 @@
                     </div>
 
                     <button id="btn-login" class="gemini-btn btn-primary">Entrar</button>
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-top:15px; font-size:11px; color:var(--ia-primary);">Obter chave gratuita</a>
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-top:15px; font-size:11px; color:var(--ia-primary); text-decoration:none;">Obter chave gratuita</a>
                 </div>
               </div>
 
@@ -207,10 +221,11 @@
 
               <div id="screen-history" class="screen">
                   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                      <h4 style="margin:0;">Últimos Gerados</h4>
+                      <h4 style="margin:0;">Últimos Relatórios</h4>
                       <button id="btn-wipe-history" style="background:none; border:none; color:var(--ia-danger); font-size:11px; cursor:pointer;">Limpar Tudo</button>
                   </div>
                   <div id="history-list"></div>
+                  <button id="btn-back-report-h" class="gemini-btn btn-outline" style="margin-top:auto;">Voltar</button>
               </div>
 
               <div id="screen-chat" class="screen">
@@ -231,7 +246,11 @@
                   <span class="gemini-label">API Key:</span>
                   <input type="password" id="cfg-key" class="gemini-input">
                   <button id="btn-save-cfg" class="gemini-btn btn-primary">Salvar Alterações</button>
-                  <button id="btn-logout" class="gemini-btn btn-danger" style="margin-top:auto;">Sair e Remover Chave</button>
+                  
+                  <div style="margin-top:auto; border-top:1px dashed var(--ia-border); padding-top:15px;">
+                      <button id="btn-back-report-c" class="gemini-btn btn-outline" style="margin-bottom:10px;">Voltar</button>
+                      <button id="btn-logout" class="gemini-btn btn-danger">Sair e Remover Chave</button>
+                  </div>
               </div>
 
             </div>
@@ -245,9 +264,7 @@
         const modal = getEl('gemini-modal');
         const wrapper = getEl('gemini-wrapper');
         
-        // --- 5. LÓGICA CORE (API SEGURA v18 + PROMPT v16) ---
-
-        // Função para encontrar melhor modelo (Restaurada e segura)
+        // --- 5. LÓGICA API (MANTIDA V20) ---
         async function findBestFreeModel(apiKey) {
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
@@ -256,17 +273,15 @@
                     const all = data.models.map(m => m.name.replace("models/", ""));
                     let best = all.find(m => m === "gemini-1.5-flash-8b");
                     if (!best) best = all.find(m => m === "gemini-1.5-flash");
-                    if (!best) best = all.find(m => m.includes("flash") && !m.includes("exp"));
+                    if (!best) best = all.find(m => m.includes("flash"));
                     return best || "gemini-1.5-flash";
                 }
             } catch (e) {} 
             return "gemini-1.5-flash";
         }
 
-        // Função de envio (API Segura v18)
         async function generateText(prompt) {
              let model = currentModel;
-             // Lógica v8.3/v18 que evita erro de "model not found"
              const url = (m) => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${userApiKey}`;
              const body = { contents: [{ parts: [{ text: prompt }] }] };
 
@@ -277,7 +292,6 @@
                 let data = await response.json();
 
                 if (data.error) {
-                    console.warn("Erro API primário, tentando fallback...");
                     model = await findBestFreeModel(userApiKey);
                     response = await fetch(url(model), {
                         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
@@ -299,6 +313,7 @@
                 .replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1); padding:2px; border-radius:3px;">$1</code>');
         }
 
+        // --- NAVEGAÇÃO ---
         function loadState() {
             store.get(['geminiKey', 'agentName', 'IA_THEME'], (res) => {
                 if (res.geminiKey) {
@@ -324,13 +339,21 @@
         function switchScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
             getEl('screen-' + id).classList.add('active');
+            
+            // Se for report ou chat, ativa a aba correspondente
             const tab = document.querySelector(`.nav-tab[data-target="${id}"]`);
             if(tab) tab.classList.add('active');
+            else {
+                // Se for Histórico ou Config, remove seleção das abas para indicar que estamos em "overlay"
+                // ou simplesmente deixa sem seleção visual
+            }
+
             if(id === 'history') renderHistory();
         }
 
-        // Histórico
+        // --- HISTÓRICO ---
         function saveToHistory(text) {
             store.get(['geminiHistory'], (res) => {
                 let hist = res.geminiHistory || [];
@@ -370,8 +393,23 @@
             });
         }
 
-        // --- 6. EVENTOS ---
-        // Login
+        // --- EVENTOS DE BOTÕES ---
+        
+        // Cabeçalho
+        getEl('btn-head-history').onclick = () => switchScreen('history');
+        getEl('btn-head-config').onclick = () => switchScreen('config');
+        getEl('btn-theme').onclick = () => {
+             wrapper.classList.toggle('light-mode');
+             store.set({IA_THEME: wrapper.classList.contains('light-mode')?'light':'dark'});
+             getEl('btn-theme').innerText = wrapper.classList.contains('light-mode')?'☀️':'🌗';
+        };
+        getEl('btn-close').onclick = () => modal.style.display = 'none';
+        getEl('gemini-float-btn').onclick = () => { modal.style.display = modal.style.display==='flex'?'none':'flex'; loadState(); };
+
+        // Abas
+        document.querySelectorAll('.nav-tab').forEach(t => t.onclick = () => switchScreen(t.dataset.target));
+
+        // Login / Logout / Config
         getEl('btn-login').onclick = () => {
             const k = getEl('input-setup-key').value.trim();
             const n = getEl('input-setup-name').value.trim();
@@ -382,8 +420,10 @@
         getEl('btn-save-cfg').onclick = () => {
             store.set({geminiKey: getEl('cfg-key').value, agentName: getEl('cfg-name').value}, ()=>alert("Salvo!"));
         };
+        getEl('btn-back-report-h').onclick = () => switchScreen('report');
+        getEl('btn-back-report-c').onclick = () => switchScreen('report');
 
-        // Relatório (AQUI ESTÁ A LÓGICA DO V16 APLICADA NO V18)
+        // Relatório
         getEl('btn-gen-report').onclick = async () => {
             const txt = getEl('input-report').value.trim();
             if(!txt) return alert("Insira o texto.");
@@ -395,27 +435,28 @@
             btn.innerHTML = "⏳ A gerar..."; btn.disabled = true;
             resDiv.style.display = 'none'; actions.style.display = 'none';
 
-            // --- PROMPT ORIGINAL DO V16 (QUE VOCÊ GOSTOU) ---
+            // PROMPT PRIVACIDADE (MANTIDO V20)
             const prompt = `
-            Você é ${agentName}, um especialista de suporte técnico.
-            Escreva um relatório técnico em PRIMEIRA PESSOA (${agentName}) sobre o atendimento abaixo.
+            Aja como o atendente ${agentName}.
+            Gere um relatório técnico em PRIMEIRA PESSOA.
             
-            DIRETRIZES:
-            1. Seja profissional, direto e use linguagem culta.
-            2. Use NEGRITO (**texto**) para destacar: Números de Protocolo, Datas, Telefones e Nomes de Clientes.
-            3. Estrutura:
-               - Introdução ("Eu, ${agentName}, atendi...")
-               - Relato do Cliente
-               - Procedimentos Realizados
-               - Conclusão
+            REGRAS DE PRIVACIDADE E FORMATAÇÃO:
+            1. NÃO mencione horários exatos (ex: "às 14:30") nem datas do atendimento.
+            2. DADOS PESSOAIS: Cite APENAS o Nome e Telefone do cliente.
+            3. CONFIRMAÇÃO: Se houver CPF, Endereço ou Data de Nascimento, escreva apenas: "Realizei a confirmação de segurança dos dados".
+            4. Destaque em **NEGRITO**: Nome do cliente, Telefone e Protocolo.
 
-            Texto para análise:
+            ESTRUTURA:
+            1. Introdução: "Eu, ${agentName}, atendi [Nome]..."
+            2. Relato: O problema/solicitação.
+            3. Procedimentos: O que foi feito.
+            4. Conclusão.
+
+            Texto base:
             ${txt}`;
 
             try {
-                // CHAMADA SEGURA (v18)
                 const raw = await generateText(prompt);
-                
                 resDiv.innerHTML = formatMarkdown(raw);
                 resDiv.style.display = 'block';
                 actions.style.display = 'flex'; 
@@ -434,15 +475,12 @@
             const b = getEl('btn-copy-result');
             b.innerText = "Copiado! ✅"; setTimeout(()=>b.innerText="📋 Copiar Relatório", 2000);
         };
-        
         getEl('btn-clear-report').onclick = () => {
             getEl('input-report').value = '';
             getEl('gemini-result').innerHTML = '';
             getEl('gemini-result').style.display = 'none';
             getEl('result-actions').style.display = 'none';
         };
-
-        // Histórico
         getEl('btn-wipe-history').onclick = () => { if(confirm("Apagar todo histórico?")) store.set({geminiHistory:[]}, renderHistory); };
 
         // Chat
@@ -462,9 +500,7 @@
             try {
                 const context = chatHistoryContext.slice(-6).map(m => `user: ${m.user}\nmodel: ${m.ai}`).join("\n");
                 const prompt = `Aja como assistente ${agentName}. Histórico:\n${context}\nUsuário: ${txt}`;
-                
                 const ans = await generateText(prompt);
-                
                 document.getElementById(tempId).innerHTML = formatMarkdown(ans);
                 chatHistoryContext.push({ user: txt, ai: ans });
             } catch(e) { document.getElementById(tempId).innerText = "Erro."; }
@@ -472,16 +508,6 @@
         getEl('btn-send-chat').onclick = sendChat;
         getEl('input-chat').onkeypress = (e) => { if(e.key==='Enter') sendChat(); };
         getEl('btn-clear-chat').onclick = () => { getEl('chat-container').innerHTML = ''; chatHistoryContext = []; };
-
-        // Geral
-        document.querySelectorAll('.nav-tab').forEach(t => t.onclick = () => switchScreen(t.dataset.target));
-        getEl('gemini-float-btn').onclick = () => { modal.style.display = modal.style.display==='flex'?'none':'flex'; loadState(); };
-        getEl('btn-close').onclick = () => modal.style.display = 'none';
-        getEl('btn-theme').onclick = () => {
-             wrapper.classList.toggle('light-mode');
-             store.set({IA_THEME: wrapper.classList.contains('light-mode')?'light':'dark'});
-             getEl('btn-theme').innerText = wrapper.classList.contains('light-mode')?'☀️':'🌗';
-        };
 
         // Drag
         const handle = getEl('gemini-drag-handle');
