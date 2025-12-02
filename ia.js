@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v23.0 - Final Fix)
-// @description  Segurança, Visual Premium e Botões de Ação Completos.
+// @name         PureCloud - Aja Assistente (v24.0 - Time Aware)
+// @description  Assistente Aja: Saudações corretas (BR) e Identidade definida.
 // @author       Josias Queiroz - Kingoffjoss Assessoria
 // @match        *://*/*
 // @grant        none
@@ -10,7 +10,7 @@
     'use strict';
 
     // --- 1. CONFIGURAÇÃO E STORAGE ---
-    const APP_PREFIX = "IA_V23_FINAL_";
+    const APP_PREFIX = "IA_V24_AJA_";
     
     const store = {
         get: (keys, cb) => {
@@ -49,13 +49,21 @@
     });
 
     function initIA() {
-        console.log("[IA] Assistente v23.0 Iniciado...");
+        console.log("[Aja] Assistente v24.0 Iniciada...");
 
         // --- VARIÁVEIS ---
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let agentName = 'Atendente';
         let chatHistoryContext = []; 
+
+        // --- FUNÇÃO DE SAUDAÇÃO (BRASIL) ---
+        function getBrazilGreeting() {
+            const h = new Date().getHours();
+            if (h >= 5 && h < 12) return "Bom dia";
+            if (h >= 12 && h < 18) return "Boa tarde";
+            return "Boa noite";
+        }
 
         // --- 2. CSS ---
         const css = `
@@ -64,7 +72,8 @@
                 --ia-card: #1e293b; --ia-border: #334155; 
                 --ia-text: #f1f5f9; --ia-text-muted: #94a3b8;
                 --ia-input: #0f172a; 
-                --ia-primary: #3b82f6; --ia-primary-hover: #2563eb;
+                --ia-primary: #8b5cf6; /* Cor Aja (Violeta) */
+                --ia-primary-hover: #7c3aed;
                 --ia-danger: #ef4444; --ia-success: #10b981;
                 --ia-shadow: 0 20px 50px rgba(0,0,0,0.6);
                 --ia-radius: 12px;
@@ -76,7 +85,7 @@
                 --ia-card: #f8fafc; --ia-border: #e2e8f0; 
                 --ia-text: #334155; --ia-text-muted: #64748b;
                 --ia-input: #ffffff; 
-                --ia-primary: #2563eb; --ia-primary-hover: #1d4ed8;
+                --ia-primary: #7c3aed; --ia-primary-hover: #6d28d9;
                 --ia-shadow: 0 20px 50px rgba(0,0,0,0.15);
                 color-scheme: light;
             }
@@ -87,7 +96,7 @@
                 position: fixed; bottom: 85px; right: 25px; width: 56px; height: 56px; 
                 background: linear-gradient(135deg, var(--ia-primary), var(--ia-primary-hover)); 
                 color: white; border-radius: 50%; border: none; 
-                box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); 
+                box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); 
                 cursor: pointer; font-size: 24px; z-index: 999999;
                 display: flex; align-items: center; justify-content: center;
                 transition: transform 0.2s;
@@ -133,7 +142,7 @@
 
             /* Inputs */
             .gemini-input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--ia-border); background: var(--ia-input); color: var(--ia-text); font-size: 13px; font-family: inherit; resize: none; }
-            .gemini-input:focus { outline: none; border-color: var(--ia-primary); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+            .gemini-input:focus { outline: none; border-color: var(--ia-primary); box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2); }
             .gemini-label { font-size: 11px; font-weight: 700; color: var(--ia-text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
 
             /* Buttons */
@@ -167,18 +176,17 @@
         // --- 3. HTML ---
         const widgetHTML = `
           <div id="gemini-wrapper">
-            <button id="gemini-float-btn" title="Abrir Assistente">✨</button>
+            <button id="gemini-float-btn" title="Abrir Aja">✨</button>
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>✨ Assistente IA <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v23.0</span></h3>
+                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.0</span></h3>
                 <div class="gh-actions">
                    <span id="logged-in-tools" style="display:none; gap:4px; align-items:center;">
                        <button id="btn-head-history" class="icon-btn" title="Histórico">🕒</button>
                        <button id="btn-head-config" class="icon-btn" title="Configurações">⚙️</button>
                        <div style="width:1px; height:16px; background:var(--ia-border); margin:0 4px;"></div>
                    </span>
-                   
                    <button id="btn-theme" class="icon-btn" title="Mudar Tema">🌗</button>
                    <button id="btn-close" class="icon-btn" title="Fechar">✖</button>
                 </div>
@@ -191,9 +199,9 @@
 
               <div id="screen-login" class="screen active">
                 <div style="flex:1; display:flex; flex-direction:column; justify-content:center; text-align:center;">
-                    <div style="font-size: 42px; margin-bottom: 15px;">🔒</div>
-                    <h4 style="margin: 0 0 5px 0;">Acesso Restrito</h4>
-                    <p style="font-size:12px; color:var(--ia-text-muted); margin-bottom:20px;">Faça login para desbloquear o assistente.</p>
+                    <div style="font-size: 42px; margin-bottom: 15px;">✨</div>
+                    <h4 style="margin: 0 0 5px 0;">Olá, eu sou a Aja</h4>
+                    <p style="font-size:12px; color:var(--ia-text-muted); margin-bottom:20px;">Faça login para desbloquear seus poderes.</p>
                     
                     <div style="text-align:left;">
                         <span class="gemini-label">Seu Nome:</span>
@@ -202,7 +210,7 @@
                         <input type="password" id="input-setup-key" class="gemini-input" placeholder="Cole a chave aqui...">
                     </div>
 
-                    <button id="btn-login" class="gemini-btn btn-primary">Desbloquear e Entrar</button>
+                    <button id="btn-login" class="gemini-btn btn-primary">Entrar</button>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-top:15px; font-size:11px; color:var(--ia-primary); text-decoration:none;">Obter chave gratuita</a>
                 </div>
               </div>
@@ -235,10 +243,10 @@
 
               <div id="screen-chat" class="screen">
                  <div id="chat-container" style="flex:1; overflow-y:auto; display:flex; flex-direction:column;">
-                    <div class="chat-bubble chat-ai">Olá <b id="chat-user-name"></b>! Como posso ajudar hoje?</div>
+                    <div id="chat-welcome-msg" class="chat-bubble chat-ai">...</div>
                  </div>
                  <div style="display:flex; gap:8px; margin-top:10px; border-top:1px solid var(--ia-border); padding-top:10px;">
-                    <input type="text" id="input-chat" class="gemini-input" style="margin:0; border-radius:20px;" placeholder="Escreva...">
+                    <input type="text" id="input-chat" class="gemini-input" style="margin:0; border-radius:20px;" placeholder="Converse com a Aja...">
                     <button id="btn-send-chat" class="gemini-btn btn-primary" style="width:40px; margin:0; border-radius:50%;">➤</button>
                  </div>
                  <button id="btn-clear-chat" style="background:none; border:none; color:var(--ia-text-muted); font-size:11px; cursor:pointer; align-self:flex-end; margin-top:5px;">Limpar Chat</button>
@@ -334,7 +342,10 @@
                     getEl('cfg-key').value = userApiKey;
                     getEl('cfg-name').value = agentName;
                     getEl('input-setup-name').value = agentName;
-                    getEl('chat-user-name').innerText = agentName;
+                    
+                    // ATUALIZA SAUDAÇÃO COM HORA CERTA
+                    const greeting = getBrazilGreeting();
+                    getEl('chat-welcome-msg').innerHTML = `${greeting} <b>${agentName}</b>!<br>Eu sou a <b>Aja</b>. Como posso ajudar?`;
                     
                     getEl('logged-in-tools').style.display = 'flex';
                     getEl('ia-nav-tabs').style.display = 'flex';
@@ -350,12 +361,9 @@
         function switchScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            
             getEl('screen-' + id).classList.add('active');
-            
             const tab = document.querySelector(`.nav-tab[data-target="${id}"]`);
             if(tab) tab.classList.add('active');
-
             if(id === 'history') renderHistory();
         }
 
@@ -438,19 +446,23 @@
             btn.innerHTML = "⏳ A gerar..."; btn.disabled = true;
             resDiv.style.display = 'none'; actions.style.display = 'none';
 
+            // PROMPT OTIMIZADO PARA AJA
+            const timeGreeting = getBrazilGreeting();
             const prompt = `
-            Aja como o atendente ${agentName}.
-            Gere um relatório técnico em PRIMEIRA PESSOA.
-            REGRAS DE PRIVACIDADE:
-            1. NÃO mencione horários exatos nem datas.
-            2. Cite APENAS Nome e Telefone.
-            3. Se houver CPF/Endereço, diga apenas "Realizei a confirmação de dados".
-            4. Destaque em **NEGRITO**: Nome, Telefone e Protocolo.
+            Contexto: Agora é ${timeGreeting}. Você é a Aja, assistente do agente ${agentName}.
+            Gere um relatório técnico em PRIMEIRA PESSOA (${agentName}).
+            
+            REGRAS RÍGIDAS:
+            1. NÃO invente horários específicos.
+            2. Mantenha privacidade: Apenas Nome e Telefone do cliente.
+            3. Use NEGRITO em: Nome, Telefone e Protocolo.
+            
             ESTRUTURA:
-            1. Introdução: "Eu, ${agentName}, atendi [Nome]..."
-            2. Relato do problema.
-            3. Procedimentos feitos.
-            4. Conclusão.
+            1. Introdução
+            2. Relato
+            3. Procedimentos
+            4. Conclusão
+
             Texto base:
             ${txt}`;
 
@@ -475,15 +487,14 @@
             b.innerText = "Copiado! ✅"; setTimeout(()=>b.innerText="📋 Copiar Relatório", 2000);
         };
         
-        // BOTÕES DE LIMPAR (TOP e BOTTOM)
         const clearFunc = () => {
             getEl('input-report').value = '';
             getEl('gemini-result').innerHTML = '';
             getEl('gemini-result').style.display = 'none';
             getEl('result-actions').style.display = 'none';
         };
-        getEl('btn-clear-report-top').onclick = clearFunc; // Botão de cima (lixo)
-        getEl('btn-wipe-result').onclick = clearFunc;      // Botão de baixo (novo)
+        getEl('btn-clear-report-top').onclick = clearFunc; 
+        getEl('btn-wipe-result').onclick = clearFunc;      
 
         getEl('btn-wipe-history').onclick = () => { if(confirm("Apagar tudo?")) store.set({geminiHistory:[]}, renderHistory); };
 
@@ -503,7 +514,8 @@
 
             try {
                 const context = chatHistoryContext.slice(-6).map(m => `user: ${m.user}\nmodel: ${m.ai}`).join("\n");
-                const prompt = `Aja como assistente ${agentName}. Histórico:\n${context}\nUsuário: ${txt}`;
+                const currentG = getBrazilGreeting();
+                const prompt = `Você é a Aja. Agora é ${currentG}. Responda de forma útil ao ${agentName}.\nHistórico:\n${context}\nUsuário: ${txt}`;
                 const ans = await generateText(prompt);
                 document.getElementById(tempId).innerHTML = formatMarkdown(ans);
                 chatHistoryContext.push({ user: txt, ai: ans });
@@ -511,9 +523,12 @@
         };
         getEl('btn-send-chat').onclick = sendChat;
         getEl('input-chat').onkeypress = (e) => { if(e.key==='Enter') sendChat(); };
-        getEl('btn-clear-chat').onclick = () => { getEl('chat-container').innerHTML = ''; chatHistoryContext = []; };
+        getEl('btn-clear-chat').onclick = () => { 
+            const greeting = getBrazilGreeting();
+            getEl('chat-container').innerHTML = `<div id="chat-welcome-msg" class="chat-bubble chat-ai">${greeting} <b>${agentName}</b>!<br>Eu sou a <b>Aja</b>. Como posso ajudar?</div>`; 
+            chatHistoryContext = []; 
+        };
 
-        // Drag
         const handle = getEl('gemini-drag-handle');
         let isDrag=false, startX, startY;
         handle.onmousedown = (e) => { if(e.target.closest('button'))return; isDrag=true; startX=e.clientX; startY=e.clientY; modal.style.transform='none'; modal.style.left=modal.getBoundingClientRect().left+'px'; modal.style.top=modal.getBoundingClientRect().top+'px'; };
