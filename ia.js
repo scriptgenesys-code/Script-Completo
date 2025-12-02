@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v18.0 - Estável)
-// @description  Visual v17 (Moderno) + Lógica v8.3 (Original e Funcional).
+// @name         PureCloud - Assistente IA (v19.0 - Definitive)
+// @description  Organização do v16 + Correção de API do v18 + Histórico.
 // @author       Parceiro de Programacao
 // @match        *://*/*
 // @grant        none
@@ -10,7 +10,7 @@
     'use strict';
 
     // --- 1. CONFIGURAÇÃO E STORAGE ---
-    const APP_PREFIX = "IA_STABLE_";
+    const APP_PREFIX = "IA_DEFINITIVE_";
     
     const store = {
         get: (keys, cb) => {
@@ -49,15 +49,15 @@
     });
 
     function initIA() {
-        console.log("[IA] Assistente v18.0 (Core Original)...");
+        console.log("[IA] Assistente v19.0 Iniciado...");
 
-        // --- VARIÁVEIS ORIGINAIS (LÓGICA v8.3) ---
+        // --- VARIÁVEIS DE ESTADO ---
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let agentName = 'Atendente';
         let chatHistoryContext = []; 
 
-        // --- 2. CSS (VISUAL v17 - MANTIDO) ---
+        // --- 2. CSS (VISUAL MODERNO) ---
         const css = `
             #gemini-wrapper {
                 --ia-bg: rgba(15, 23, 42, 0.98);
@@ -121,13 +121,15 @@
             /* Elementos UI */
             .gemini-input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--ia-border); background: var(--ia-input); color: var(--ia-text); font-size: 13px; font-family: inherit; resize: none; }
             .gemini-input:focus { outline: none; border-color: var(--ia-primary); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
-            
+            .gemini-label { font-size: 11px; font-weight: 700; color: var(--ia-text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+
             .gemini-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: white; transition: filter 0.2s, transform 0.1s; }
             .gemini-btn:active { transform: scale(0.98); }
             .btn-primary { background: var(--ia-primary); }
             .btn-success { background: var(--ia-success); }
             .btn-danger { background: transparent; border: 1px solid var(--ia-danger); color: var(--ia-danger); }
             .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
+            .btn-outline { background: transparent; border: 1px solid var(--ia-border); color: var(--ia-text); }
 
             /* Resultados */
             #gemini-result { margin-top: 15px; padding: 15px; background: var(--ia-card); border: 1px solid var(--ia-border); border-left: 4px solid var(--ia-primary); border-radius: 8px; font-size: 13px; line-height: 1.6; display:none; white-space: pre-wrap; word-wrap: break-word; }
@@ -148,14 +150,14 @@
         
         const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
-        // --- 3. HTML (VISUAL v17) ---
+        // --- 3. HTML ---
         const widgetHTML = `
           <div id="gemini-wrapper">
             <button id="gemini-float-btn" title="Abrir Assistente">✨</button>
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>🤖 Assistente <span style="font-size:10px; opacity:0.6; font-weight:400;">v18.0</span></h3>
+                <h3>🤖 Assistente <span style="font-size:10px; opacity:0.6; font-weight:400;">v19.0</span></h3>
                 <div>
                    <button id="btn-theme" class="icon-btn">🌗</button>
                    <button id="btn-close" class="icon-btn">✖</button>
@@ -174,22 +176,32 @@
                     <div style="font-size: 40px; margin-bottom: 15px;">👋</div>
                     <h4 style="margin: 0 0 5px 0;">Bem-vindo</h4>
                     <p style="font-size:12px; color:var(--ia-text-muted); margin-bottom:20px;">Insira sua chave para começar.</p>
-                    <input type="text" id="input-setup-name" class="gemini-input" placeholder="Seu Nome (Ex: Josias)">
-                    <input type="password" id="input-setup-key" class="gemini-input" placeholder="Sua Chave API Gemini">
+                    
+                    <div style="text-align:left;">
+                        <span class="gemini-label">Seu Nome:</span>
+                        <input type="text" id="input-setup-name" class="gemini-input" placeholder="Ex: Josias Silva">
+                        <span class="gemini-label">Chave API:</span>
+                        <input type="password" id="input-setup-key" class="gemini-input" placeholder="Cole a chave aqui...">
+                    </div>
+
                     <button id="btn-login" class="gemini-btn btn-primary">Entrar</button>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-top:15px; font-size:11px; color:var(--ia-primary);">Obter chave gratuita</a>
                 </div>
               </div>
 
               <div id="screen-report" class="screen">
+                <span class="gemini-label">Texto do Protocolo / Conversa</span>
                 <textarea id="input-report" class="gemini-input" style="min-height:100px;" placeholder="Cole o protocolo ou conversa aqui..." spellcheck="false"></textarea>
-                <button id="btn-gen-report" class="gemini-btn btn-primary">⚡ Gerar Relatório</button>
+                
+                <div style="display:flex; gap:8px;">
+                    <button id="btn-gen-report" class="gemini-btn btn-primary">⚡ Gerar Relatório</button>
+                    <button id="btn-clear-report" class="gemini-btn btn-outline" style="width:50px;" title="Limpar">🗑️</button>
+                </div>
 
                 <div id="gemini-result"></div>
                 
                 <div id="result-actions" style="display:none; margin-top:10px;">
                     <button id="btn-copy-result" class="gemini-btn btn-success">📋 Copiar Relatório</button>
-                    <button id="btn-clean-result" class="gemini-btn btn-danger">🗑️ Limpar Relatório</button>
                 </div>
               </div>
 
@@ -214,9 +226,9 @@
 
               <div id="screen-config" class="screen">
                   <h4 style="margin-top:0;">Configurações</h4>
-                  <p style="font-size:11px; color:var(--ia-text-muted);">Nome</p>
+                  <span class="gemini-label">Nome:</span>
                   <input type="text" id="cfg-name" class="gemini-input">
-                  <p style="font-size:11px; color:var(--ia-text-muted);">API Key</p>
+                  <span class="gemini-label">API Key:</span>
                   <input type="password" id="cfg-key" class="gemini-input">
                   <button id="btn-save-cfg" class="gemini-btn btn-primary">Salvar Alterações</button>
                   <button id="btn-logout" class="gemini-btn btn-danger" style="margin-top:auto;">Sair e Remover Chave</button>
@@ -233,9 +245,9 @@
         const modal = getEl('gemini-modal');
         const wrapper = getEl('gemini-wrapper');
         
-        // --- 5. LÓGICA CORE (Restaurada da v8.3) ---
+        // --- 5. LÓGICA CORE (API SEGURA v18 + PROMPT v16) ---
 
-        // Função para encontrar melhor modelo (Restaurada)
+        // Função para encontrar melhor modelo (Restaurada e segura)
         async function findBestFreeModel(apiKey) {
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
@@ -244,16 +256,17 @@
                     const all = data.models.map(m => m.name.replace("models/", ""));
                     let best = all.find(m => m === "gemini-1.5-flash-8b");
                     if (!best) best = all.find(m => m === "gemini-1.5-flash");
-                    if (!best) best = all.find(m => m.includes("flash") && !m.includes("exp") && !m.includes("experimental"));
+                    if (!best) best = all.find(m => m.includes("flash") && !m.includes("exp"));
                     return best || "gemini-1.5-flash";
                 }
             } catch (e) {} 
             return "gemini-1.5-flash";
         }
 
-        // Função de envio (Lógica v8.3)
+        // Função de envio (API Segura v18)
         async function generateText(prompt) {
              let model = currentModel;
+             // Lógica v8.3/v18 que evita erro de "model not found"
              const url = (m) => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${userApiKey}`;
              const body = { contents: [{ parts: [{ text: prompt }] }] };
 
@@ -264,7 +277,7 @@
                 let data = await response.json();
 
                 if (data.error) {
-                    // Fallback
+                    console.warn("Erro API primário, tentando fallback...");
                     model = await findBestFreeModel(userApiKey);
                     response = await fetch(url(model), {
                         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
@@ -317,7 +330,7 @@
             if(id === 'history') renderHistory();
         }
 
-        // Histórico Lógica
+        // Histórico
         function saveToHistory(text) {
             store.get(['geminiHistory'], (res) => {
                 let hist = res.geminiHistory || [];
@@ -370,7 +383,7 @@
             store.set({geminiKey: getEl('cfg-key').value, agentName: getEl('cfg-name').value}, ()=>alert("Salvo!"));
         };
 
-        // Relatório
+        // Relatório (AQUI ESTÁ A LÓGICA DO V16 APLICADA NO V18)
         getEl('btn-gen-report').onclick = async () => {
             const txt = getEl('input-report').value.trim();
             if(!txt) return alert("Insira o texto.");
@@ -379,22 +392,28 @@
             const resDiv = getEl('gemini-result');
             const actions = getEl('result-actions');
             
-            btn.innerHTML = "⏳ Gerando..."; btn.disabled = true;
+            btn.innerHTML = "⏳ A gerar..."; btn.disabled = true;
             resDiv.style.display = 'none'; actions.style.display = 'none';
 
+            // --- PROMPT ORIGINAL DO V16 (QUE VOCÊ GOSTOU) ---
             const prompt = `
-            Aja como o atendente de suporte técnico ${agentName}.
-            Escreva um relatório técnico em PRIMEIRA PESSOA, em texto corrido.
-            NÃO USE tópicos numerados ou listas.
-            ESTRUTURA:
-            1. Eu, ${agentName}, prestei assistência a [Cliente]...
-            2. O cliente relatou...
-            3. Realizei procedimentos...
-            4. Conclusão.
-            Conversa: ${txt}`;
+            Você é ${agentName}, um especialista de suporte técnico.
+            Escreva um relatório técnico em PRIMEIRA PESSOA (${agentName}) sobre o atendimento abaixo.
+            
+            DIRETRIZES:
+            1. Seja profissional, direto e use linguagem culta.
+            2. Use NEGRITO (**texto**) para destacar: Números de Protocolo, Datas, Telefones e Nomes de Clientes.
+            3. Estrutura:
+               - Introdução ("Eu, ${agentName}, atendi...")
+               - Relato do Cliente
+               - Procedimentos Realizados
+               - Conclusão
+
+            Texto para análise:
+            ${txt}`;
 
             try {
-                // USA A FUNÇÃO RESTAURADA
+                // CHAMADA SEGURA (v18)
                 const raw = await generateText(prompt);
                 
                 resDiv.innerHTML = formatMarkdown(raw);
@@ -416,7 +435,7 @@
             b.innerText = "Copiado! ✅"; setTimeout(()=>b.innerText="📋 Copiar Relatório", 2000);
         };
         
-        getEl('btn-clean-result').onclick = () => {
+        getEl('btn-clear-report').onclick = () => {
             getEl('input-report').value = '';
             getEl('gemini-result').innerHTML = '';
             getEl('gemini-result').style.display = 'none';
@@ -426,7 +445,7 @@
         // Histórico
         getEl('btn-wipe-history').onclick = () => { if(confirm("Apagar todo histórico?")) store.set({geminiHistory:[]}, renderHistory); };
 
-        // Chat (Usa a função restaurada)
+        // Chat
         const sendChat = async () => {
             const inp = getEl('input-chat');
             const txt = inp.value.trim();
@@ -444,7 +463,6 @@
                 const context = chatHistoryContext.slice(-6).map(m => `user: ${m.user}\nmodel: ${m.ai}`).join("\n");
                 const prompt = `Aja como assistente ${agentName}. Histórico:\n${context}\nUsuário: ${txt}`;
                 
-                // USA A FUNÇÃO RESTAURADA
                 const ans = await generateText(prompt);
                 
                 document.getElementById(tempId).innerHTML = formatMarkdown(ans);
