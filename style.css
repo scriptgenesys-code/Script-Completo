@@ -1,0 +1,134 @@
+/* --- RESET & VARIAVEIS --- */
+:root {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --bg-input: #0f172a;
+    --border: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --success: #10b981;
+    --danger: #ef4444;
+    --orange: #f97316;
+    --gold: #eab308;
+}
+
+body {
+    width: 500px;
+    min-height: 600px;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0; padding: 15px;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* --- LOGIN --- */
+#login-screen { position: fixed; inset: 0; background: var(--bg-main); z-index: 999; display: flex; align-items: center; justify-content: center; }
+.login-card { background: var(--bg-card); padding: 30px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 300px; }
+.login-card input { width: 100%; padding: 12px; margin-bottom: 10px; background: var(--bg-input); border: 1px solid var(--border); color: white; border-radius: 6px; box-sizing: border-box; }
+.login-card button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+/* --- TOPO --- */
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; white-space: nowrap; }
+.logo-area { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+.actions-area { display: flex; gap: 6px; }
+.actions-area button { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: 0.2s; }
+.actions-area button:hover { border-color: var(--primary); color: white; background: rgba(255,255,255,0.05); }
+.btn-gold { border-color: var(--gold) !important; color: var(--gold) !important; }
+.btn-red { border-color: var(--danger) !important; color: var(--danger) !important; }
+
+/* --- FILTROS --- */
+.control-panel { background: var(--bg-card); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; }
+.filter-row { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 12px; }
+.input-group { flex: 1; }
+.input-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.input-group input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 8px; border-radius: 6px; box-sizing: border-box; }
+.btn-search { background: var(--primary); color: white; border: none; width: 40px; height: 35px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+.agent-selector-row select { width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px; cursor: pointer; font-size: 14px; }
+.status-row { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+#btn-refresh { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 16px; transition: transform 0.5s; }
+
+/* --- CARDS KPI (4 Colunas) --- */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.kpi-card { background: var(--bg-card); padding: 10px; border-radius: 10px; border: 1px solid var(--border); min-width: 0; }
+.kpi-card .lbl { font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 5px; white-space: nowrap; }
+.kpi-card strong { font-size: 20px; font-weight: 700; }
+.blue strong { color: var(--primary); }
+.green strong { color: var(--success); }
+.red strong { color: var(--danger); }
+.orange strong { color: var(--orange); }
+
+.clickable { cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+.clickable:hover { transform: translateY(-2px); border-color: var(--text-muted); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+/* --- VISÃO GERAL --- */
+.section-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+.section-title { margin: 0 0 15px 0; font-size: 13px; color: var(--text-muted); }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 11px; }
+.bar-name { width: 80px; text-align: right; margin-right: 10px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--primary); border-radius: 4px; }
+.bar-val { width: 30px; text-align: right; font-weight: bold; }
+
+.search-footer { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border); padding: 10px; border-radius: 25px; margin-bottom: 10px; }
+.search-footer input { background: transparent; border: none; color: white; width: 100%; margin-left: 8px; outline: none; }
+
+.lista-scroll { max-height: 250px; overflow-y: auto; padding-right: 5px; }
+.agente-row { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+.agente-row:hover { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); transform: translateX(3px); }
+.agente-info { display: flex; flex-direction: column; gap: 2px; }
+.agente-nome { font-size: 13px; font-weight: bold; color: var(--text-main); }
+.agente-detalhe { font-size: 11px; color: var(--text-muted); }
+.agente-valor { font-size: 16px; font-weight: bold; color: var(--primary); background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 6px; min-width: 30px; text-align: center; }
+
+/* --- VISÃO INDIVIDUAL (ABAS COLORIDAS) --- */
+.agent-title { color: var(--primary); margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px dashed var(--border); font-size: 16px; }
+.detail-container { border-radius: 8px; overflow: hidden; margin-bottom: 15px; border: 1px solid; }
+.green-theme { border-color: rgba(16, 185, 129, 0.3); }
+.red-theme { border-color: rgba(239, 68, 68, 0.3); }
+.detail-header { padding: 10px; font-size: 13px; font-weight: bold; color: white; background: rgba(255,255,255,0.05); }
+.detail-list { max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.1); }
+
+/* ITENS DAS LISTAS DETALHADAS */
+.detalhe-item { 
+    padding: 10px 12px; 
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.item-content { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 3px; 
+    flex: 1; /* Ocupa espaço */
+}
+.main-text { font-size: 12px; font-weight: bold; color: #f1f5f9; display: flex; align-items: center; gap: 5px; }
+.sub-text { font-size: 11px; color: var(--text-muted); }
+.link-btn { font-size: 10px; color: var(--primary); text-decoration: none; border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+
+/* TAG RECORRENCIA (NOVO) */
+.tag-recorrencia {
+    background: #eab308;
+    color: #0f172a;
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* --- MODAIS --- */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; backdrop-filter: blur(2px); }
+.modal-content { background: var(--bg-card); margin: 10% auto; width: 90%; padding: 0; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; max-height: 80%; }
+.modal-header { padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-input); }
+.close-modal { font-size: 24px; cursor: pointer; color: var(--text-muted); }
+.modal-body { padding: 15px; overflow-y: auto; }
+.module-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--border); font-size: 14px; }
+.modal-body button { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
