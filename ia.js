@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v22.0 - Secure Login)
-// @description  Bloqueio de funções antes do login. Visual Premium v21.
-// @author       Parceiro de Programacao
+// @name         PureCloud - Assistente IA (v23.0 - Final Fix)
+// @description  Segurança, Visual Premium e Botões de Ação Completos.
+// @author       Josias Queiroz - Kingoffjoss Assessoria
 // @match        *://*/*
 // @grant        none
 // ==/UserScript==
@@ -10,7 +10,7 @@
     'use strict';
 
     // --- 1. CONFIGURAÇÃO E STORAGE ---
-    const APP_PREFIX = "IA_V22_SECURE_";
+    const APP_PREFIX = "IA_V23_FINAL_";
     
     const store = {
         get: (keys, cb) => {
@@ -49,7 +49,7 @@
     });
 
     function initIA() {
-        console.log("[IA] Assistente v22.0 Iniciado...");
+        console.log("[IA] Assistente v23.0 Iniciado...");
 
         // --- VARIÁVEIS ---
         let currentModel = "gemini-1.5-flash"; 
@@ -57,7 +57,7 @@
         let agentName = 'Atendente';
         let chatHistoryContext = []; 
 
-        // --- 2. CSS (MANTIDO DO V21) ---
+        // --- 2. CSS ---
         const css = `
             #gemini-wrapper {
                 --ia-bg: rgba(15, 23, 42, 0.98);
@@ -171,7 +171,7 @@
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>✨ Assistente IA <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v22.0</span></h3>
+                <h3>✨ Assistente IA <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v23.0</span></h3>
                 <div class="gh-actions">
                    <span id="logged-in-tools" style="display:none; gap:4px; align-items:center;">
                        <button id="btn-head-history" class="icon-btn" title="Histórico">🕒</button>
@@ -213,13 +213,14 @@
                 
                 <div style="display:flex; gap:8px;">
                     <button id="btn-gen-report" class="gemini-btn btn-primary">⚡ Gerar Relatório</button>
-                    <button id="btn-clear-report" class="gemini-btn btn-outline" style="width:50px;" title="Limpar">🗑️</button>
+                    <button id="btn-clear-report-top" class="gemini-btn btn-outline" style="width:50px;" title="Limpar">🗑️</button>
                 </div>
 
                 <div id="gemini-result"></div>
                 
                 <div id="result-actions" style="display:none; margin-top:10px;">
                     <button id="btn-copy-result" class="gemini-btn btn-success">📋 Copiar Relatório</button>
+                    <button id="btn-wipe-result" class="gemini-btn btn-danger" style="margin-top:5px;">🗑️ Limpar Resultado</button>
                 </div>
               </div>
 
@@ -317,40 +318,30 @@
                 .replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1); padding:2px; border-radius:3px;">$1</code>');
         }
 
-        // --- CONTROLE DE ESTADO (LOGIN/LOGOUT) ---
+        // --- CONTROLE DE ESTADO ---
         function loadState() {
             store.get(['geminiKey', 'agentName', 'IA_THEME'], (res) => {
                 
-                // TEMA
                 if(res.IA_THEME === 'light') {
                     wrapper.classList.add('light-mode');
                     getEl('btn-theme').innerText = '☀️';
                 }
 
-                // VERIFICA SE ESTÁ LOGADO
                 if (res.geminiKey) {
-                    // LOGADO: Desbloqueia tudo
                     userApiKey = res.geminiKey;
                     agentName = res.agentName || "Atendente";
                     
-                    // Preenche campos
                     getEl('cfg-key').value = userApiKey;
                     getEl('cfg-name').value = agentName;
                     getEl('input-setup-name').value = agentName;
                     getEl('chat-user-name').innerText = agentName;
                     
-                    // Mostra UI Restrita
-                    getEl('logged-in-tools').style.display = 'flex'; // Ícones Header
-                    getEl('ia-nav-tabs').style.display = 'flex';     // Abas
-                    
-                    // Vai para relatório
+                    getEl('logged-in-tools').style.display = 'flex';
+                    getEl('ia-nav-tabs').style.display = 'flex';
                     switchScreen('report');
                 } else {
-                    // NÃO LOGADO: Bloqueia tudo
-                    getEl('logged-in-tools').style.display = 'none'; // Esconde ícones
-                    getEl('ia-nav-tabs').style.display = 'none';     // Esconde abas
-                    
-                    // Vai para login
+                    getEl('logged-in-tools').style.display = 'none';
+                    getEl('ia-nav-tabs').style.display = 'none';
                     switchScreen('login');
                 }
             });
@@ -362,7 +353,6 @@
             
             getEl('screen-' + id).classList.add('active');
             
-            // Ativa aba visualmente apenas se for Report ou Chat
             const tab = document.querySelector(`.nav-tab[data-target="${id}"]`);
             if(tab) tab.classList.add('active');
 
@@ -411,7 +401,6 @@
 
         // --- EVENTOS ---
         
-        // Header
         getEl('btn-head-history').onclick = () => switchScreen('history');
         getEl('btn-head-config').onclick = () => switchScreen('config');
         getEl('btn-theme').onclick = () => {
@@ -422,10 +411,8 @@
         getEl('btn-close').onclick = () => modal.style.display = 'none';
         getEl('gemini-float-btn').onclick = () => { modal.style.display = modal.style.display==='flex'?'none':'flex'; loadState(); };
 
-        // Abas
         document.querySelectorAll('.nav-tab').forEach(t => t.onclick = () => switchScreen(t.dataset.target));
 
-        // Login / Logout / Config
         getEl('btn-login').onclick = () => {
             const k = getEl('input-setup-key').value.trim();
             const n = getEl('input-setup-name').value.trim();
@@ -487,12 +474,17 @@
             const b = getEl('btn-copy-result');
             b.innerText = "Copiado! ✅"; setTimeout(()=>b.innerText="📋 Copiar Relatório", 2000);
         };
-        getEl('btn-clear-report').onclick = () => {
+        
+        // BOTÕES DE LIMPAR (TOP e BOTTOM)
+        const clearFunc = () => {
             getEl('input-report').value = '';
             getEl('gemini-result').innerHTML = '';
             getEl('gemini-result').style.display = 'none';
             getEl('result-actions').style.display = 'none';
         };
+        getEl('btn-clear-report-top').onclick = clearFunc; // Botão de cima (lixo)
+        getEl('btn-wipe-result').onclick = clearFunc;      // Botão de baixo (novo)
+
         getEl('btn-wipe-history').onclick = () => { if(confirm("Apagar tudo?")) store.set({geminiHistory:[]}, renderHistory); };
 
         // Chat
