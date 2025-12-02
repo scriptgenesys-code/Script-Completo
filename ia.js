@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v17.0 - Complete)
-// @description  Com Histórico, Botões ajustados e Visual Premium.
+// @name         PureCloud - Assistente IA (v18.0 - Estável)
+// @description  Visual v17 (Moderno) + Lógica v8.3 (Original e Funcional).
 // @author       Parceiro de Programacao
 // @match        *://*/*
 // @grant        none
@@ -10,7 +10,7 @@
     'use strict';
 
     // --- 1. CONFIGURAÇÃO E STORAGE ---
-    const APP_PREFIX = "IA_COMPLETE_";
+    const APP_PREFIX = "IA_STABLE_";
     
     const store = {
         get: (keys, cb) => {
@@ -20,9 +20,7 @@
                 let res = {};
                 keys.forEach(k => {
                     const val = localStorage.getItem(APP_PREFIX + k);
-                    if(val) {
-                        try { res[k] = JSON.parse(val); } catch(e) { res[k] = val; }
-                    }
+                    if(val) { try { res[k] = JSON.parse(val); } catch(e) { res[k] = val; } }
                 });
                 cb(res);
             }
@@ -31,9 +29,7 @@
             if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 chrome.storage.local.set(obj, cb);
             } else {
-                Object.keys(obj).forEach(k => {
-                    localStorage.setItem(APP_PREFIX + k, JSON.stringify(obj[k]));
-                });
+                Object.keys(obj).forEach(k => localStorage.setItem(APP_PREFIX + k, JSON.stringify(obj[k])));
                 if(cb) cb();
             }
         },
@@ -53,14 +49,15 @@
     });
 
     function initIA() {
-        console.log("[IA] Assistente v17.0 Iniciado...");
+        console.log("[IA] Assistente v18.0 (Core Original)...");
 
+        // --- VARIÁVEIS ORIGINAIS (LÓGICA v8.3) ---
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let agentName = 'Atendente';
-        let chatContext = []; 
+        let chatHistoryContext = []; 
 
-        // --- 2. CSS ---
+        // --- 2. CSS (VISUAL v17 - MANTIDO) ---
         const css = `
             #gemini-wrapper {
                 --ia-bg: rgba(15, 23, 42, 0.98);
@@ -131,7 +128,6 @@
             .btn-success { background: var(--ia-success); }
             .btn-danger { background: transparent; border: 1px solid var(--ia-danger); color: var(--ia-danger); }
             .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
-            .btn-outline { background: transparent; border: 1px solid var(--ia-border); color: var(--ia-text); }
 
             /* Resultados */
             #gemini-result { margin-top: 15px; padding: 15px; background: var(--ia-card); border: 1px solid var(--ia-border); border-left: 4px solid var(--ia-primary); border-radius: 8px; font-size: 13px; line-height: 1.6; display:none; white-space: pre-wrap; word-wrap: break-word; }
@@ -152,14 +148,14 @@
         
         const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
-        // --- 3. HTML ---
+        // --- 3. HTML (VISUAL v17) ---
         const widgetHTML = `
           <div id="gemini-wrapper">
             <button id="gemini-float-btn" title="Abrir Assistente">✨</button>
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>🤖 Assistente <span style="font-size:10px; opacity:0.6; font-weight:400;">v17.0</span></h3>
+                <h3>🤖 Assistente <span style="font-size:10px; opacity:0.6; font-weight:400;">v18.0</span></h3>
                 <div>
                    <button id="btn-theme" class="icon-btn">🌗</button>
                    <button id="btn-close" class="icon-btn">✖</button>
@@ -237,7 +233,51 @@
         const modal = getEl('gemini-modal');
         const wrapper = getEl('gemini-wrapper');
         
-        // --- 5. LÓGICA ---
+        // --- 5. LÓGICA CORE (Restaurada da v8.3) ---
+
+        // Função para encontrar melhor modelo (Restaurada)
+        async function findBestFreeModel(apiKey) {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+                const data = await response.json();
+                if (data.models) {
+                    const all = data.models.map(m => m.name.replace("models/", ""));
+                    let best = all.find(m => m === "gemini-1.5-flash-8b");
+                    if (!best) best = all.find(m => m === "gemini-1.5-flash");
+                    if (!best) best = all.find(m => m.includes("flash") && !m.includes("exp") && !m.includes("experimental"));
+                    return best || "gemini-1.5-flash";
+                }
+            } catch (e) {} 
+            return "gemini-1.5-flash";
+        }
+
+        // Função de envio (Lógica v8.3)
+        async function generateText(prompt) {
+             let model = currentModel;
+             const url = (m) => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${userApiKey}`;
+             const body = { contents: [{ parts: [{ text: prompt }] }] };
+
+             try {
+                let response = await fetch(url(model), {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+                });
+                let data = await response.json();
+
+                if (data.error) {
+                    // Fallback
+                    model = await findBestFreeModel(userApiKey);
+                    response = await fetch(url(model), {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+                    });
+                    data = await response.json();
+                }
+
+                if (data.error) throw new Error(data.error.message);
+                return data.candidates[0].content.parts[0].text;
+
+             } catch(e) { throw e; }
+        }
+
         function formatMarkdown(text) {
             if(!text) return '';
             return text
@@ -304,7 +344,6 @@
                     `;
                     list.appendChild(div);
                 });
-                // Eventos do histórico
                 list.querySelectorAll('.h-copy').forEach(b => b.onclick = (e) => {
                     navigator.clipboard.writeText(decodeURIComponent(e.target.dataset.text));
                     e.target.innerText = "OK!"; setTimeout(()=>e.target.innerText="Copiar", 1500);
@@ -316,38 +355,6 @@
                     });
                 });
             });
-        }
-
-        // API
-        async function callGemini(promptText) {
-            let model = currentModel;
-            const getUrl = (m) => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${userApiKey}`;
-            const body = JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] });
-            const headers = { 'Content-Type': 'application/json' };
-
-            try {
-                let res = await fetch(getUrl(model), { method: 'POST', headers, body });
-                let data = await res.json();
-                if (data.error) {
-                    model = await findBestFreeModel(userApiKey);
-                    res = await fetch(getUrl(model), { method: 'POST', headers, body });
-                    data = await res.json();
-                }
-                if (data.error) throw new Error(data.error.message);
-                return data.candidates[0].content.parts[0].text;
-            } catch (e) { throw e; }
-        }
-
-        async function findBestFreeModel(key) {
-            try {
-                const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-                const d = await r.json();
-                if(d.models) {
-                   const all = d.models.map(m=>m.name.replace("models/",""));
-                   return all.find(m=>m.includes("flash-8b")) || "gemini-1.5-flash";
-                }
-            } catch(e) {}
-            return "gemini-1.5-flash";
         }
 
         // --- 6. EVENTOS ---
@@ -375,15 +382,26 @@
             btn.innerHTML = "⏳ Gerando..."; btn.disabled = true;
             resDiv.style.display = 'none'; actions.style.display = 'none';
 
-            const prompt = `Você é ${agentName}, suporte técnico. Escreva um relatório formal em PRIMEIRA PESSOA (${agentName}) sobre este atendimento. Use negrito (**texto**) para dados importantes (Protocolo, Datas, Nomes). Não use listas (bullets), use texto corrido.\nTexto: ${txt}`;
+            const prompt = `
+            Aja como o atendente de suporte técnico ${agentName}.
+            Escreva um relatório técnico em PRIMEIRA PESSOA, em texto corrido.
+            NÃO USE tópicos numerados ou listas.
+            ESTRUTURA:
+            1. Eu, ${agentName}, prestei assistência a [Cliente]...
+            2. O cliente relatou...
+            3. Realizei procedimentos...
+            4. Conclusão.
+            Conversa: ${txt}`;
 
             try {
-                const raw = await callGemini(prompt);
+                // USA A FUNÇÃO RESTAURADA
+                const raw = await generateText(prompt);
+                
                 resDiv.innerHTML = formatMarkdown(raw);
                 resDiv.style.display = 'block';
-                actions.style.display = 'flex'; // Exibe botões copiar/limpar
+                actions.style.display = 'flex'; 
                 actions.style.flexDirection = 'column';
-                saveToHistory(raw); // Salva no histórico
+                saveToHistory(raw); 
             } catch (e) {
                 resDiv.innerText = "Erro: " + e.message;
                 resDiv.style.display = 'block';
@@ -408,7 +426,7 @@
         // Histórico
         getEl('btn-wipe-history').onclick = () => { if(confirm("Apagar todo histórico?")) store.set({geminiHistory:[]}, renderHistory); };
 
-        // Chat
+        // Chat (Usa a função restaurada)
         const sendChat = async () => {
             const inp = getEl('input-chat');
             const txt = inp.value.trim();
@@ -423,15 +441,19 @@
             c.scrollTop = c.scrollHeight;
 
             try {
-                const context = chatContext.slice(-4).map(m=>`U:${m.u}\nA:${m.a}`).join('\n');
-                const ans = await callGemini(`Seu nome é ${agentName}. Contexto:\n${context}\nUsuário: ${txt}`);
+                const context = chatHistoryContext.slice(-6).map(m => `user: ${m.user}\nmodel: ${m.ai}`).join("\n");
+                const prompt = `Aja como assistente ${agentName}. Histórico:\n${context}\nUsuário: ${txt}`;
+                
+                // USA A FUNÇÃO RESTAURADA
+                const ans = await generateText(prompt);
+                
                 document.getElementById(tempId).innerHTML = formatMarkdown(ans);
-                chatContext.push({u:txt, a:ans});
+                chatHistoryContext.push({ user: txt, ai: ans });
             } catch(e) { document.getElementById(tempId).innerText = "Erro."; }
         };
         getEl('btn-send-chat').onclick = sendChat;
         getEl('input-chat').onkeypress = (e) => { if(e.key==='Enter') sendChat(); };
-        getEl('btn-clear-chat').onclick = () => { getEl('chat-container').innerHTML = ''; chatContext = []; };
+        getEl('btn-clear-chat').onclick = () => { getEl('chat-container').innerHTML = ''; chatHistoryContext = []; };
 
         // Geral
         document.querySelectorAll('.nav-tab').forEach(t => t.onclick = () => switchScreen(t.dataset.target));
