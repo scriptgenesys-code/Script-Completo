@@ -1,26 +1,36 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v15.2 - Login Fix)
-// @description  Correção do fluxo de login e validação de chave.
+// @name         PureCloud - Assistente IA (v15.3 - Universal Storage)
+// @description  Funciona tanto na Extensão quanto no Favorito (Bookmarklet).
 // @author       Parceiro de Programacao
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    // Verifica se o módulo está ativo
-    if (typeof chrome !== 'undefined' && chrome.storage) {
+    // Verifica se o módulo está ativo (apenas se for extensão real)
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.runtime && chrome.runtime.id) {
         chrome.storage.local.get(['MOD_IA'], function(result) {
             if (result.MOD_IA !== false) initIA();
         });
     } else {
+        // Se for favorito, inicia direto
         initIA();
     }
 
-    // --- 💾 ARMAZENAMENTO SEGURO (LOCAL) ---
+    // --- 💾 ARMAZENAMENTO INTELIGENTE (HÍBRIDO) ---
+    // Esta função decide se usa a memória do Chrome ou do Navegador
     const SafeStorage = {
+        isExtension: () => {
+            return typeof chrome !== 'undefined' && 
+                   chrome.runtime && 
+                   chrome.runtime.id; // Só extensões reais têm ID
+        },
+
         get: (keys, cb) => {
-            if (typeof chrome !== 'undefined' && chrome.storage) chrome.storage.local.get(keys, cb);
-            else {
+            if (SafeStorage.isExtension()) {
+                chrome.storage.local.get(keys, cb);
+            } else {
+                // Modo Favorito: Usa localStorage direto
                 let r = {}; 
                 (Array.isArray(keys) ? keys : [keys]).forEach(k => { 
                     const v = localStorage.getItem(k); 
@@ -29,16 +39,21 @@
                 if(cb) cb(r);
             }
         },
+
         set: (d, cb) => {
-            if (typeof chrome !== 'undefined' && chrome.storage) chrome.storage.local.set(d, cb);
-            else { 
+            if (SafeStorage.isExtension()) {
+                chrome.storage.local.set(d, cb);
+            } else {
+                // Modo Favorito: Salva e confirma imediatamente
                 Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); 
-                if(cb) cb(); 
+                if(cb) setTimeout(cb, 50); // Pequeno delay para garantir a UI
             }
         },
+
         remove: (keys, cb) => {
-            if (typeof chrome !== 'undefined' && chrome.storage) chrome.storage.local.remove(keys, cb);
-            else { 
+            if (SafeStorage.isExtension()) {
+                chrome.storage.local.remove(keys, cb);
+            } else {
                 (Array.isArray(keys) ? keys : [keys]).forEach(k => localStorage.removeItem(k)); 
                 if(cb) cb(); 
             }
@@ -46,13 +61,13 @@
     };
 
     function initIA() {
-        console.log("[IA] Iniciando v15.2...");
+        console.log("[IA] Iniciando v15.3 (Universal)...");
         
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let chatHistoryContext = []; 
 
-        // CSS Mantido
+        // CSS (Mantido igual para consistência visual)
         const css = `
             #gemini-wrapper { --ia-bg:#0f172a; --ia-card:#1e293b; --ia-text:#f8fafc; --ia-primary:#3b82f6; --ia-border:#334155; font-family:'Segoe UI',sans-serif; box-sizing:border-box; color-scheme:dark; }
             #gemini-wrapper.light-mode { --ia-bg:#ffffff; --ia-card:#f8fafc; --ia-text:#334155; --ia-primary:#2563eb; --ia-border:#e2e8f0; color-scheme:light; }
@@ -141,7 +156,7 @@
         const resultDiv = document.getElementById('gemini-result');
         const chatContainer = document.getElementById('simple-chat-container');
         
-        // --- FUNÇÕES DE LOGIN (CORRIGIDAS) ---
+        // --- FUNÇÕES DE LOGIN ---
         
         function forceShowApp(key) {
             userApiKey = key;
@@ -164,7 +179,6 @@
             const btn = document.getElementById('btn-save-key');
             
             errorMsg.style.display = 'none';
-
             if(k.length < 10) {
                 errorMsg.innerText = "Chave inválida (muito curta).";
                 errorMsg.style.display = 'block';
@@ -175,8 +189,8 @@
             btn.disabled = true;
 
             SafeStorage.set({geminiKey: k}, () => {
-                console.log("[IA] Chave salva. Entrando...");
-                forceShowApp(k); // Força a entrada imediata sem esperar ler do disco
+                console.log("[IA] Chave salva com sucesso.");
+                forceShowApp(k); 
                 btn.innerText = "Entrar";
                 btn.disabled = false;
             });
@@ -186,7 +200,7 @@
             if(confirm("Remover chave e sair?")) {
                 SafeStorage.remove(['geminiKey'], () => {
                     userApiKey = '';
-                    location.reload(); // Recarrega para limpar memória
+                    location.reload(); 
                 });
             }
         };
@@ -202,15 +216,9 @@
                 });
                 const json = await response.json();
                 
-                if(json.error) {
-                    console.error("[IA] Erro API:", json.error);
-                    return "Erro API: " + json.error.message;
-                }
+                if(json.error) return "Erro API: " + json.error.message;
                 return json.candidates[0].content.parts[0].text;
-            } catch(e) { 
-                console.error("[IA] Erro Conexão:", e);
-                return "Erro de conexão. Verifique a internet ou a chave."; 
-            }
+            } catch(e) { return "Erro de conexão. Verifique a internet ou a chave."; }
         }
 
         // --- RELATÓRIO ---
@@ -233,8 +241,7 @@
         document.getElementById('btn-copy').onclick = () => {
             navigator.clipboard.writeText(resultDiv.innerText);
             const b = document.getElementById('btn-copy');
-            const old = b.innerText;
-            b.innerText = "Copiado!";
+            const old = b.innerText; b.innerText = "Copiado!";
             setTimeout(()=>b.innerText=old, 1000);
         };
 
