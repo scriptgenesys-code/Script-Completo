@@ -1,96 +1,69 @@
 // ==UserScript==
-// @name         PureCloud - Assistente IA (v15.3 - Universal Storage)
-// @description  Funciona tanto na Extensão quanto no Favorito (Bookmarklet).
+// @name         PureCloud - Assistente IA (v15.7 - Hybrid Force)
+// @description  Salva em todos os storages possíveis simultaneamente.
 // @author       Parceiro de Programacao
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    // Verifica se o módulo está ativo (apenas se for extensão real)
-    if (typeof chrome !== 'undefined' && chrome.storage && chrome.runtime && chrome.runtime.id) {
-        chrome.storage.local.get(['MOD_IA'], function(result) {
-            if (result.MOD_IA !== false) initIA();
-        });
-    } else {
-        // Se for favorito, inicia direto
-        initIA();
-    }
+    // --- INICIALIZAÇÃO FORÇADA ---
+    // Não esperamos permissão. Iniciamos e pronto.
+    setTimeout(initIA, 500);
 
-    // --- 💾 ARMAZENAMENTO INTELIGENTE (HÍBRIDO) ---
-    // Esta função decide se usa a memória do Chrome ou do Navegador
-    const SafeStorage = {
-        isExtension: () => {
-            return typeof chrome !== 'undefined' && 
-                   chrome.runtime && 
-                   chrome.runtime.id; // Só extensões reais têm ID
+    // --- STORAGE HÍBRIDO (DUPLA GRAVAÇÃO) ---
+    const HybridStorage = {
+        save: (key, value) => {
+            // 1. Salva no LocalStorage (Síncrono e Garantido)
+            try { localStorage.setItem(key, value); } catch(e) { console.error("LS Error", e); }
+            
+            // 2. Salva no Chrome Storage (Se disponível)
+            try { 
+                if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                    chrome.storage.local.set({ [key]: value }, () => {
+                        if (chrome.runtime.lastError) console.warn("Chrome Storage Error:", chrome.runtime.lastError);
+                    });
+                }
+            } catch(e) {}
         },
 
-        get: (keys, cb) => {
-            if (SafeStorage.isExtension()) {
-                chrome.storage.local.get(keys, cb);
-            } else {
-                // Modo Favorito: Usa localStorage direto
-                let r = {}; 
-                (Array.isArray(keys) ? keys : [keys]).forEach(k => { 
-                    const v = localStorage.getItem(k); 
-                    if(v) r[k] = v; 
-                }); 
-                if(cb) cb(r);
+        load: (key, callback) => {
+            // 1. Tenta LocalStorage Primeiro (Mais rápido)
+            let val = localStorage.getItem(key);
+            if (val) {
+                callback(val);
+                return;
+            }
+
+            // 2. Se não tiver, tenta Chrome Storage
+            try {
+                if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                    chrome.storage.local.get([key], (result) => {
+                        callback(result[key] || null);
+                    });
+                } else {
+                    callback(null);
+                }
+            } catch(e) {
+                callback(null);
             }
         },
 
-        set: (d, cb) => {
-            if (SafeStorage.isExtension()) {
-                chrome.storage.local.set(d, cb);
-            } else {
-                // Modo Favorito: Salva e confirma imediatamente
-                Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); 
-                if(cb) setTimeout(cb, 50); // Pequeno delay para garantir a UI
-            }
-        },
-
-        remove: (keys, cb) => {
-            if (SafeStorage.isExtension()) {
-                chrome.storage.local.remove(keys, cb);
-            } else {
-                (Array.isArray(keys) ? keys : [keys]).forEach(k => localStorage.removeItem(k)); 
-                if(cb) cb(); 
-            }
+        clear: (key) => {
+            localStorage.removeItem(key);
+            try { chrome.storage.local.remove([key]); } catch(e){}
         }
     };
 
     function initIA() {
-        console.log("[IA] Iniciando v15.3 (Universal)...");
+        if (document.getElementById('gemini-wrapper')) return; // Evita duplicatas
+        console.log("[IA] Iniciando v15.7...");
         
         let currentModel = "gemini-1.5-flash"; 
         let userApiKey = '';
         let chatHistoryContext = []; 
 
-        // CSS (Mantido igual para consistência visual)
-        const css = `
-            #gemini-wrapper { --ia-bg:#0f172a; --ia-card:#1e293b; --ia-text:#f8fafc; --ia-primary:#3b82f6; --ia-border:#334155; font-family:'Segoe UI',sans-serif; box-sizing:border-box; color-scheme:dark; }
-            #gemini-wrapper.light-mode { --ia-bg:#ffffff; --ia-card:#f8fafc; --ia-text:#334155; --ia-primary:#2563eb; --ia-border:#e2e8f0; color-scheme:light; }
-            #gemini-float-btn { position:fixed; bottom:85px; right:25px; width:50px; height:50px; background:linear-gradient(135deg,var(--ia-primary),#2563eb); color:#fff; border-radius:50%; border:none; box-shadow:0 4px 15px rgba(0,0,0,0.3); cursor:pointer; font-size:24px; z-index:2147483646; display:flex; align-items:center; justify-content:center; transition:transform 0.2s; }
-            #gemini-float-btn:hover { transform:scale(1.1); }
-            #gemini-modal { display:none; position:fixed; z-index:2147483647; width:400px; height:600px; left:20%; top:20%; background:var(--ia-bg); color:var(--ia-text); border-radius:12px; border:1px solid var(--ia-border); flex-direction:column; box-shadow:0 10px 40px rgba(0,0,0,0.5); resize:both; overflow:hidden; }
-            .gemini-header { padding:12px; background:var(--ia-card); border-bottom:1px solid var(--ia-border); display:flex; justify-content:space-between; align-items:center; cursor:move; }
-            .gemini-header h3 { margin:0; font-size:14px; font-weight:700; }
-            .screen { padding:15px; display:none; flex-direction:column; flex:1; overflow-y:auto; }
-            .screen.active { display:flex; }
-            .gemini-input { width:100%; padding:10px; border-radius:6px; border:1px solid var(--ia-border); background:var(--ia-bg); color:var(--ia-text); margin-bottom:10px; font-family:inherit; resize:none; }
-            .gemini-btn { padding:10px; border-radius:6px; border:none; cursor:pointer; font-weight:600; width:100%; margin-top:5px; display:flex; justify-content:center; gap:5px; }
-            .btn-primary { background:var(--ia-primary); color:#fff; } .btn-danger { background:#ef4444; color:#fff; }
-            #gemini-result { margin-top:15px; padding:10px; background:var(--ia-card); border-radius:6px; border-left:3px solid var(--ia-primary); font-size:13px; line-height:1.5; white-space:pre-wrap; display:none; }
-            .chat-bubble { max-width:85%; padding:8px 12px; border-radius:12px; font-size:13px; margin-bottom:8px; }
-            .chat-user { align-self:flex-end; background:var(--ia-primary); color:#fff; }
-            .chat-ai { align-self:flex-start; background:var(--ia-card); border:1px solid var(--ia-border); }
-            .nav-tabs { display:flex; background:var(--ia-card); border-bottom:1px solid var(--ia-border); }
-            .nav-tab { flex:1; padding:10px; text-align:center; cursor:pointer; font-size:12px; font-weight:600; opacity:0.7; }
-            .nav-tab.active { opacity:1; border-bottom:2px solid var(--ia-primary); color:var(--ia-primary); }
-            .icon-btn { background:none; border:none; cursor:pointer; font-size:16px; color:var(--ia-text); opacity:0.6; }
-            .icon-btn:hover { opacity:1; }
-        `;
+        const css = `#gemini-wrapper{--ia-bg:#0f172a;--ia-card:#1e293b;--ia-text:#f8fafc;--ia-primary:#3b82f6;--ia-border:#334155;font-family:'Segoe UI',sans-serif;box-sizing:border-box;color-scheme:dark}#gemini-wrapper.light-mode{--ia-bg:#ffffff;--ia-card:#f8fafc;--ia-text:#334155;--ia-primary:#2563eb;--ia-border:#e2e8f0;color-scheme:light}#gemini-float-btn{position:fixed;bottom:85px;right:25px;width:50px;height:50px;background:linear-gradient(135deg,var(--ia-primary),#2563eb);color:#fff;border-radius:50%;border:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);cursor:pointer;font-size:24px;z-index:2147483646;display:flex;align-items:center;justify-content:center;transition:transform .2s}#gemini-float-btn:hover{transform:scale(1.1)}#gemini-modal{display:none;position:fixed;z-index:2147483647;width:400px;height:600px;left:20%;top:20%;background:var(--ia-bg);color:var(--ia-text);border-radius:12px;border:1px solid var(--ia-border);flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,0.5);resize:both;overflow:hidden}.gemini-header{padding:12px;background:var(--ia-card);border-bottom:1px solid var(--ia-border);display:flex;justify-content:space-between;align-items:center;cursor:move}.gemini-header h3{margin:0;font-size:14px;font-weight:700}.screen{padding:15px;display:none;flex-direction:column;flex:1;overflow-y:auto}.screen.active{display:flex}.gemini-input{width:100%;padding:10px;border-radius:6px;border:1px solid var(--ia-border);background:var(--ia-bg);color:var(--ia-text);margin-bottom:10px;font-family:inherit;resize:none}.gemini-btn{padding:10px;border-radius:6px;border:none;cursor:pointer;font-weight:600;width:100%;margin-top:5px;display:flex;justify-content:center;gap:5px}.btn-primary{background:var(--ia-primary);color:#fff}.btn-danger{background:#ef4444;color:#fff}#gemini-result{margin-top:15px;padding:10px;background:var(--ia-card);border-radius:6px;border-left:3px solid var(--ia-primary);font-size:13px;line-height:1.5;white-space:pre-wrap;display:none}.chat-bubble{max-width:85%;padding:8px 12px;border-radius:12px;font-size:13px;margin-bottom:8px}.chat-user{align-self:flex-end;background:var(--ia-primary);color:#fff}.chat-ai{align-self:flex-start;background:var(--ia-card);border:1px solid var(--ia-border)}.nav-tabs{display:flex;background:var(--ia-card);border-bottom:1px solid var(--ia-border)}.nav-tab{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:12px;font-weight:600;opacity:.7}.nav-tab.active{opacity:1;border-bottom:2px solid var(--ia-primary);color:var(--ia-primary)}.icon-btn{background:0 0;border:none;cursor:pointer;font-size:16px;color:var(--ia-text);opacity:.6}.icon-btn:hover{opacity:1}`;
         const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
         const widgetHTML = `
@@ -166,59 +139,67 @@
         }
 
         function checkLogin() {
-            SafeStorage.get(['geminiKey'], r => {
-                if (r.geminiKey && r.geminiKey.length > 10) {
-                    forceShowApp(r.geminiKey);
+            HybridStorage.load('geminiKey', (val) => {
+                if (val && val.length > 10) {
+                    forceShowApp(val);
                 }
             });
         }
         
         document.getElementById('btn-save-key').onclick = () => {
             const k = inputKey.value.trim();
-            const errorMsg = document.getElementById('login-error-msg');
             const btn = document.getElementById('btn-save-key');
             
-            errorMsg.style.display = 'none';
             if(k.length < 10) {
-                errorMsg.innerText = "Chave inválida (muito curta).";
-                errorMsg.style.display = 'block';
-                return;
+                alert("Chave inválida."); return;
             }
 
             btn.innerText = "Salvando...";
             btn.disabled = true;
 
-            SafeStorage.set({geminiKey: k}, () => {
-                console.log("[IA] Chave salva com sucesso.");
-                forceShowApp(k); 
+            // Salva nos DOIS lugares e força entrada
+            HybridStorage.save('geminiKey', k);
+            
+            setTimeout(() => {
+                console.log("[IA] Entrada Forçada.");
+                forceShowApp(k);
                 btn.innerText = "Entrar";
                 btn.disabled = false;
-            });
+            }, 100); // Apenas 100ms de delay visual
         };
 
         document.getElementById('btn-logout').onclick = () => {
-            if(confirm("Remover chave e sair?")) {
-                SafeStorage.remove(['geminiKey'], () => {
-                    userApiKey = '';
-                    location.reload(); 
-                });
+            if(confirm("Sair?")) {
+                HybridStorage.clear('geminiKey');
+                userApiKey = '';
+                location.reload();
             }
         };
 
-        // --- API GEMINI ---
+        // --- API GEMINI (MODELO CORRIGIDO) ---
         async function callGemini(prompt) {
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:generateContent?key=${userApiKey}`;
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                const json = await response.json();
-                
-                if(json.error) return "Erro API: " + json.error.message;
-                return json.candidates[0].content.parts[0].text;
-            } catch(e) { return "Erro de conexão. Verifique a internet ou a chave."; }
+            // Tenta múltiplos modelos se um falhar
+            const models = ["gemini-1.5-flash", "gemini-pro", "gemini-1.0-pro"];
+            
+            for (let model of models) {
+                try {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${userApiKey}`;
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
+                    const json = await response.json();
+                    
+                    if (json.error) {
+                        console.warn(`[IA] Modelo ${model} falhou:`, json.error.message);
+                        continue; // Tenta o próximo modelo
+                    }
+                    
+                    return json.candidates[0].content.parts[0].text;
+                } catch(e) { console.error(e); }
+            }
+            return "Erro: Chave inválida ou nenhum modelo disponível.";
         }
 
         // --- RELATÓRIO ---
@@ -257,43 +238,28 @@
             const inp = document.getElementById('simple-input');
             const txt = inp.value.trim();
             if(!txt) return;
-            
             chatContainer.innerHTML += `<div class="chat-bubble chat-user">${txt}</div>`;
             inp.value = '';
-            
-            const loading = document.createElement('div');
-            loading.className = 'chat-bubble chat-ai';
-            loading.innerText = '...';
+            const loading = document.createElement('div'); loading.className = 'chat-bubble chat-ai'; loading.innerText = '...';
             chatContainer.appendChild(loading);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-
+            
             const context = chatHistoryContext.slice(-4).map(m => `U: ${m.u}\nA: ${m.a}`).join('\n');
             const reply = await callGemini(`Histórico:\n${context}\nUsuário: ${txt}`);
-            
             loading.innerText = reply;
             chatHistoryContext.push({u: txt, a: reply});
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
-        
         document.getElementById('btn-send-simple').onclick = sendChat;
         document.getElementById('simple-input').onkeypress = (e) => { if(e.key==='Enter') sendChat(); };
 
-        // --- UI GERAL ---
-        floatBtn.onclick = () => { 
-            modal.style.display = modal.style.display === 'none' ? 'flex' : 'none'; 
-            if(modal.style.display === 'flex') checkLogin();
-        };
+        floatBtn.onclick = () => { modal.style.display = modal.style.display === 'none' ? 'flex' : 'none'; if(modal.style.display==='flex') checkLogin(); };
         closeBtn.onclick = () => modal.style.display = 'none';
-        
         document.querySelectorAll('.nav-tab').forEach(t => t.onclick = () => {
-            document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
-            t.classList.add('active');
+            document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active')); t.classList.add('active');
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            if(t.dataset.target === 'report') document.getElementById('screen-report').classList.add('active');
-            else document.getElementById('screen-chat').classList.add('active');
+            if(t.dataset.target === 'report') document.getElementById('screen-report').classList.add('active'); else document.getElementById('screen-chat').classList.add('active');
         });
-
-        // Draggable
+        
         const handle = document.getElementById('gemini-drag-handle');
         let isDrag = false, dx, dy;
         handle.onmousedown = (e) => { if(!e.target.closest('button')) { isDrag = true; dx = e.clientX - modal.offsetLeft; dy = e.clientY - modal.offsetTop; } };
