@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Genesys Admin</title>
+</head>
+<body>
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-icon">📊</div>
+            <h2>Genesys Admin</h2>
+            <input type="text" id="login-user" placeholder="Usuário" autofocus>
+            <input type="password" id="login-pass" placeholder="Senha">
+            <button id="btn-login">Entrar</button>
+            <p id="login-msg"></p>
+        </div>
+    </div>
+
+    <div id="app-content" style="display: none;">
+        <div class="top-bar">
+            <div class="logo-area">
+                <span style="font-size:18px;">📊</span> Genesys Admin
+            </div>
+            <div class="actions-area">
+                <button id="btn-modulos" title="Configurar Ferramentas">🧩 Módulos</button>
+                <button id="btn-popout" title="Abrir em Janela">↗️</button>
+                <button id="btn-gestao" class="btn-gold" style="display:none;">🔑 Gestão</button>
+                <button id="btn-logout" class="btn-red">Sair</button>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div class="filter-row">
+                <div class="input-group">
+                    <label>De:</label>
+                    <input type="date" id="data-inicio">
+                </div>
+                <div class="input-group">
+                    <label>Até:</label>
+                    <input type="date" id="data-fim">
+                </div>
+                <button id="btn-search-manual" class="btn-search" title="Pesquisar">🔎</button>
+                <button id="btn-export" class="btn-export" title="Baixar Relatório JSON">📥</button>
+            </div>
+
+            <div class="agent-selector-row">
+                <select id="filtro-agente">
+                    <option value="todos">👥 Todos os Agentes</option>
+                </select>
+            </div>
+
+            <div class="status-row">
+                <span>Status do Sistema:</span>
+                <span style="color:#10b981; margin-left:5px;">Online ●</span>
+                <button id="btn-refresh" style="margin-left:auto;" title="Atualizar Dados">🔄</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card blue clickable" id="card-logados">
+                <span class="lbl">Logados</span>
+                <strong id="total-logados">0</strong>
+            </div>
+            <div class="kpi-card green clickable" id="card-atendimentos">
+                <span class="lbl">Atendimentos</span>
+                <strong id="total-conversas">0</strong>
+            </div>
+            <div class="kpi-card red clickable" id="card-encerrados">
+                <span class="lbl">Encerrados</span>
+                <strong id="total-encerrados">0</strong>
+            </div>
+            <div class="kpi-card orange clickable" id="card-tma">
+                <span class="lbl">TMA Geral</span>
+                <strong id="media-tma">00:00</strong>
+            </div>
+        </div>
+
+        <div id="view-geral">
+            <div class="section-box">
+                <h3 class="section-title">🏆 Top Produtividade</h3>
+                <div id="chart-container" class="chart-list">
+                    <div class="loading">Carregando gráfico...</div>
+                </div>
+            </div>
+            <div class="search-footer">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-list" placeholder="Buscar na lista...">
+            </div>
+            <div id="lista-agentes-container" class="lista-scroll"></div>
+        </div>
+
+        <div id="view-individual" style="display: none;">
+            <h3 id="titulo-agente-selecionado" class="agent-title">Nome do Agente</h3>
+
+            <div class="detail-container green-theme">
+                <div class="detail-header">
+                    ✅ Atendimentos Realizados (<span id="count-atendimentos">0</span>)
+                </div>
+                <div id="lista-individual-atendimentos" class="detail-list"></div>
+            </div>
+
+            <div class="detail-container red-theme">
+                <div class="detail-header">
+                    ⛔ Encerrados Manualmente (<span id="count-encerrados">0</span>)
+                </div>
+                <div id="lista-individual-encerrados" class="detail-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-detalhes" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="modal-titulo">Detalhes</h3><span class="close-modal">&times;</span></div>
+            <div id="modal-lista-container" class="modal-body list-body"></div>
+        </div>
+    </div>
+
+    <div id="modal-modulos" class="modal">
+        <div class="modal-content small-modal">
+            <div class="modal-header"><h3>🧩 Módulos</h3><span class="close-modal">&times;</span></div>
+            <div class="modal-body">
+                <div class="module-item"><label>⏱️ Cronômetros</label><input type="checkbox" id="mod-cronometros"></div>
+                <div class="module-item"><label>☕ Pausas</label><input type="checkbox" id="mod-pausas"></div>
+                <div class="module-item"><label>📋 Protocolos</label><input type="checkbox" id="mod-protocolos"></div>
+                <div class="module-item"><label>💬 Respostas</label><input type="checkbox" id="mod-respostas"></div>
+                <div class="module-item"><label>💻 Baú (Diag)</label><input type="checkbox" id="mod-bar"></div>
+                <div class="module-item"><label>🤖 Assistente IA</label><input type="checkbox" id="mod-ia"></div>
+                <div class="module-item"><label>🆔 Copiar ID</label><input type="checkbox" id="mod-id"></div>
+                <div class="module-item"><label>🍔 Menu Float</label><input type="checkbox" id="mod-menu"></div>
+                <button id="btn-save-modules" style="margin-top:15px;">Salvar Configuração</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-gestao" class="modal">
+        <div class="modal-content small-modal">
+            <div class="modal-header gold-header"><h3>🔑 Gestão</h3><span class="close-modal">&times;</span></div>
+            <div class="modal-body">
+                <select id="gestao-user-select" style="margin-bottom:10px;"></select>
+                <input type="text" id="gestao-new-pass" placeholder="Nova senha">
+                <button id="btn-save-pass">Salvar</button>
+                <p id="gestao-msg"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="compatibility.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
