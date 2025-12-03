@@ -1,7 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Aja Assistente (v24.0 - Time Aware)
-// @description  Assistente Aja: Saudações corretas (BR) e Identidade definida.
+// @name         PureCloud - Aja Assistente (v24.1 - Direct Output)
+// @description  Assistente Aja: Correção de saída direta (sem conversas iniciais).
 // @author       Josias Queiroz - Kingoffjoss Assessoria
+// @version      24.1
 // @match        *://*/*
 // @grant        none
 // ==/UserScript==
@@ -49,7 +50,7 @@
     });
 
     function initIA() {
-        console.log("[Aja] Assistente v24.0 Iniciada...");
+        console.log("[Aja] Assistente v24.1 Iniciada...");
 
         // --- VARIÁVEIS ---
         let currentModel = "gemini-1.5-flash"; 
@@ -180,7 +181,7 @@
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.0</span></h3>
+                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.1</span></h3>
                 <div class="gh-actions">
                    <span id="logged-in-tools" style="display:none; gap:4px; align-items:center;">
                        <button id="btn-head-history" class="icon-btn" title="Histórico">🕒</button>
@@ -446,18 +447,24 @@
             btn.innerHTML = "⏳ A gerar..."; btn.disabled = true;
             resDiv.style.display = 'none'; actions.style.display = 'none';
 
-            // PROMPT OTIMIZADO PARA AJA
+            // PROMPT OTIMIZADO PARA AJA (V24.1 - DIRECT OUTPUT)
             const timeGreeting = getBrazilGreeting();
             const prompt = `
             Contexto: Agora é ${timeGreeting}. Você é a Aja, assistente do agente ${agentName}.
             Gere um relatório técnico em PRIMEIRA PESSOA (${agentName}).
             
-            REGRAS RÍGIDAS:
+            REGRAS RÍGIDAS DE SAÍDA:
+            1. NÃO DÊ BOM DIA, BOA TARDE OU BOA NOITE NO INÍCIO.
+            2. NÃO ESCREVA "AQUI ESTÁ O RELATÓRIO" OU "SEGUE O RELATÓRIO".
+            3. A SAÍDA DEVE COMEÇAR IMEDIATAMENTE PELO TÍTULO OU PELA INTRODUÇÃO.
+            
+            REGRAS DE CONTEÚDO:
             1. NÃO invente horários específicos.
             2. Mantenha privacidade: Apenas Nome e Telefone do cliente.
             3. Use NEGRITO em: Nome, Telefone e Protocolo.
             
             ESTRUTURA:
+            Relatório Técnico de Atendimento
             1. Introdução
             2. Relato
             3. Procedimentos
