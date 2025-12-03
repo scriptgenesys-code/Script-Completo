@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Aja Assistente (v24.1 - Direct Output)
-// @description  Assistente Aja: Correção de saída direta (sem conversas iniciais).
+// @name         PureCloud - Aja Assistente (v24.2 - Free Drag)
+// @description  Assistente Aja: Janela 100% arrastável e livre.
 // @author       Josias Queiroz - Kingoffjoss Assessoria
-// @version      24.1
+// @version      24.2
 // @match        *://*/*
 // @grant        none
 // ==/UserScript==
@@ -50,7 +50,7 @@
     });
 
     function initIA() {
-        console.log("[Aja] Assistente v24.1 Iniciada...");
+        console.log("[Aja] Assistente v24.2 (Free Drag) Iniciada...");
 
         // --- VARIÁVEIS ---
         let currentModel = "gemini-1.5-flash"; 
@@ -104,22 +104,28 @@
             }
             #gemini-float-btn:hover { transform: scale(1.1); }
 
-            /* Modal */
+            /* Modal - Posição Inicial Centralizada */
             #gemini-modal {
                 display: none; position: fixed; z-index: 999999;
-                width: 400px; height: 650px; left: 50%; top: 50%; transform: translate(-50%, -50%);
+                width: 400px; height: 650px; 
+                /* Centralização inicial via CSS - será removida pelo JS ao arrastar */
+                left: 50%; top: 50%; transform: translate(-50%, -50%);
+                
                 background-color: var(--ia-bg); color: var(--ia-text);
                 border-radius: var(--ia-radius); border: 1px solid var(--ia-border);
                 box-shadow: var(--ia-shadow); backdrop-filter: blur(12px);
                 flex-direction: column; overflow: hidden;
             }
 
-            /* Header */
+            /* Header (Área de Arrasto) */
             .gemini-header { 
                 padding: 12px 16px; border-bottom: 1px solid var(--ia-border); 
                 display: flex; justify-content: space-between; align-items: center; 
-                cursor: move; user-select: none; background: rgba(0,0,0,0.15); 
+                cursor: move; /* Cursor de movimento explícito */
+                user-select: none; background: rgba(0,0,0,0.15); 
             }
+            .gemini-header:active { cursor: grabbing; }
+
             .gemini-header h3 { margin: 0; font-size: 15px; font-weight: 600; display:flex; gap:8px; align-items:center;}
             
             .gh-actions { display: flex; gap: 4px; align-items: center; }
@@ -181,7 +187,7 @@
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.1</span></h3>
+                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.2</span></h3>
                 <div class="gh-actions">
                    <span id="logged-in-tools" style="display:none; gap:4px; align-items:center;">
                        <button id="btn-head-history" class="icon-btn" title="Histórico">🕒</button>
@@ -536,11 +542,50 @@
             chatHistoryContext = []; 
         };
 
+        // --- LÓGICA DE ARRASTO LIVRE (V24.2) ---
         const handle = getEl('gemini-drag-handle');
-        let isDrag=false, startX, startY;
-        handle.onmousedown = (e) => { if(e.target.closest('button'))return; isDrag=true; startX=e.clientX; startY=e.clientY; modal.style.transform='none'; modal.style.left=modal.getBoundingClientRect().left+'px'; modal.style.top=modal.getBoundingClientRect().top+'px'; };
-        document.onmousemove = (e) => { if(isDrag) { modal.style.left=(parseFloat(modal.style.left)+e.clientX-startX)+'px'; modal.style.top=(parseFloat(modal.style.top)+e.clientY-startY)+'px'; startX=e.clientX; startY=e.clientY; } };
-        document.onmouseup = () => isDrag=false;
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        handle.onmousedown = (e) => {
+            if(e.target.closest('button')) return; // Ignora se clicar nos botões do header
+            e.preventDefault();
+            isDragging = true;
+            handle.style.cursor = 'grabbing';
+
+            // 1. Pega a posição visual atual
+            const rect = modal.getBoundingClientRect();
+            
+            // 2. Remove o CSS de centralização (transform) e define posição absoluta em pixels
+            modal.style.transform = 'none'; 
+            modal.style.margin = '0';
+            modal.style.left = rect.left + 'px';
+            modal.style.top = rect.top + 'px';
+
+            // 3. Calcula o ponto onde o mouse "pegou" a janela (offset)
+            dragOffsetX = e.clientX - rect.left;
+            dragOffsetY = e.clientY - rect.top;
+        };
+
+        document.onmousemove = (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); // Evita seleção de texto
+
+            // 4. Move a janela seguindo o mouse (menos o offset inicial)
+            const newLeft = e.clientX - dragOffsetX;
+            const newTop = e.clientY - dragOffsetY;
+
+            modal.style.left = newLeft + 'px';
+            modal.style.top = newTop + 'px';
+        };
+
+        document.onmouseup = () => {
+            if (isDragging) {
+                isDragging = false;
+                handle.style.cursor = 'move';
+            }
+        };
 
         loadState();
     }
