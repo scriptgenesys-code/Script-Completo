@@ -109,10 +109,10 @@
         SOUND_ALERTS_ENABLED: localStorage.getItem('soundAlertsEnabled') === 'true',
         QUICK_REPLIES: JSON.parse(localStorage.getItem('quickReplies')) || initialQuickReplies,
         HOTKEYS: JSON.parse(localStorage.getItem('hotkeys')) || {
-            copyInteraction: "Control+Shift+I",
+            copyInteraction: "F4",
             openSettings: "Control+Shift+S",
             toggleMiniDashboard: "Control+Shift+J",
-            toggleLock: "Control+Shift+L",
+            toggleLock: "Control+B",
         },
         THEME_COLORS: JSON.parse(localStorage.getItem('themeColors_v2')) || JSON.parse(localStorage.getItem('timerColors')) || defaultThemeColors,
         LAST_SCRIPT_VERSION: localStorage.getItem('lastScriptVersion') || '0',
@@ -955,4 +955,5 @@
 
     if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initialize); } else { initialize(); }
     log(`Script PureCloud V${SCRIPT_VERSION} carregado com sucesso.`);
+
 })();
