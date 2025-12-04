@@ -44,6 +44,7 @@
         "compatibility.js",
         "bar.js",
         "extrator.js",
+        "espelho.js",
         "protocolos.js",
         "respostas.js",
         "pausas.js",
