@@ -76,11 +76,12 @@
     loadScript("compatibility.js")
         .then(() => loadScript("gerente.js"))
         .then(() => loadScript("bar.js"))
-        .then(() => loadScript("monitor.js"))   // Monitor de Filas
-        .then(() => loadScript("central.js"))   // Central de Conhecimento
+        .then(() => loadScript("monitor.js"))
+        .then(() => loadScript("central.js"))
         .then(() => loadScript("respostas.js"))
         .then(() => loadScript("protocolos.js"))
         .then(() => loadScript("extrator.js"))
+        .then(() => loadScript("espelho.js"))  // <--- MÓDULO NOVO INSERIDO
         .then(() => loadScript("pausas.js"))
         .then(() => loadScript("ia.js"))
         .then(() => loadScript("menu.js"))      // Interface visual
