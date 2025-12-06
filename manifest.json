@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Genesys Unified Master",
-  "version": "8.0",
+  "version": "8.1",
   "description": "Suite completa: Monitoramento, IA, Base de Conhecimento, Produtividade e Automação.",
   "permissions": [
     "storage",
@@ -45,7 +45,7 @@
         "bar.js",
         "extrator.js",
         "espelho.js",
-        "car.js", 
+        "car.js",
         "protocolos.js",
         "respostas.js",
         "pausas.js",
@@ -56,7 +56,8 @@
         "menu.js",
         "gerente.js"
       ],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": true
     }
   ],
   "web_accessible_resources": [
