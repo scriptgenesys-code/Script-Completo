@@ -1,8 +1,9 @@
 (function() {
+    // --- CONFIGURAÇÃO: MESTRE (ScriptGenesys) ---
     const REPO_URL = "https://scriptgenesys-code.github.io/Script-Completo";
     console.log("[Loader V26] Iniciando Mestre: " + REPO_URL);
 
-    // 1. SIMULADOR DE EXTENSÃO
+    // 1. SIMULADOR DE EXTENSÃO (Polyfills)
     if(!window.chrome) window.chrome={};
     if(!window.chrome.runtime) window.chrome.runtime={};
     if(!window.chrome.storage) window.chrome.storage={};
