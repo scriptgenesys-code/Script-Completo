@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Menu Unificado (V6.1 - Com Espelho)
+// @name         PureCloud - Menu Unificado (V8.0 - CAR Integration)
 // @namespace    http://tampermonkey.net/
-// @version      6.1
-// @description  Menu FAB que controla todas as ferramentas da Suite.
+// @version      8.0
+// @description  Menu FAB com CAR integrado.
 // @match        https://*.mypurecloud.*/*
 // @match        https://*.genesys.cloud/*
 // @grant        GM_addStyle
@@ -14,7 +14,7 @@
     const css = `
         /* Esconde os botões originais */
         #qr-trigger-button, #pr-trigger-button, #bau-trigger-button, 
-        #gemini-float-btn, #monitor-trigger-btn, #central-trigger-btn {
+        #gemini-float-btn, #monitor-trigger-btn, #central-trigger-btn, #car-float-btn {
             display: none !important; opacity: 0 !important; pointer-events: none !important;
         }
 
@@ -59,7 +59,8 @@
         #uni-btn-ia  { background: linear-gradient(135deg, #2563EB, #7C3AED); }
         #uni-btn-mon { background: linear-gradient(135deg, #F59E0B, #D97706); }
         #uni-btn-central { background: linear-gradient(135deg, #06B6D4, #3B82F6); }
-        #uni-btn-copy { background: linear-gradient(135deg, #FF00CC, #333399); } /* NOVO: Rosa Choque/Roxo */
+        #uni-btn-copy { background: linear-gradient(135deg, #FF00CC, #333399); }
+        #uni-btn-car { background: linear-gradient(135deg, #10B981, #3B82F6); } /* NOVO: Verde/Azul */
 
         .uni-fab-btn::after { 
             content: attr(data-label); position: absolute; right: 55px; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s; pointer-events: none;
@@ -80,6 +81,7 @@
             <button class="uni-fab-btn" id="uni-btn-central" data-label="Central de Ajuda"><span style="font-size:22px;">💠</span></button>
             <button class="uni-fab-btn" id="uni-btn-mon" data-label="Monitor Filas"><svg class="uni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></button>
             
+            <button class="uni-fab-btn" id="uni-btn-car" data-label="Automação (CAR)"><span style="font-size:20px;">💻</span></button>
             <button class="uni-fab-btn" id="uni-btn-copy" data-label="Copiar Chat"><svg class="uni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg></button>
             
             <button class="uni-fab-btn" id="uni-btn-id" data-label="Copiar ID"><span style="font-size:20px;font-weight:800;">🆔</span></button>
@@ -141,22 +143,23 @@
     document.getElementById('uni-btn-mon').onclick = () => triggerModule('monitor-trigger-btn');
     document.getElementById('uni-btn-central').onclick = () => triggerModule('central-trigger-btn');
     
+    // CAR
+    document.getElementById('uni-btn-car').onclick = () => {
+        if (typeof window.toggleCAR === 'function') window.toggleCAR();
+        else alert("Módulo CAR não carregado.");
+    };
+
     document.getElementById('uni-btn-id').onclick = () => {
         if (typeof window.executarExtracaoDocumento === 'function') window.executarExtracaoDocumento();
         else alert("Módulo Extrator não está pronto.");
     };
 
-    // --- NOVO GATILHO DE CÓPIA ---
     document.getElementById('uni-btn-copy').onclick = () => {
         if (typeof window.executarCopiaEspelho === 'function') {
             const btn = document.getElementById('uni-btn-copy');
-            // Animação de clique
-            btn.style.transform = 'scale(0.9)';
-            setTimeout(()=>btn.style.transform = 'scale(1)', 150);
+            btn.style.transform = 'scale(0.9)'; setTimeout(()=>btn.style.transform = 'scale(1)', 150);
             window.executarCopiaEspelho();
-        } else {
-            alert("Módulo de Cópia Espelho não está carregado.");
-        }
+        } else alert("Módulo Espelho não está carregado.");
     };
 
 })();
