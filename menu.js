@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Menu Unificado (V8.0 - CAR Integration)
+// @name         PureCloud - Menu Unificado (V8.1)
 // @namespace    http://tampermonkey.net/
-// @version      8.0
-// @description  Menu FAB com CAR integrado.
+// @version      8.1
+// @description  Menu FAB que controla todas as ferramentas da Suite.
 // @match        https://*.mypurecloud.*/*
 // @match        https://*.genesys.cloud/*
 // @grant        GM_addStyle
@@ -12,18 +12,20 @@
     'use strict';
 
     const css = `
-        /* Esconde os botões originais */
+        /* Esconde os botões originais de cada módulo */
         #qr-trigger-button, #pr-trigger-button, #bau-trigger-button, 
         #gemini-float-btn, #monitor-trigger-btn, #central-trigger-btn, #car-float-btn {
             display: none !important; opacity: 0 !important; pointer-events: none !important;
         }
 
+        /* Container do Menu */
         #uni-menu-container { 
             position: fixed; z-index: 2147483647; display: flex; 
             flex-direction: column-reverse; align-items: center; gap: 12px; 
             width: 60px; height: auto; bottom: 20px; right: 20px;
         }
 
+        /* Botão Principal */
         .uni-fab-main { 
             width: 60px; height: 60px; border-radius: 50%; 
             background: linear-gradient(135deg, #FF5F6D, #FFC371); 
@@ -34,6 +36,7 @@
         .uni-fab-main:hover { transform: scale(1.05); }
         .uni-fab-main.active { transform: rotate(45deg); background: linear-gradient(135deg, #ff4b1f, #ff9068); }
         
+        /* Lista de Ações */
         .uni-fab-actions { 
             display: flex; flex-direction: column-reverse; gap: 10px; margin-bottom: 5px; 
             opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.8); 
@@ -44,6 +47,7 @@
             opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; 
         }
         
+        /* Botões Menores */
         .uni-fab-btn { 
             width: 45px; height: 45px; border-radius: 50%; border: none; color: white; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
@@ -51,7 +55,7 @@
         }
         .uni-fab-btn:hover { transform: scale(1.15); z-index: 2; }
         
-        /* Cores Específicas */
+        /* Cores dos Módulos */
         #uni-btn-id  { background: linear-gradient(135deg, #667eea, #764ba2); }
         #uni-btn-bar { background: linear-gradient(135deg, #ff6b6b, #ee5253); }
         #uni-btn-pr  { background: linear-gradient(135deg, #d4fc79, #96e6a1); color: #333; }
@@ -60,8 +64,9 @@
         #uni-btn-mon { background: linear-gradient(135deg, #F59E0B, #D97706); }
         #uni-btn-central { background: linear-gradient(135deg, #06B6D4, #3B82F6); }
         #uni-btn-copy { background: linear-gradient(135deg, #FF00CC, #333399); }
-        #uni-btn-car { background: linear-gradient(135deg, #10B981, #3B82F6); } /* NOVO: Verde/Azul */
+        #uni-btn-car { background: linear-gradient(135deg, #10B981, #3B82F6); } /* Verde/Azul */
 
+        /* Tooltips */
         .uni-fab-btn::after { 
             content: attr(data-label); position: absolute; right: 55px; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s; pointer-events: none;
         }
@@ -95,6 +100,7 @@
     `;
     document.body.appendChild(div);
 
+    // Lógica de Arrasto
     const container = document.getElementById('uni-menu-container');
     const trigger = document.getElementById('uni-fab-trigger');
     let isDragging = false, startX, startY, initialLeft, initialTop;
@@ -133,7 +139,7 @@
 
     try { const savedPos = localStorage.getItem('uniMenuPos'); if (savedPos) { const p = JSON.parse(savedPos); container.style.left = p.left; container.style.top = p.top; container.style.bottom = 'auto'; container.style.right = 'auto'; } } catch (e) {}
 
-    // TRIGGERS
+    // Lógica dos Botões
     function triggerModule(id) { const btn = document.getElementById(id); if (btn) btn.click(); else console.warn("Módulo não carregado: " + id); }
 
     document.getElementById('uni-btn-qr').onclick = () => triggerModule('qr-trigger-button');
@@ -149,11 +155,13 @@
         else alert("Módulo CAR não carregado.");
     };
 
+    // ID
     document.getElementById('uni-btn-id').onclick = () => {
         if (typeof window.executarExtracaoDocumento === 'function') window.executarExtracaoDocumento();
         else alert("Módulo Extrator não está pronto.");
     };
 
+    // Espelho
     document.getElementById('uni-btn-copy').onclick = () => {
         if (typeof window.executarCopiaEspelho === 'function') {
             const btn = document.getElementById('uni-btn-copy');
