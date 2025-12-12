@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Genesys Unified Master",
   "version": "8.1",
-  "description": "Suite completa: Monitoramento, IA, Base de Conhecimento, Produtividade e Automação.",
+  "description": "Suite Completa + Automação CAR + Game Mode (Ranking & Overlay).",
   "permissions": [
     "storage",
     "clipboardWrite",
@@ -32,20 +32,26 @@
     {
       "matches": [
         "https://*.mypurecloud.com/*",
-        "https://*.mypurecloud.ie/*",
-        "https://*.mypurecloud.de/*",
-        "https://*.mypurecloud.jp/*",
-        "https://*.mypurecloud.com.au/*",
         "https://*.genesys.cloud/*",
-        "https://*.pure.cloud/*",
-        "https://*.brisanet.com.br/*"
+        "https://*.pure.cloud/*"
+      ],
+      "js": [
+        "car.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://*.mypurecloud.com/*",
+        "https://*.genesys.cloud/*",
+        "https://*.pure.cloud/*"
       ],
       "js": [
         "compatibility.js",
         "bar.js",
         "extrator.js",
         "espelho.js",
-        "car.js",
         "protocolos.js",
         "respostas.js",
         "pausas.js",
@@ -56,8 +62,8 @@
         "menu.js",
         "gerente.js"
       ],
-      "run_at": "document_idle",
-      "all_frames": true
+      "all_frames": false,
+      "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
@@ -65,7 +71,8 @@
       "resources": [
         "admin.html",
         "style.css",
-        "compatibility.js"
+        "compatibility.js",
+        "game.html"
       ],
       "matches": [
         "<all_urls>"
