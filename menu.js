@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         PureCloud - Menu Unificado (V8.1 - Game Overlay/Window)
+// @name         PureCloud - Menu Unificado (V8.2 - Fix Click Through)
 // @namespace    http://tampermonkey.net/
-// @version      8.1
+// @version      8.2
 // @description  Menu FAB que controla todas as ferramentas + Jogo (Multi-Mode).
 // @match        https://*.mypurecloud.*/*
 // @match        https://*.genesys.cloud/*
@@ -26,6 +26,8 @@
             position: fixed; z-index: 2147483647; display: flex; 
             flex-direction: column-reverse; align-items: center; gap: 12px; 
             width: 60px; height: auto; bottom: 20px; right: 20px;
+            /* CORREÇÃO AQUI: O container deixa o clique passar */
+            pointer-events: none; 
         }
 
         .uni-fab-main { 
@@ -33,7 +35,9 @@
             background: linear-gradient(135deg, #FF5F6D, #FFC371); 
             color: white; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
             cursor: pointer; font-size: 28px; display: flex; align-items: center; justify-content: center; 
-            transition: transform 0.3s, background 0.3s; user-select: none; pointer-events: auto;
+            transition: transform 0.3s, background 0.3s; user-select: none;
+            /* CORREÇÃO AQUI: O botão principal captura o clique */
+            pointer-events: auto; 
         }
         .uni-fab-main:hover { transform: scale(1.05); }
         .uni-fab-main.active { transform: rotate(45deg); background: linear-gradient(135deg, #ff4b1f, #ff9068); }
@@ -41,11 +45,14 @@
         .uni-fab-actions { 
             display: flex; flex-direction: column-reverse; gap: 10px; margin-bottom: 5px; 
             opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.8); 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            pointer-events: none; 
         }
         
         #uni-menu-container.active .uni-fab-actions { 
-            opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; 
+            opacity: 1; visibility: visible; transform: translateY(0) scale(1); 
+            /* CORREÇÃO AQUI: Quando ativo, os sub-botões capturam o clique */
+            pointer-events: auto; 
         }
         
         .uni-fab-btn { 
@@ -80,6 +87,7 @@
             background: rgba(0,0,0,0.85); z-index: 2147483648;
             display: flex; align-items: center; justify-content: center;
             backdrop-filter: blur(5px);
+            pointer-events: auto; /* Garante clique no jogo */
         }
         #game-overlay-container {
             width: 820px; height: 620px;
@@ -184,13 +192,13 @@
         }
     };
 
-    // --- LÓGICA DO JOGO (DUPLO MODO) ---
+    // --- Lógica do Jogo ---
     function openGameInWindow(url) {
         window.open(url, 'FinalizarClienteGame', 'width=820,height=620,scrollbars=no,resizable=no');
     }
 
     function openGameInOverlay(url) {
-        if (document.getElementById('game-overlay-backdrop')) return; // Já aberto
+        if (document.getElementById('game-overlay-backdrop')) return; 
 
         const backdrop = document.createElement('div');
         backdrop.id = 'game-overlay-backdrop';
@@ -202,18 +210,15 @@
         `;
         document.body.appendChild(backdrop);
 
-        // Animação de entrada
         const container = backdrop.querySelector('#game-overlay-container');
         container.style.transform = "scale(0.8)"; container.style.opacity = "0"; container.style.transition = "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
         setTimeout(() => { container.style.transform = "scale(1)"; container.style.opacity = "1"; }, 10);
 
-        // Fechar
         document.getElementById('game-overlay-close').onclick = () => {
             container.style.transform = "scale(0.8)"; container.style.opacity = "0";
             setTimeout(() => backdrop.remove(), 200);
         };
         
-        // Focar no Iframe para o teclado funcionar
         setTimeout(() => { document.getElementById('game-iframe').focus(); }, 100);
     }
 
@@ -221,7 +226,6 @@
         if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL) {
             const gameUrl = chrome.runtime.getURL('game.html');
             
-            // Verifica a preferência salva
             chrome.storage.local.get(['MOD_GAME_MODE'], function(result) {
                 const mode = result.MOD_GAME_MODE || 'window';
                 if (mode === 'overlay') {
