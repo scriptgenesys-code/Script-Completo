@@ -1,119 +1,115 @@
 (function() {
-    // --- CONFIGURAÇÃO: MESTRE (ScriptGenesys) ---
+    // =================================================================
+    // LOADER MESTRE (V30.1 - FINAL STABLE)
+    // - Carregamento em Cascata (Waterfall)
+    // - Polyfills para Chrome API (Suporte a Game e Storage)
+    // - Cache Busting Agressivo (Atualização imediata)
+    // =================================================================
+
     const REPO_URL = "https://scriptgenesys-code.github.io/Script-Completo";
-    console.log("[Loader V28] Iniciando Mestre: " + REPO_URL);
+    const VERSION = "30.1";
+    console.log(`[Loader V${VERSION}] Conectando ao Mestre...`);
 
-    // --- 0. FORCE RESET (O segredo para aparecer sem F5) ---
-    // Reseta as bandeiras de proteção para permitir que os scripts recarreguem
-    window.GENESYS_CRONOMETROS_LOADED = false; 
-    window.GENESYS_PAUSAS_LOADED = false;
-    window.GENESYS_GERENTE_ACTIVE = false;
-    // Limpa o menu antigo visualmente
-    if(document.getElementById('uni-menu-container')) document.getElementById('uni-menu-container').remove();
+    // --- 0. LIMPEZA DE AMBIENTE ---
+    // Remove injeções antigas para evitar duplicação ao clicar no favorito 2x
+    const idsLimpeza = ['uni-menu-container', 'purecloud-script-mini-dashboard', 'estilo-gerente-visual', 'qr-script-injected-style'];
+    idsLimpeza.forEach(id => {
+        let el = document.getElementById(id);
+        if(el) el.remove();
+    });
 
-    // 1. SIMULADOR DE EXTENSÃO (Polyfills)
+    // 1. POLYFILLS (Simula a Extensão para quem usa Favoritos)
     if(!window.chrome) window.chrome={};
     if(!window.chrome.runtime) window.chrome.runtime={};
     if(!window.chrome.storage) window.chrome.storage={};
     
-    if(!window.chrome.runtime.getURL) window.chrome.runtime.getURL = p => REPO_URL + "/" + p;
+    // Redireciona chamadas de URL local (como imagens e game.html) para o GitHub
+    if(!window.chrome.runtime.getURL) window.chrome.runtime.getURL = path => `${REPO_URL}/${path}`;
     
-    // Simula o banco de dados (usa localStorage do navegador)
+    // Simula Storage Local usando localStorage do navegador
     if(!window.chrome.storage.local) window.chrome.storage.local = {
-        get: (keys, callback) => {
-            let result = {};
-            let keysToGet = Array.isArray(keys) ? keys : (keys === null ? [] : [keys]);
-            
-            if (keys === null) { 
-                for (let i = 0; i < localStorage.length; i++) {
-                    let k = localStorage.key(i);
-                    // Filtra apenas chaves do nosso sistema
-                    if(k.startsWith('MOD_') || k.startsWith('IA_') || k.startsWith('car_') || k.includes('activity')) {
-                         try { result[k] = JSON.parse(localStorage.getItem(k)); } 
-                         catch(e) { result[k] = localStorage.getItem(k); }
-                    }
-                }
+        get: (keys, cb) => {
+            let res = {};
+            let kList = Array.isArray(keys) ? keys : (keys ? [keys] : []);
+            if(kList.length === 0) { // Se pedir tudo
+                 for(let i=0; i<localStorage.length; i++) {
+                     let k = localStorage.key(i);
+                     if(k.startsWith('MOD_') || k.includes('CONFIG')) res[k] = JSON.parse(localStorage.getItem(k));
+                 }
             } else {
-                keysToGet.forEach(k => {
+                kList.forEach(k => {
                     let val = localStorage.getItem(k);
-                    try { val = JSON.parse(val); } catch(e) {}
-                    // GARANTIA: Se a configuração não existir, assume TRUE (Ativado)
-                    if (val === null && k.startsWith('MOD_')) val = true; 
-                    if (val !== null) result[k] = val;
+                    try { val = JSON.parse(val); } catch(e){}
+                    if(val === null && k.startsWith('MOD_')) val = true; // Padrão ON se não existir
+                    if(val !== null) res[k] = val;
                 });
             }
-            if (callback) callback(result);
+            if(cb) cb(res);
         },
-        set: (items, callback) => {
-            for (let k in items) {
-                let val = items[k];
-                if (typeof val === 'object') val = JSON.stringify(val);
-                localStorage.setItem(k, val);
-            }
-            if (callback) callback();
-        },
-        remove: (keys, callback) => {
-            let keysToRem = Array.isArray(keys) ? keys : [keys];
-            keysToRem.forEach(k => localStorage.removeItem(k));
-            if (callback) callback();
+        set: (items, cb) => {
+            for(let k in items) localStorage.setItem(k, JSON.stringify(items[k]));
+            if(cb) cb();
         }
     };
-
-    if(!window.chrome.storage.onChanged) window.chrome.storage.onChanged = { addListener: () => {} };
+    if(!window.chrome.storage.onChanged) window.chrome.storage.onChanged = { addListener: ()=>{} };
 
     // 2. FUNÇÕES DE CARREGAMENTO
-    function loadCSS(filename) {
+    function loadCSS(file) {
         let link = document.createElement("link");
-        link.href = REPO_URL + "/" + filename + "?v=" + Date.now();
+        link.href = `${REPO_URL}/${file}?v=${Date.now()}`; // No-Cache
         link.rel = "stylesheet";
         link.type = "text/css";
         document.head.appendChild(link);
     }
 
-    function lS(filename) {
+    function lS(file) {
         return new Promise((resolve, reject) => {
             let script = document.createElement("script");
-            script.src = REPO_URL + "/" + filename + "?v=" + Date.now();
+            script.src = `${REPO_URL}/${file}?v=${Date.now()}`; // No-Cache
             script.onload = resolve;
-            script.onerror = reject;
+            script.onerror = () => { console.warn(`[Loader] Falha não crítica: ${file}`); resolve(); }; // Continua mesmo se falhar
             document.body.appendChild(script);
         });
     }
 
-    // 3. ORDEM DE EXECUÇÃO
+    // 3. EXECUÇÃO EM CASCATA (Ordem de Dependência Crítica)
     loadCSS("style.css");
 
-    lS("compatibility.js")
-        .then(() => lS("gerente.js"))
-        .then(() => lS("bar.js"))
+    lS("compatibility.js") // 1. Configs Globais
+        .then(() => lS("gerente.js"))     // 2. Filtros Visuais (Esconde o que não deve ver)
+        .then(() => lS("bar.js"))         // 3. Ferramentas Técnicas
         .then(() => lS("monitor.js"))
         .then(() => lS("central.js"))
-        .then(() => lS("respostas.js"))
+        .then(() => lS("respostas.js"))   // 4. Bancos de Dados
         .then(() => lS("protocolos.js"))
-        .then(() => lS("extrator.js"))
+        .then(() => lS("extrator.js"))    // 5. Utilitários
         .then(() => lS("espelho.js"))
         .then(() => lS("car.js"))
-        .then(() => lS("pausas.js"))
-        .then(() => lS("ia.js"))
-        .then(() => lS("menu.js"))
-        .then(() => lS("cronometros.js")) // Cronômetros carrega por último
+        .then(() => lS("pausas.js"))      // 6. Automação
+        .then(() => lS("ia.js"))          // 7. Inteligência
+        .then(() => lS("menu.js"))        // 8. Interface Unificada (Trigger)
+        .then(() => lS("cronometros.js")) // 9. Analytics (O mais pesado fica por último)
         .then(() => {
-            console.log("✅ Sistema V28 Carregado com Sucesso!");
+            // Notificação de Sucesso
+            let t = document.createElement("div");
+            t.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, #667eea, #764ba2); color:#fff; padding:12px 25px; border-radius:50px; z-index:999999; font-weight:bold; font-family:'Segoe UI',sans-serif; box-shadow:0 10px 25px rgba(0,0,0,0.3); font-size:14px; display:flex; align-items:center; gap:10px; animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);";
+            t.innerHTML = `<span>🚀</span> Genesys Master Ativado (v${VERSION})`;
+            document.body.appendChild(t);
             
-            let toast = document.createElement("div");
-            toast.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#8e44ad; color:#fff; padding:10px 20px; border-radius:30px; z-index:999999; font-weight:bold; font-family:Segoe UI, sans-serif; box-shadow:0 5px 15px rgba(0,0,0,0.3); font-size:14px; display:flex; align-items:center; gap:8px;";
-            toast.innerHTML = "<span>☁️</span> Genesys Master (V28)";
-            document.body.appendChild(toast);
-            
+            // Som de sucesso sutil (opcional)
+            try { new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3").play().catch(()=>{}); } catch(e){}
+
             setTimeout(() => {
-                toast.style.transition = "opacity 0.5s, transform 0.5s";
-                toast.style.opacity = "0";
-                toast.style.transform = "translate(-50%, -20px)";
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
-        })
-        .catch(err => {
-            console.error("❌ Erro ao carregar o sistema:", err);
-            alert("Erro no Loader. Verifique o console.");
+                t.style.transition = "opacity 0.5s, transform 0.5s";
+                t.style.opacity = "0";
+                t.style.transform = "translate(-50%, -50px)";
+                setTimeout(() => t.remove(), 500);
+            }, 4000);
         });
+
+    // Injeta estilo da animação da notificação
+    let style = document.createElement('style');
+    style.innerHTML = "@keyframes slideDown { from { transform: translate(-50%, -100%); opacity:0; } to { transform: translate(-50%, 0); opacity:1; } }";
+    document.head.appendChild(style);
+
 })();
