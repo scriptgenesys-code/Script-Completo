@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Menu Unificado (V8.2 - Fix Click Through)
+// @name         PureCloud - Menu Unificado (V8.3 - Overlay Safety)
 // @namespace    http://tampermonkey.net/
-// @version      8.2
-// @description  Menu FAB que controla todas as ferramentas + Jogo (Multi-Mode).
+// @version      8.3
+// @description  Menu FAB com proteção absoluta contra bloqueio de tela.
 // @match        https://*.mypurecloud.*/*
 // @match        https://*.genesys.cloud/*
 // @grant        GM_addStyle
@@ -11,33 +11,36 @@
 (function() {
     'use strict';
 
-    if (window.self !== window.top) {
-        return; 
-    }
+    if (window.self !== window.top) return;
 
+    // --- CSS DE SEGURANÇA ---
     const css = `
-        /* Esconde os botões originais */
+        /* 1. Oculta botões originais para não poluir */
         #qr-trigger-button, #pr-trigger-button, #bau-trigger-button, 
         #gemini-float-btn, #monitor-trigger-btn, #central-trigger-btn, #car-float-btn {
             display: none !important; opacity: 0 !important; pointer-events: none !important;
         }
 
+        /* 2. Container do Menu: TRANSPARENTE AO CLIQUE */
         #uni-menu-container { 
-            position: fixed; z-index: 2147483647; display: flex; 
-            flex-direction: column-reverse; align-items: center; gap: 12px; 
+            position: fixed; z-index: 2147483640; 
+            display: flex; flex-direction: column-reverse; align-items: center; gap: 12px; 
             width: 60px; height: auto; bottom: 20px; right: 20px;
-            /* CORREÇÃO AQUI: O container deixa o clique passar */
-            pointer-events: none; 
+            pointer-events: none !important; /* O SEGREDRO: Cliques atravessam a área vazia */
+        }
+
+        /* 3. Botões do Menu: REATIVAM O CLIQUE */
+        .uni-fab-main, .uni-fab-btn { 
+            pointer-events: auto !important; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
         }
 
         .uni-fab-main { 
             width: 60px; height: 60px; border-radius: 50%; 
             background: linear-gradient(135deg, #FF5F6D, #FFC371); 
-            color: white; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-            cursor: pointer; font-size: 28px; display: flex; align-items: center; justify-content: center; 
+            color: white; border: none; cursor: pointer; font-size: 28px; 
+            display: flex; align-items: center; justify-content: center; 
             transition: transform 0.3s, background 0.3s; user-select: none;
-            /* CORREÇÃO AQUI: O botão principal captura o clique */
-            pointer-events: auto; 
         }
         .uni-fab-main:hover { transform: scale(1.05); }
         .uni-fab-main.active { transform: rotate(45deg); background: linear-gradient(135deg, #ff4b1f, #ff9068); }
@@ -46,28 +49,26 @@
             display: flex; flex-direction: column-reverse; gap: 10px; margin-bottom: 5px; 
             opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.8); 
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            pointer-events: none; 
+            pointer-events: none !important; /* Garante que invisível não bloqueia */
         }
         
         #uni-menu-container.active .uni-fab-actions { 
             opacity: 1; visibility: visible; transform: translateY(0) scale(1); 
-            /* CORREÇÃO AQUI: Quando ativo, os sub-botões capturam o clique */
-            pointer-events: auto; 
+            pointer-events: auto !important; /* Ativa clique apenas quando visível */
         }
         
         .uni-fab-btn { 
             width: 45px; height: 45px; border-radius: 50%; border: none; color: white; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
-            transition: transform 0.2s; position: relative;
+            display: flex; align-items: center; justify-content: center; position: relative;
         }
         .uni-fab-btn:hover { transform: scale(1.15); z-index: 2; }
         
-        /* Cores Específicas */
-        #uni-btn-id  { background: linear-gradient(135deg, #667eea, #764ba2); }
+        /* Cores dos Botões */
+        #uni-btn-id { background: linear-gradient(135deg, #667eea, #764ba2); }
         #uni-btn-bar { background: linear-gradient(135deg, #ff6b6b, #ee5253); }
-        #uni-btn-pr  { background: linear-gradient(135deg, #d4fc79, #96e6a1); color: #333; }
-        #uni-btn-qr  { background: linear-gradient(135deg, #00f260, #0575e6); }
-        #uni-btn-ia  { background: linear-gradient(135deg, #2563EB, #7C3AED); }
+        #uni-btn-pr { background: linear-gradient(135deg, #d4fc79, #96e6a1); color: #333; }
+        #uni-btn-qr { background: linear-gradient(135deg, #00f260, #0575e6); }
+        #uni-btn-ia { background: linear-gradient(135deg, #2563EB, #7C3AED); }
         #uni-btn-mon { background: linear-gradient(135deg, #F59E0B, #D97706); }
         #uni-btn-central { background: linear-gradient(135deg, #06B6D4, #3B82F6); }
         #uni-btn-copy { background: linear-gradient(135deg, #FF00CC, #333399); }
@@ -75,45 +76,44 @@
         #uni-btn-game { background: linear-gradient(135deg, #f093fb, #f5576c); }
 
         .uni-fab-btn::after { 
-            content: attr(data-label); position: absolute; right: 55px; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s; pointer-events: none;
+            content: attr(data-label); position: absolute; right: 55px; 
+            background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px; 
+            border-radius: 4px; font-size: 11px; white-space: nowrap; 
+            opacity: 0; visibility: hidden; transition: opacity 0.2s; pointer-events: none;
         }
         .uni-fab-btn:hover::after { opacity: 1; visibility: visible; }
-        
         .uni-icon { width: 20px; height: 20px; fill: currentColor; }
 
-        /* Game Overlay Styles */
+        /* OVERLAY DO JOGO - PROTEÇÃO MÁXIMA */
         #game-overlay-backdrop {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 2147483648;
             display: flex; align-items: center; justify-content: center;
             backdrop-filter: blur(5px);
-            pointer-events: auto; /* Garante clique no jogo */
+            pointer-events: auto; /* Bloqueia o fundo apenas quando o jogo está aberto */
         }
         #game-overlay-container {
-            width: 820px; height: 620px;
-            background: #000;
-            border: 2px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            position: relative;
-            overflow: hidden;
+            width: 820px; height: 620px; background: #000;
+            border: 2px solid #333; border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); position: relative; overflow: hidden;
         }
         #game-overlay-close {
-            position: absolute; top: -15px; right: -15px;
-            width: 40px; height: 40px;
-            background: #f44336; color: white;
-            border: 2px solid #fff; border-radius: 50%;
+            position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
+            background: #f44336; color: white; border: 2px solid #fff; border-radius: 50%;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 20px;
-            z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            font-weight: bold; font-size: 20px; z-index: 10;
         }
-        #game-overlay-close:hover { transform: scale(1.1); }
         #game-iframe { width: 100%; height: 100%; border: none; }
     `;
     
     const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
+    // --- LIMPEZA DE LIXO E CONFLITOS ---
     if (document.getElementById('uni-menu-container')) document.getElementById('uni-menu-container').remove();
+    
+    // Remove qualquer overlay órfão que possa estar bloqueando a tela (Correção Crítica)
+    const oldOverlays = document.querySelectorAll('#game-overlay-backdrop');
+    oldOverlays.forEach(el => el.remove());
 
     const div = document.createElement('div'); div.id = 'uni-menu-container';
     div.innerHTML = `
@@ -192,13 +192,15 @@
         }
     };
 
-    // --- Lógica do Jogo ---
+    // --- GAME (Overlay) ---
     function openGameInWindow(url) {
         window.open(url, 'FinalizarClienteGame', 'width=820,height=620,scrollbars=no,resizable=no');
     }
 
     function openGameInOverlay(url) {
-        if (document.getElementById('game-overlay-backdrop')) return; 
+        // Limpa anteriores para evitar duplicação de fundo escuro
+        const old = document.getElementById('game-overlay-backdrop');
+        if (old) old.remove();
 
         const backdrop = document.createElement('div');
         backdrop.id = 'game-overlay-backdrop';
@@ -218,21 +220,16 @@
             container.style.transform = "scale(0.8)"; container.style.opacity = "0";
             setTimeout(() => backdrop.remove(), 200);
         };
-        
         setTimeout(() => { document.getElementById('game-iframe').focus(); }, 100);
     }
 
     document.getElementById('uni-btn-game').onclick = () => {
         if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL) {
             const gameUrl = chrome.runtime.getURL('game.html');
-            
             chrome.storage.local.get(['MOD_GAME_MODE'], function(result) {
                 const mode = result.MOD_GAME_MODE || 'window';
-                if (mode === 'overlay') {
-                    openGameInOverlay(gameUrl);
-                } else {
-                    openGameInWindow(gameUrl);
-                }
+                if (mode === 'overlay') openGameInOverlay(gameUrl);
+                else openGameInWindow(gameUrl);
             });
         } else {
             alert("Erro: Este módulo só funciona como extensão instalada.");
