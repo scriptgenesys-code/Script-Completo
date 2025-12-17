@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         PureCloud - Aja Assistente (v24.2 - Free Drag)
-// @description  Assistente Aja: Janela 100% arrastável e livre.
+// @name         PureCloud - Aja Assistente (v24.4 - Anti-Autofill Radical)
+// @description  Assistente Aja com proteção máxima contra gerenciadores de senha.
 // @author       Josias Queiroz - Kingoffjoss Assessoria
-// @version      24.2
+// @version      24.4
 // @match        *://*/*
 // @grant        none
 // ==/UserScript==
@@ -50,7 +50,7 @@
     });
 
     function initIA() {
-        console.log("[Aja] Assistente v24.2 (Free Drag) Iniciada...");
+        console.log("[Aja] Assistente v24.4 (Blindada) Iniciada...");
 
         // --- VARIÁVEIS ---
         let currentModel = "gemini-1.5-flash"; 
@@ -58,7 +58,6 @@
         let agentName = 'Atendente';
         let chatHistoryContext = []; 
 
-        // --- FUNÇÃO DE SAUDAÇÃO (BRASIL) ---
         function getBrazilGreeting() {
             const h = new Date().getHours();
             if (h >= 5 && h < 12) return "Bom dia";
@@ -73,7 +72,7 @@
                 --ia-card: #1e293b; --ia-border: #334155; 
                 --ia-text: #f1f5f9; --ia-text-muted: #94a3b8;
                 --ia-input: #0f172a; 
-                --ia-primary: #8b5cf6; /* Cor Aja (Violeta) */
+                --ia-primary: #8b5cf6; 
                 --ia-primary-hover: #7c3aed;
                 --ia-danger: #ef4444; --ia-success: #10b981;
                 --ia-shadow: 0 20px 50px rgba(0,0,0,0.6);
@@ -104,30 +103,25 @@
             }
             #gemini-float-btn:hover { transform: scale(1.1); }
 
-            /* Modal - Posição Inicial Centralizada */
+            /* Modal */
             #gemini-modal {
                 display: none; position: fixed; z-index: 999999;
                 width: 400px; height: 650px; 
-                /* Centralização inicial via CSS - será removida pelo JS ao arrastar */
                 left: 50%; top: 50%; transform: translate(-50%, -50%);
-                
                 background-color: var(--ia-bg); color: var(--ia-text);
                 border-radius: var(--ia-radius); border: 1px solid var(--ia-border);
                 box-shadow: var(--ia-shadow); backdrop-filter: blur(12px);
                 flex-direction: column; overflow: hidden;
             }
 
-            /* Header (Área de Arrasto) */
+            /* Header */
             .gemini-header { 
                 padding: 12px 16px; border-bottom: 1px solid var(--ia-border); 
                 display: flex; justify-content: space-between; align-items: center; 
-                cursor: move; /* Cursor de movimento explícito */
-                user-select: none; background: rgba(0,0,0,0.15); 
+                cursor: move; user-select: none; background: rgba(0,0,0,0.15); 
             }
             .gemini-header:active { cursor: grabbing; }
-
             .gemini-header h3 { margin: 0; font-size: 15px; font-weight: 600; display:flex; gap:8px; align-items:center;}
-            
             .gh-actions { display: flex; gap: 4px; align-items: center; }
             .icon-btn { 
                 background: transparent; border: none; cursor: pointer; font-size: 15px; 
@@ -147,9 +141,16 @@
             .screen { padding: 20px; display: none; flex-direction: column; flex: 1; overflow-y: auto; }
             .screen.active { display: flex; }
 
-            /* Inputs */
-            .gemini-input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--ia-border); background: var(--ia-input); color: var(--ia-text); font-size: 13px; font-family: inherit; resize: none; }
-            .gemini-input:focus { outline: none; border-color: var(--ia-primary); box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2); }
+            /* Inputs - CORREÇÃO DE ESTILO PARA TYPE=SEARCH */
+            .gemini-input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid var(--ia-border); background: var(--ia-input); color: var(--ia-text); font-size: 13px; font-family: inherit; resize: none; outline:none;}
+            .gemini-input:focus { border-color: var(--ia-primary); box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2); }
+            
+            /* Remove o 'x' nativo do input type search */
+            .gemini-input[type="search"]::-webkit-search-decoration,
+            .gemini-input[type="search"]::-webkit-search-cancel-button,
+            .gemini-input[type="search"]::-webkit-search-results-button,
+            .gemini-input[type="search"]::-webkit-search-results-decoration { -webkit-appearance: none; }
+
             .gemini-label { font-size: 11px; font-weight: 700; color: var(--ia-text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
 
             /* Buttons */
@@ -165,14 +166,12 @@
             #gemini-result { margin-top: 15px; padding: 15px; background: var(--ia-card); border: 1px solid var(--ia-border); border-left: 4px solid var(--ia-primary); border-radius: 8px; font-size: 13px; line-height: 1.6; display:none; white-space: pre-wrap; word-wrap: break-word; }
             #gemini-result strong { color: var(--ia-primary); font-weight: 700; }
             
-            /* History */
+            /* History & Chat Styles */
             .history-item { background: var(--ia-card); border: 1px solid var(--ia-border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
             .history-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--ia-text-muted); margin-bottom: 6px; border-bottom: 1px dashed var(--ia-border); padding-bottom: 4px; }
             .history-preview { font-size: 12px; color: var(--ia-text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; }
             .h-actions { display: flex; gap: 5px; justify-content: flex-end; }
             .h-btn { padding: 4px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; border: none; }
-            
-            /* Chat */
             .chat-bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 10px; }
             .chat-user { align-self: flex-end; background-color: var(--ia-primary); color: white; }
             .chat-ai { align-self: flex-start; background-color: var(--ia-card); border: 1px solid var(--ia-border); }
@@ -180,14 +179,14 @@
         
         const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
-        // --- 3. HTML ---
+        // --- 3. HTML (Com Blindagem Anti-Autofill) ---
         const widgetHTML = `
           <div id="gemini-wrapper">
             <button id="gemini-float-btn" title="Abrir Aja">✨</button>
             <div id="gemini-modal">
               
               <div class="gemini-header" id="gemini-drag-handle">
-                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.2</span></h3>
+                <h3>✨ Aja (IA) <span style="font-size:10px; opacity:0.6; font-weight:400; margin-left:6px;">v24.4</span></h3>
                 <div class="gh-actions">
                    <span id="logged-in-tools" style="display:none; gap:4px; align-items:center;">
                        <button id="btn-head-history" class="icon-btn" title="Histórico">🕒</button>
@@ -212,12 +211,13 @@
                     
                     <div style="text-align:left;">
                         <span class="gemini-label">Seu Nome:</span>
-                        <input type="text" id="input-setup-name" class="gemini-input" placeholder="Ex: Josias">
+                        <input type="search" id="input-setup-name" class="gemini-input" placeholder="Ex: Josias" autocomplete="off" name="aja_user_ignore_me" data-lpignore="true">
+                        
                         <span class="gemini-label">Chave API:</span>
-                        <input type="password" id="input-setup-key" class="gemini-input" placeholder="Cole a chave aqui...">
+                        <input type="search" id="input-setup-key" class="gemini-input" placeholder="Cole a chave aqui..." autocomplete="off" name="aja_key_ignore_me" data-lpignore="true" style="-webkit-text-security: disc;">
                     </div>
 
-                    <button id="btn-login" class="gemini-btn btn-primary">Entrar</button>
+                    <button id="btn-login" type="button" class="gemini-btn btn-primary">Entrar</button>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-top:15px; font-size:11px; color:var(--ia-primary); text-decoration:none;">Obter chave gratuita</a>
                 </div>
               </div>
@@ -253,7 +253,7 @@
                     <div id="chat-welcome-msg" class="chat-bubble chat-ai">...</div>
                  </div>
                  <div style="display:flex; gap:8px; margin-top:10px; border-top:1px solid var(--ia-border); padding-top:10px;">
-                    <input type="text" id="input-chat" class="gemini-input" style="margin:0; border-radius:20px;" placeholder="Converse com a Aja...">
+                    <input type="search" id="input-chat" class="gemini-input" style="margin:0; border-radius:20px;" placeholder="Converse com a Aja..." autocomplete="off">
                     <button id="btn-send-chat" class="gemini-btn btn-primary" style="width:40px; margin:0; border-radius:50%;">➤</button>
                  </div>
                  <button id="btn-clear-chat" style="background:none; border:none; color:var(--ia-text-muted); font-size:11px; cursor:pointer; align-self:flex-end; margin-top:5px;">Limpar Chat</button>
@@ -262,10 +262,10 @@
               <div id="screen-config" class="screen">
                   <h4 style="margin-top:0;">Configurações</h4>
                   <span class="gemini-label">Nome:</span>
-                  <input type="text" id="cfg-name" class="gemini-input">
+                  <input type="search" id="cfg-name" class="gemini-input" autocomplete="off" name="aja_cfg_name">
                   <span class="gemini-label">API Key:</span>
-                  <input type="password" id="cfg-key" class="gemini-input">
-                  <button id="btn-save-cfg" class="gemini-btn btn-primary">Salvar Alterações</button>
+                  <input type="search" id="cfg-key" class="gemini-input" autocomplete="off" name="aja_cfg_key" style="-webkit-text-security: disc;">
+                  <button id="btn-save-cfg" type="button" class="gemini-btn btn-primary">Salvar Alterações</button>
                   
                   <div style="margin-top:auto; border-top:1px dashed var(--ia-border); padding-top:15px;">
                       <button id="btn-back-report-c" class="gemini-btn btn-outline" style="margin-bottom:10px;">Voltar</button>
@@ -350,7 +350,6 @@
                     getEl('cfg-name').value = agentName;
                     getEl('input-setup-name').value = agentName;
                     
-                    // ATUALIZA SAUDAÇÃO COM HORA CERTA
                     const greeting = getBrazilGreeting();
                     getEl('chat-welcome-msg').innerHTML = `${greeting} <b>${agentName}</b>!<br>Eu sou a <b>Aja</b>. Como posso ajudar?`;
                     
@@ -453,31 +452,17 @@
             btn.innerHTML = "⏳ A gerar..."; btn.disabled = true;
             resDiv.style.display = 'none'; actions.style.display = 'none';
 
-            // PROMPT OTIMIZADO PARA AJA (V24.1 - DIRECT OUTPUT)
             const timeGreeting = getBrazilGreeting();
             const prompt = `
             Contexto: Agora é ${timeGreeting}. Você é a Aja, assistente do agente ${agentName}.
             Gere um relatório técnico em PRIMEIRA PESSOA (${agentName}).
-            
             REGRAS RÍGIDAS DE SAÍDA:
             1. NÃO DÊ BOM DIA, BOA TARDE OU BOA NOITE NO INÍCIO.
             2. NÃO ESCREVA "AQUI ESTÁ O RELATÓRIO" OU "SEGUE O RELATÓRIO".
             3. A SAÍDA DEVE COMEÇAR IMEDIATAMENTE PELO TÍTULO OU PELA INTRODUÇÃO.
-            
-            REGRAS DE CONTEÚDO:
-            1. NÃO invente horários específicos.
-            2. Mantenha privacidade: Apenas Nome e Telefone do cliente.
-            3. Use NEGRITO em: Nome, Telefone e Protocolo.
-            
-            ESTRUTURA:
-            Relatório Técnico de Atendimento
-            1. Introdução
-            2. Relato
-            3. Procedimentos
-            4. Conclusão
-
-            Texto base:
-            ${txt}`;
+            4. NÃO invente horários. Mantenha privacidade: Apenas Nome e Telefone do cliente.
+            ESTRUTURA: Relatório Técnico de Atendimento -> 1. Introdução, 2. Relato, 3. Procedimentos, 4. Conclusão
+            Texto base: ${txt}`;
 
             try {
                 const raw = await generateText(prompt);
@@ -542,40 +527,31 @@
             chatHistoryContext = []; 
         };
 
-        // --- LÓGICA DE ARRASTO LIVRE (V24.2) ---
+        // --- ARRASTO LIVRE ---
         const handle = getEl('gemini-drag-handle');
         let isDragging = false;
         let dragOffsetX = 0;
         let dragOffsetY = 0;
 
         handle.onmousedown = (e) => {
-            if(e.target.closest('button')) return; // Ignora se clicar nos botões do header
+            if(e.target.closest('button')) return; 
             e.preventDefault();
             isDragging = true;
             handle.style.cursor = 'grabbing';
-
-            // 1. Pega a posição visual atual
             const rect = modal.getBoundingClientRect();
-            
-            // 2. Remove o CSS de centralização (transform) e define posição absoluta em pixels
             modal.style.transform = 'none'; 
             modal.style.margin = '0';
             modal.style.left = rect.left + 'px';
             modal.style.top = rect.top + 'px';
-
-            // 3. Calcula o ponto onde o mouse "pegou" a janela (offset)
             dragOffsetX = e.clientX - rect.left;
             dragOffsetY = e.clientY - rect.top;
         };
 
         document.onmousemove = (e) => {
             if (!isDragging) return;
-            e.preventDefault(); // Evita seleção de texto
-
-            // 4. Move a janela seguindo o mouse (menos o offset inicial)
+            e.preventDefault(); 
             const newLeft = e.clientX - dragOffsetX;
             const newTop = e.clientY - dragOffsetY;
-
             modal.style.left = newLeft + 'px';
             modal.style.top = newTop + 'px';
         };
