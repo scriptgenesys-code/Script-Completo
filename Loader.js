@@ -126,7 +126,7 @@
             document.body.appendChild(t);
             
             // Som suave
-            try { new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3").play().catch(()=>{}); } catch(e){}
+            try { new Audio().play().catch(()=>{}); } catch(e){}
 
             setTimeout(() => {
                 t.style.transition = "opacity 0.5s, transform 0.5s";
@@ -141,3 +141,4 @@
         });
 
 })();
+
