@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "AjaModular — Ferramentas Brisanet",
+  "version": "1.6.61",
+  "description": "Suite de Produtividade, Automacao e IA para Genesys Cloud",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.genesyscloud.com/*",
+    "*://*.mypurecloud.com/*",
+    "*://*.mypurecloud.de/*",
+    "*://*.mypurecloud.jp/*",
+    "*://*.mypurecloud.ie/*",
+    "*://*.mypurecloud.com.au/*",
+    "*://*.pure.cloud/*",
+    "*://api.github.com/*",
+    "*://script.google.com/*",
+    "*://script.googleusercontent.com/*",
+    "*://generativelanguage.googleapis.com/*",
+    "*://api.languagetool.org/*",
+    "*://api.ipify.org/*",
+    "*://kingoffjoss.github.io/*",
+    "*://cachefly.cachefly.net/*",
+    "*://open.er-api.com/*",
+    "*://fonts.googleapis.com/*",
+    "*://www.soundjay.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.genesyscloud.com/*",
+        "*://*.mypurecloud.com/*",
+        "*://*.mypurecloud.de/*",
+        "*://*.mypurecloud.jp/*",
+        "*://*.mypurecloud.ie/*",
+        "*://*.mypurecloud.com.au/*",
+        "*://*.pure.cloud/*"
+      ],
+      "js": [
+        "runtime/content.bundle.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Aja Assistant",
+    "default_popup": "popup.html"
+  },
+  "options_page": "admin.html",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "admin.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
+
