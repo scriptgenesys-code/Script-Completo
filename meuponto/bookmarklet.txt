@@ -1,0 +1,1 @@
+javascript:void(()=>{const s=document.createElement('script');s.src='https://scriptgenesys-code.github.io/Script-Completo/meuponto/Loader.js?t='+Date.now();s.referrerPolicy='no-referrer';s.onerror=()=>{s.remove();alert('Não foi possível carregar o Meu Ponto.');};s.onload=()=>s.remove();document.documentElement.appendChild(s);})();

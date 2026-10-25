@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "product": "Meu Ponto Orbital",
+  "version": "1.4.2",
+  "files": {
+    "runtime.1.4.2.4a080a005aed39d1.js": {
+      "bytes": 24380,
+      "sha256": "4a080a005aed39d12e8fc7fba6c477d1d8cc0a62fcd6d30d9cea5a28ad2c4417"
+    },
+    "Loader.js": {
+      "bytes": 4118,
+      "sha256": "a88a9cbf9be58c42a8e523b60426956e020f8369d33633180ae5cd978a0d7c3d"
+    },
+    "index.html": {
+      "bytes": 26683,
+      "sha256": "741a204ddd1f9985397ba5d085dbcacc08af4ebe9dd379392278796d460dacd0"
+    },
+    "bookmarklet.txt": {
+      "bytes": 335,
+      "sha256": "20228546b1285e6b88c3ed5b1d1a128141c2c7efe2ba2bb164445e7365b48323"
+    },
+    "bookmarklet-local.txt": {
+      "bytes": 24396,
+      "sha256": "de994b2eaa337467a5d5a155ca225af99b7f24d40b90402033f3e765bb99d99e"
+    }
+  }
+}
