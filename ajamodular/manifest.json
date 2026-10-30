@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AjaModular — Ferramentas Brisanet",
-  "version": "1.6.87",
+  "version": "1.6.88",
   "description": "Suite de Produtividade, Automacao e IA para Genesys Cloud",
   "permissions": [
     "storage"
